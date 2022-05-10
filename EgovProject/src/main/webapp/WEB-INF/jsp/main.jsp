@@ -8,7 +8,7 @@
 <title>My Study List</title>
 
 <link rel="stylesheet" href="/css/study/common.css" />
-
+ 
 </head>
 <body>
 <header>
