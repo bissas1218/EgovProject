@@ -47,6 +47,46 @@ header nav button.navbar-toggler svg{
 	color:white;
 }
 
+header #search-form {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
+}
+
+header #search-form .row {
+    width: 200px;
+}
+
+.ais-SearchBox-form {
+    background-color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: .875rem;
+    height: 2.5rem;
+    line-height: 1.25rem;
+    position: relative;
+    width: 100%;
+}
+
+.container-fluid{
+	width: 100%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+
 div#subheader{
 	padding:1px 0px 0px 120px;
 	background-color:#eee;
@@ -152,6 +192,12 @@ img, svg{
 	ul.navbar-nav.mr-auto{
 		display:none;
 	}
+}
+
+@media (min-width: 1200px)
+header #search-form {
+    justify-content: flex-end;
+    padding-top: 0;
 }
 
 h2, .h2 {
