@@ -38,8 +38,8 @@
 			
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav mr-auto">
-					<li><a href="/study/egov/intro.do" class="nav-link">메뉴관리</a></li>
-					
+					<li><a href="/menu.do" class="nav-link">메뉴관리</a></li>
+					<li><a href="/contentMng.do" class="nav-link">컨텐츠관리</a></li>
 				</ul>
 			</div>
 			
@@ -49,8 +49,6 @@
 
 <main>
 	<div class="container">
-	<h1>HTML demo</h1>
-	
 
 	<h1>Data format demo</h1>
 	
@@ -61,75 +59,78 @@
 						<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
 	</div>
 	
-	<div id="jstree_demo" class="demo" style="margin-top:1em; min-height:200px;"></div>
-	
-<script>
-						function demo_create() {
-							var ref = $('#jstree_demo').jstree(true),
-								sel = ref.get_selected();
-							if(!sel.length) { return false; }
-							sel = sel[0];
-							sel = ref.create_node(sel, {"type":"file"});
-							if(sel) {
-								ref.edit(sel);
-							}
-						};
-						function demo_rename() {
-							var ref = $('#jstree_demo').jstree(true),
-								sel = ref.get_selected();
-							if(!sel.length) { return false; }
-							sel = sel[0];
-							ref.edit(sel);
-						};
-						function demo_delete() {
-							var ref = $('#jstree_demo').jstree(true),
-								sel = ref.get_selected();
-							if(!sel.length) { return false; }
-							ref.delete_node(sel);
-						};
-						$(function () {
-							var to = false;
-							$('#demo_q').keyup(function () {
-								if(to) { clearTimeout(to); }
-								to = setTimeout(function () {
-									var v = $('#demo_q').val();
-									$('#jstree_demo').jstree(true).search(v);
-								}, 250);
-							});
-
-							$('#jstree_demo')
-								.jstree({
-									"core" : {
-										"animation" : 0,
-										"check_callback" : true,
-										'force_text' : true,
-										"themes" : { "stripes" : true },
-										'data' : {
-											'url' : function (node) {
-												return node.id === '#' ? '/js/ajax_demo_roots.json' : '/js/ajax_demo_children.json';
-											},
-											'data' : function (node) {
-												return { 'id' : node.id };
-											}
-										}
-									},
-									"types" : {
-										"#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
-										"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
-										"default" : { "valid_children" : ["default","file"] },
-										"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
-									},
-									"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
-								});
-						});
-						</script>
-	
+	<div style="display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between;width:100%;">
+		<div id="jstree_demo" class="demo" style="widht:300px;"></div>
+		
 	<script>
-
+							function demo_create() {
+								var ref = $('#jstree_demo').jstree(true),
+									sel = ref.get_selected();
+								if(!sel.length) { return false; }
+								sel = sel[0];
+								sel = ref.create_node(sel, {"type":"file"});
+								if(sel) {
+									ref.edit(sel);
+								}
+							};
+							function demo_rename() {
+								var ref = $('#jstree_demo').jstree(true),
+									sel = ref.get_selected();
+								if(!sel.length) { return false; }
+								sel = sel[0];
+								ref.edit(sel);
+							};
+							function demo_delete() {
+								var ref = $('#jstree_demo').jstree(true),
+									sel = ref.get_selected();
+								if(!sel.length) { return false; }
+								ref.delete_node(sel);
+							};
+							$(function () {
+								var to = false;
+								$('#demo_q').keyup(function () {
+									if(to) { clearTimeout(to); }
+									to = setTimeout(function () {
+										var v = $('#demo_q').val();
+										$('#jstree_demo').jstree(true).search(v);
+									}, 250);
+								});
 	
+								$('#jstree_demo').jstree({
+										"core" : {
+											"animation" : 0,
+											"check_callback" : true,
+											'force_text' : true,
+											"themes" : { "stripes" : true },
+											'data' : {
+												'url' : function (node) {
+													return node.id === '#' ? '/js/ajax_demo_roots.json' : '/js/ajax_demo_children.json';
+												},
+												'data' : function (node) {
+													return { 'id' : node.id };
+												}
+											}
+										},
+										"types" : {
+											"#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
+											"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
+											"default" : { "valid_children" : ["default","file"] },
+											"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
+										},
+										"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
+									});
+							});
+							</script>
+		
 	
-	</script>
+		</div>
+		
+		<div style="flex-basis:100%;flex-grow:1;align-items:center;">
+			<input type="text" id="menuId" name="menuId">
+		</div>
+	
 	</div>
+	
 </main>
 
 <footer>
