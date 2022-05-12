@@ -11,4 +11,10 @@ public class MainController {
 	public String mainPage(ModelMap model) throws Exception {
 		return "/main";
 	}
+	
+	@RequestMapping(value = "/header.do")
+	public String headerPage(ModelMap model) throws Exception {
+		System.out.println("=====>header.do");
+		return "/header";
+	}
 }
