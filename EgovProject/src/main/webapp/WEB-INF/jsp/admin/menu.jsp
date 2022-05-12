@@ -15,7 +15,12 @@
 	</style>
 	
 	<link rel="stylesheet" href="/dist/themes/default/style.min.css" />
-	 
+	
+	<link rel="icon" href="//static.jstree.com/3.3.12/assets/favicon.ico" type="image/x-icon" />
+	
+	<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/js/dist/jstree.min.js"></script>
+	
 </head>
 <body>
 <header>
@@ -48,48 +53,80 @@
 	
 
 	<h1>Data format demo</h1>
-	<div id="frmt" class="demo"></div>
-
 	
-	<script src="/dist/jquery.min.js"></script>
-	<script src="/dist/jstree.min.js"></script>
+
+	<div>
+		<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
+						<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
+						<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+	</div>
+	
+	<div id="jstree_demo" class="demo" style="margin-top:1em; min-height:200px;"></div>
+	
+<script>
+						function demo_create() {
+							var ref = $('#jstree_demo').jstree(true),
+								sel = ref.get_selected();
+							if(!sel.length) { return false; }
+							sel = sel[0];
+							sel = ref.create_node(sel, {"type":"file"});
+							if(sel) {
+								ref.edit(sel);
+							}
+						};
+						function demo_rename() {
+							var ref = $('#jstree_demo').jstree(true),
+								sel = ref.get_selected();
+							if(!sel.length) { return false; }
+							sel = sel[0];
+							ref.edit(sel);
+						};
+						function demo_delete() {
+							var ref = $('#jstree_demo').jstree(true),
+								sel = ref.get_selected();
+							if(!sel.length) { return false; }
+							ref.delete_node(sel);
+						};
+						$(function () {
+							var to = false;
+							$('#demo_q').keyup(function () {
+								if(to) { clearTimeout(to); }
+								to = setTimeout(function () {
+									var v = $('#demo_q').val();
+									$('#jstree_demo').jstree(true).search(v);
+								}, 250);
+							});
+
+							$('#jstree_demo')
+								.jstree({
+									"core" : {
+										"animation" : 0,
+										"check_callback" : true,
+										'force_text' : true,
+										"themes" : { "stripes" : true },
+										'data' : {
+											'url' : function (node) {
+												return node.id === '#' ? '/js/ajax_demo_roots.json' : '/js/ajax_demo_children.json';
+											},
+											'data' : function (node) {
+												return { 'id' : node.id };
+											}
+										}
+									},
+									"types" : {
+										"#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
+										"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
+										"default" : { "valid_children" : ["default","file"] },
+										"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
+									},
+									"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
+								});
+						});
+						</script>
 	
 	<script>
 
-
 	
-
-	// data format demo
-	$('#frmt').jstree({
-		'core' : {
-			'data' : [
-				{
-					"text" : "Root node",
-					"state" : { "opened" : true },
-					"children" : [
-						{
-							"text" : "EgovFrame",
-							"state" : { "selected" : false },
-							"icon" : "jstree-file",
-							"children" : [
-								{
-									"text" : "EgovFrame",
-									"state" : { "selected" : false },
-									"icon" : "jstree-file"
-								}]
-						},
-						{
-							"text" : "Language",
-							"state" : { "selected" : true },
-							"icon" : "jstree-file"
-						},
-						{ "text" : "Child node 2", "state" : { "disabled" : true } }
-					]
-				}
-			]
-		}
-	});
-
 	
 	</script>
 	</div>
