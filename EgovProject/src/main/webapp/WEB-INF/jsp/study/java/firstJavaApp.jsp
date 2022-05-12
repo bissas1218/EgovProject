@@ -48,60 +48,69 @@
 					<div class="row" id="searchbox" style="width:200px;">
 						<div class="ais-SearchBox">
 							<form action="" role="search" class="ais-SearchBox-form" novalidate="">
-<input class="ais-SearchBox-input" type="search" placeholder="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="512" role="combobox" id="ais-SearchBox-input" aria-label="Search" aria-autocomplete="list" aria-owns="autocomplete-overlay__listbox" aria-expanded="false"><button class="ais-SearchBox-submit" type="submit" title="Submit the search query."><svg class="ais-SearchBox-submitIcon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 40 40"> <path d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z">
-</path> </svg></button><button class="ais-SearchBox-reset" type="reset" title="Clear the search query." hidden="">
-<svg class="ais-SearchBox-resetIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="10" height="10"> 
-<path d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z"></path> 
-</svg></button>
-<span class="ais-SearchBox-loadingIndicator" hidden="">
-<svg class="ais-SearchBox-loadingIcon" width="16" height="16" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#444"> 
-<g fill="none" fillrule="evenodd"> 
-<g transform="translate(1 1)" strokewidth="2"> 
-<circle strokeopacity=".5" cx="18" cy="18" r="18"></circle> 
-<path d="M36 18c0-9.94-8.06-18-18-18"> 
-<animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"></animateTransform> 
-</path> 
-</g> 
-</g> 
-</svg>
-</span>
-</form>
+							<input class="ais-SearchBox-input" type="search" placeholder="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" maxlength="512" role="combobox" id="ais-SearchBox-input" aria-label="Search" aria-autocomplete="list" aria-owns="autocomplete-overlay__listbox" aria-expanded="false">
+								<button class="ais-SearchBox-submit" type="submit" title="Submit the search query.">
+								<svg class="ais-SearchBox-submitIcon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 40 40"> 
+									<path d="M26.804 29.01c-2.832 2.34-6.465 3.746-10.426 3.746C7.333 32.756 0 25.424 0 16.378 0 7.333 7.333 0 16.378 0c9.046 0 16.378 7.333 16.378 16.378 0 3.96-1.406 7.594-3.746 10.426l10.534 10.534c.607.607.61 1.59-.004 2.202-.61.61-1.597.61-2.202.004L26.804 29.01zm-10.426.627c7.323 0 13.26-5.936 13.26-13.26 0-7.32-5.937-13.257-13.26-13.257C9.056 3.12 3.12 9.056 3.12 16.378c0 7.323 5.936 13.26 13.258 13.26z">
+									</path> 
+								</svg>
+								</button>
+								<button class="ais-SearchBox-reset" type="reset" title="Clear the search query." hidden="">
+									<svg class="ais-SearchBox-resetIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="10" height="10"> 
+									<path d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z">
+									</path> 
+									</svg>
+								</button>
+								<span class="ais-SearchBox-loadingIndicator" hidden="">
+									<svg class="ais-SearchBox-loadingIcon" width="16" height="16" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#444"> 
+										<g fill="none" fillrule="evenodd"> 
+											<g transform="translate(1 1)" strokewidth="2"> 
+												<circle strokeopacity=".5" cx="18" cy="18" r="18"></circle> 
+												<path d="M36 18c0-9.94-8.06-18-18-18"> 
+												<animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"></animateTransform> 
+												</path> 
+											</g> 
+										</g> 
+									</svg>
+								</span>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			<div id="floatingResults">
-          <div id="searchResults">
-    <div class="ais-Hits">
-    <ul class="ais-Hits-list" role="listbox" id="autocomplete-overlay__listbox">
-      <li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="0" aria-setsize="20">
-                     <article>
-                        <p><a href="/learn/using-maps-to-store-key-value-pairs/">
-                            Using Maps to <mark class="ais-Highlight-highlighted">S</mark>tore Key Value Pairs
-                        </a></p>
-                        <p>Introducing the Map Hierarchy.</p>
-                     </article>
-                 </li><li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="1" aria-setsize="20">
-                     <article>
-                        <p><a href="/learn/the-stream-api/">
-                            The <mark class="ais-Highlight-highlighted">S</mark>tream API
-                        </a></p>
-                        <p>Process your in-memory data with Java <mark class="ais-Highlight-highlighted">s</mark>treams and collectors. Process them faster with parallel <mark class="ais-Highlight-highlighted">s</mark>treams.</p>
-                     </article>
-                 </li><li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="2" aria-setsize="20">
-                     <article>
-                        <p><a href="/learn/the-security-tools/">
-                            The <mark class="ais-Highlight-highlighted">S</mark>ecurity Tools
-                        </a></p>
-                        <p><mark class="ais-Highlight-highlighted">S</mark>etting <mark class="ais-Highlight-highlighted">s</mark>ecurity policies with the JDK tools and commands.</p>
-                     </article>
-                 </li>
-    </ul>
-    </div>
-  </div>
-        </div>
-        
+			<div id="floatingResults" style="display:none;">
+          		<div id="searchResults">
+    				<div class="ais-Hits">
+    					<ul class="ais-Hits-list" role="listbox" id="autocomplete-overlay__listbox">
+      						<li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="0" aria-setsize="20">
+		                    	<article>
+		                        	<p><a href="/learn/using-maps-to-store-key-value-pairs/">
+		                            	Using Maps to <mark class="ais-Highlight-highlighted">S</mark>tore Key Value Pairs
+		                        	</a></p>
+		                        	<p>Introducing the Map Hierarchy.</p>
+		                     	</article>
+                 			</li>
+                 			<li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="1" aria-setsize="20">
+			                     <article>
+			                        <p><a href="/learn/the-stream-api/">
+			                            The <mark class="ais-Highlight-highlighted">S</mark>tream API
+			                        </a></p>
+			                        <p>Process your in-memory data with Java <mark class="ais-Highlight-highlighted">s</mark>treams and collectors. Process them faster with parallel <mark class="ais-Highlight-highlighted">s</mark>treams.</p>
+			                     </article>
+			                 </li>
+			                 <li class="ais-Hits-item" role="option" tabindex="-1" aria-posinset="2" aria-setsize="20">
+			                     <article>
+			                        <p><a href="/learn/the-security-tools/">
+			                            The <mark class="ais-Highlight-highlighted">S</mark>ecurity Tools
+			                        </a></p>
+			                        <p><mark class="ais-Highlight-highlighted">S</mark>etting <mark class="ais-Highlight-highlighted">s</mark>ecurity policies with the JDK tools and commands.</p>
+			                     </article>
+			                 </li>
+    					</ul>
+    				</div>
+  				</div>
+        	</div>
 		</div>
 	</nav>
 </header>
