@@ -3,7 +3,7 @@
     "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-	<sqlMap resource="egovframework/sqlmap/example/sample/EgovSample_Sample_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/admin/menu_SQL.xml"/>
     <!-- <sqlMap resource="egovframework/sqlmap/example/sample/EgovSample_Sample_SQL_mysql.xml"/>  -->
     <!-- <sqlMap resource="egovframework/sqlmap/example/sample/EgovSample_Sample_SQL_oracle.xml"/> -->
 </sqlMapConfig>

@@ -8,17 +8,33 @@
 <title>My Study List</title>
 
 <link rel="stylesheet" href="/css/study/common.css" />
+
  <style>
 
 	h1 { font-size:1.8em; }
 	.demo { overflow:auto; border:1px solid silver; min-height:100px; }
+	
+	div#wrap{
+		width:100%;
+		heigth:500px;
+		background-color:silver;
+		display:flex;
+		flex-direction:row;
+		flex-wrap:wrap;
+		justify-content:flex-end;
+	}
+	
+	div.menu{
+		width:50%;
+		height:500px;
+	}
 	</style>
 	
 	<link rel="stylesheet" href="/dist/themes/default/style.min.css" />
 	
 	<link rel="icon" href="//static.jstree.com/3.3.12/assets/favicon.ico" type="image/x-icon" />
 	
-	<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="/js/dist/jstree.min.js"></script>
 	
 </head>
@@ -55,20 +71,39 @@
 
 	<div>
 		<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
-						<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
-						<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+		<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
+		<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
+		<button type="button" class="btn btn-danger btn-sm" onclick="jstree_draw();"><i class="glyphicon glyphicon-remove"></i> Save</button>
 	</div>
 	
-	<div style="display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between;width:100%;">
-		<div id="jstree_demo" class="demo" style="widht:300px;"></div>
+	<div id="wrap">
+		<div id="jstree_demo" class="menu">
+		</div>
 		
-	<script>
+		<div class="menu">
+			<input type="text" id="menuId" name="menuId">
+		</div>
+	
+	</div>
+	
+</main>
+
+<footer>
+	<div class="container-fluid text-center">
+		<p id="copyright">
+		Copyright © 2021 Oracle and/or its affiliates.  All rights reserved. 
+		</p>
+	</div>
+</footer>
+
+<script>
 							function demo_create() {
 								var ref = $('#jstree_demo').jstree(true),
 									sel = ref.get_selected();
 								if(!sel.length) { return false; }
 								sel = sel[0];
-								sel = ref.create_node(sel, {"type":"file"});
+							//	sel = ref.create_node(sel, {"type":"file"});
+								sel = ref.create_node(sel);
 								if(sel) {
 									ref.edit(sel);
 								}
@@ -86,8 +121,11 @@
 								if(!sel.length) { return false; }
 								ref.delete_node(sel);
 							};
+							
 							$(function () {
+								
 								var to = false;
+								
 								$('#demo_q').keyup(function () {
 									if(to) { clearTimeout(to); }
 									to = setTimeout(function () {
@@ -96,52 +134,61 @@
 									}, 250);
 								});
 	
-								$('#jstree_demo').jstree({
-										"core" : {
-											"animation" : 0,
-											"check_callback" : true,
-											'force_text' : true,
-											"themes" : { "stripes" : true },
-											'data' : {
-												'url' : function (node) {
-													return node.id === '#' ? '/js/ajax_demo_roots.json' : '/js/ajax_demo_children.json';
-												},
-												'data' : function (node) {
-													return { 'id' : node.id };
-												}
-											}
-										},
-										"types" : {
-											"#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
-											"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
-											"default" : { "valid_children" : ["default","file"] },
-											"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
-										},
-										"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
-									});
+								jstree_draw();
+								
 							});
+							
+							function jstree_draw(){
+								
+								$.ajax({
+									type : "get",
+									url : "/menuList.do",
+									data : {'id':'admin'},
+							//		dataType : "json",
+									success : function(result){
+										alert(result);
+									},error : function(xhr, status, error){
+										console.log(error);
+									}
+								});
+								
+								$('#jstree_demo').jstree({
+									"core" : {
+										"animation" : 0,
+										"check_callback" : true,
+										'force_text' : true,
+										"themes" : { "stripes" : true },
+										'data' : 
+											[
+												{ "id" : "aaa", "text" : "EgovProject", "icon" : "/images/tree_icon.png", //"type" : "root", 
+													"children" : [
+														{ "id" : "bbb", "text" : "EgovFramework" }, 
+														{ "id" : "ccc", "text" : "Language", 
+															"children" : [ 
+																{ "id" : "ddd", "text" : "Java", "type" : "file" },
+																{ "id" : "eee", "text" : "Jquery", "type" : "file" }
+															] 
+														},
+														{ "id" : "fff", "text" : "Server" }
+													]	
+												}
+												
+											]
+										
+									},
+									"types" : {
+										"#" : { "max_children" : 1, "max_depth" : 4, "valid_children" : ["root"] },
+										"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
+										"default" : { "valid_children" : ["default","file"] },
+										"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
+									},
+									"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
+									
+								}).bind("select_node.jstree", function(e, data){
+									console.log('change'+data);	
+								});
+							}
 							</script>
-		
-	
-		</div>
-		
-		<div style="flex-basis:100%;flex-grow:1;align-items:center;">
-			<input type="text" id="menuId" name="menuId">
-		</div>
-	
-	</div>
-	
-</main>
-
-<footer>
-	<div class="container-fluid text-center">
-		<p id="copyright">
-		Copyright © 2021 Oracle and/or its affiliates.  All rights reserved. 
-		</p>
-	</div>
-</footer>
-
-
 
 </body>
 </html>

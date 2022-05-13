@@ -1,12 +1,24 @@
 package egovframework.admin.web;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import egovframework.admin.service.MenuService;
 
 @Controller
 public class AdminMainController {
 
+	@Resource(name="menuService")
+	private MenuService menuService;
+	
 	@RequestMapping(value = "/admin.do")
 	public String mainPage(ModelMap model) throws Exception {
 		return "/admin/main";
@@ -14,6 +26,19 @@ public class AdminMainController {
 	
 	@RequestMapping(value = "/menu.do")
 	public String menuPage(ModelMap model) throws Exception {
+		//List<?> menuList = menuService.selectMenuList();
+		//System.out.println("=====>"+menuList);
 		return "/admin/menu";
+	}
+	
+	@RequestMapping(value = "/menuList.do", method=RequestMethod.GET)
+	public @ResponseBody ModelAndView menuListAjax(ModelMap model) throws Exception {
+		List<?> menuList = menuService.selectMenuList();
+		System.out.println("=====>2"+menuList);
+		//model.addAttribute("result", menuList);
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		mav.addObject("result", menuList);
+		return mav;
 	}
 }
