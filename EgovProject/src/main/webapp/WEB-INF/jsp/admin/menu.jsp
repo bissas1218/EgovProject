@@ -157,27 +157,21 @@
 											
 											console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
 											if(v.depth == '0'){
-												//data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png"});
 												data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", children:children1});
 											}else if(v.depth == '1'){
-												//console.log('1:'+v.menuCd+','+v.pMenuCd+','+children2);
 												if(children2!=''){
-													//console.log(children1.length);
-													//console.log(children1[children1.length-1].id);
 													var len = children1.length - 1;
 													var menuCd = children1[len].id;
 													var menuNm = children1[len].text;
 													children1[len] = {id:menuCd, text:menuNm, children:children2};
 													children2 = [];
-													children1.push({id:v.menuCd, text:v.menuNm});//, children:children2});
+													children1.push({id:v.menuCd, text:v.menuNm});
 												}else{
 													children1.push({id:v.menuCd, text:v.menuNm});
 												}
 												
-											//	tempCd = v.menuCd;
-											}else if(v.depth == '2'){//} && tempCd == v.pMenuCd){
-											//	console.log('2:'+v.menuCd+','+v.pMenuCd);
-												children2.push({id:v.menuCd, text:v.menuNm, type:"file"});	
+											}else if(v.depth == '2'){
+												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png"});	
 											}
 											console.log(children2);
 										});
@@ -188,11 +182,6 @@
 											var menuNm = children1[len].text;
 											children1[len] = {id:menuCd, text:menuNm, children:children2};
 										}
-										
-										//data.push({children:children});
-										//data.push({id:'M0001', text:'EgovProject', icon:"/images/tree_icon.png", children:children2});
-										
-									//	console.log(data);
 										
 									},error : function(xhr, status, error){
 										alert(status);
@@ -220,29 +209,8 @@
 									}
 								});
 								
-								/*
-								var data = [
-									{ "id" : "aaa", "text" : "EgovProject", "icon" : "/images/tree_icon.png", //"type" : "root", 
-										"children" : [
-											{ "id" : "bbb", "text" : "EgovFramework" }, 
-											{ "id" : "ccc", "text" : "Language", 
-												"children" : [ 
-													{ "id" : "ddd", "text" : "Java", "type" : "file" },
-													{ "id" : "eee", "text" : "Jquery", "type" : "file" }
-												] 
-											},
-											{ "id" : "fff", "text" : "Server" }
-										]	
-									}
-									
-								];
-								*/
-								
-								//var data = [{id:'aaa', text:'aaa'},{id:'bbb', text:'bbb'}];
-								
-								
-								
 							}
+							
 							</script>
 
 </body>
