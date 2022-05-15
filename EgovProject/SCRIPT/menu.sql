@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.6.5-MariaDB - mariadb.org binary distribution
--- 서버 OS:                        Win32
+-- 서버 버전:                        10.6.7-MariaDB - mariadb.org binary distribution
+-- 서버 OS:                        Win64
 -- HeidiSQL 버전:                  12.0.0.6468
 -- --------------------------------------------------------
 
@@ -19,17 +19,20 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `menu_cd` varchar(50) DEFAULT NULL,
   `menu_nm` varchar(100) DEFAULT NULL,
   `p_menu_cd` varchar(50) DEFAULT NULL,
-  `type` varchar(10) DEFAULT NULL
+  `type` varchar(10) DEFAULT NULL,
+  `depth` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 테이블 데이터 egovprog.menu:~7 rows (대략적) 내보내기
-INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `type`) VALUES
-	('M0001', 'EgovProject', NULL, NULL),
-	('M0002', 'EgovFramework', 'M0001', NULL),
-	('M0003', 'Language', 'M0001', NULL),
-	('M0004', 'Java', 'M0003', 'file'),
-	('M0005', 'Jquery', 'M0003', 'file'),
-	('M0006', 'Server', 'M0001', NULL);
+-- 테이블 데이터 egovprog.menu:~6 rows (대략적) 내보내기
+INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `type`, `depth`) VALUES
+	('M0001', 'EgovProject', NULL, NULL, 0),
+	('M0002', 'EgovFramework', 'M0001', NULL, 1),
+	('M0003', 'Language', 'M0001', NULL, 1),
+	('M0004', 'Java', 'M0003', 'file', 2),
+	('M0005', 'Jquery', 'M0003', 'file', 2),
+	('M0006', 'Server', 'M0001', NULL, 1),
+	('M0007', 'Linux', 'M0006', NULL, 2),
+	('M0008', 'Office', 'M0001', NULL, 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

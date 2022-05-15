@@ -49,4 +49,11 @@
 	<!-- /For Pagination Tag -->
     
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+    
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" id="viewResolver" p:order="0"/>
+    
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+    </bean>
+    
 </beans>

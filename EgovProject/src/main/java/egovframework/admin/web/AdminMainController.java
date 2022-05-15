@@ -32,13 +32,15 @@ public class AdminMainController {
 	}
 	
 	@RequestMapping(value = "/menuList.do", method=RequestMethod.GET)
-	public @ResponseBody ModelAndView menuListAjax(ModelMap model) throws Exception {
+	@ResponseBody
+	public ModelAndView menuListAjax(ModelMap model) throws Exception {
 		List<?> menuList = menuService.selectMenuList();
 		System.out.println("=====>2"+menuList);
 		//model.addAttribute("result", menuList);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		mav.addObject("result", menuList);
+		mav.addObject("menuList", menuList);
+		
 		return mav;
 	}
 }
