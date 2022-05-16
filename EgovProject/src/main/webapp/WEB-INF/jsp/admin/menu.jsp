@@ -73,7 +73,7 @@
 		<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
 		<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
 		<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
-		<button type="button" class="btn btn-danger btn-sm" onclick="jstree_draw();"><i class="glyphicon glyphicon-remove"></i> Save</button>
+		<button type="button" class="btn btn-danger btn-sm" onclick="test();"><i class="glyphicon glyphicon-remove"></i> Save</button>
 	</div>
 	
 	<div id="wrap">
@@ -81,7 +81,8 @@
 		</div>
 		
 		<div class="menu">
-			<input type="text" id="menuId" name="menuId">
+			MenuCd:<input type="text" id="menuCd" name="menuCd"><br/>
+			URL:<input type="text" id="url" name="url">
 		</div>
 	
 	</div>
@@ -97,13 +98,33 @@
 </footer>
 
 <script>
+/** * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴 * */ 
+	function test() { 
+		var newData = []; 
+		var jdata = $('#jstree_demo').jstree(true).get_json("#", {flat:true}); 
+		for (var i=0; i<jdata.length; i++) { 
+			var current = jdata[i]; 
+			var id = current.id; 
+			var name = current.text;
+			var parent = current.parent;
+
+			console.log(id+','+name+','+parent);
+		//	var data = this.findCoreData(id); 
+		//	if (data) { 
+				// current.text = $("<div>"+current.text+"</div>").text(); 
+		//		newData.push($.extend(data, current)); 
+		//	} 
+		} 
+		return newData; 
+	};
+
 							function demo_create() {
 								var ref = $('#jstree_demo').jstree(true),
 									sel = ref.get_selected();
 								if(!sel.length) { return false; }
 								sel = sel[0];
-							//	sel = ref.create_node(sel, {"type":"file"});
-								sel = ref.create_node(sel);
+								sel = ref.create_node(sel, {"icon":"/images/menu-icon.png"});
+							//	sel = ref.create_node(sel);
 								if(sel) {
 									ref.edit(sel);
 								}
@@ -155,7 +176,7 @@
 										
 										$.each(result.menuList, function(i, v){
 											
-											console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
+										//	console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
 											if(v.depth == '0'){
 												data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", children:children1});
 											}else if(v.depth == '1'){
@@ -165,13 +186,13 @@
 													var menuNm = children1[len].text;
 													children1[len] = {id:menuCd, text:menuNm, children:children2};
 													children2 = [];
-													children1.push({id:v.menuCd, text:v.menuNm});
+													children1.push({id:v.menuCd, text:v.menuNm, data:{}});
 												}else{
-													children1.push({id:v.menuCd, text:v.menuNm});
+													children1.push({id:v.menuCd, text:v.menuNm, data:{}});
 												}
 												
 											}else if(v.depth == '2'){
-												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png"});	
+												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png", data:{url:v.url}});	
 											}
 											console.log(children2);
 										});
@@ -197,14 +218,22 @@
 											},
 											"types" : {
 												"#" : { "max_children" : 1, "max_depth" : 3, "valid_children" : ["root"] },
-												"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
+											//	"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
 												"default" : { "valid_children" : ["default","file"] },
-												"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
+											//	"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
 											},
 											"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
 											
 										}).bind("select_node.jstree", function(e, data){
-											console.log('change'+data);	
+											var node = data.node;
+											$("#menuCd").val(node.id);
+											console.log(node.data);
+											if(node.data != null && node.data != 'undefined'){
+												$("#url").val(node.data.url);	
+											}else{
+												$("#url").val('');
+											}
+											
 										});
 									}
 								});

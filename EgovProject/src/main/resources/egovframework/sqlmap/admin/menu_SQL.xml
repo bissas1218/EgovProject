@@ -8,7 +8,7 @@
 	<select id="menuDAO.selectMenuList" resultClass="egovMap">
 
 			SELECT
-				MENU_CD, MENU_NM, P_MENU_CD, TYPE, DEPTH
+				MENU_CD, MENU_NM, P_MENU_CD, URL, DEPTH
 			FROM MENU
 			ORDER BY MENU_CD ASC
 			
