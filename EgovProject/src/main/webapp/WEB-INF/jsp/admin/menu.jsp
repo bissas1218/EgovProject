@@ -81,8 +81,9 @@
 		</div>
 		
 		<div class="menu">
-			MenuCd:<input type="text" id="menuCd" name="menuCd"><br/>
-			URL:<input type="text" id="url" name="url">
+			Menu Code:<input type="text" id="menuCd" name="menuCd" readonly="readonly"><br/>
+			Menu Name:<input type="text" id="menuNm" name="menuNm" readonly="readonly"><br/>
+			접근 URL:<input type="text" id="url" name="url">
 		</div>
 	
 	</div>
@@ -107,8 +108,18 @@
 			var id = current.id; 
 			var name = current.text;
 			var parent = current.parent;
-
-			console.log(id+','+name+','+parent);
+			var depth = current.data.depth;
+			var url = current.data.url;
+			
+			console.log(id+','+name+','+parent+','+depth+','+url);
+			
+			if(depth == '2' && url == null){
+				console.log('null');
+			}
+		//	if(depth=='2' && url == ''){
+		//		alert('접근 URL을 입력하세요.');
+		//		return false;
+		//	}
 		//	var data = this.findCoreData(id); 
 		//	if (data) { 
 				// current.text = $("<div>"+current.text+"</div>").text(); 
@@ -118,17 +129,26 @@
 		return newData; 
 	};
 
-							function demo_create() {
-								var ref = $('#jstree_demo').jstree(true),
-									sel = ref.get_selected();
-								if(!sel.length) { return false; }
-								sel = sel[0];
-								sel = ref.create_node(sel, {"icon":"/images/menu-icon.png"});
-							//	sel = ref.create_node(sel);
-								if(sel) {
-									ref.edit(sel);
-								}
-							};
+	// create node
+	function demo_create() {
+		
+		var ref = $('#jstree_demo').jstree(true),
+			sel = ref.get_selected();
+		
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		var depth = $("#jstree_demo").jstree(true).get_node(sel).data.depth;
+
+		if(depth == '0'){
+			sel = ref.create_node(sel, {"data":{"depth":"1"}});
+		}else if(depth == '1'){
+			sel = ref.create_node(sel, {"data":{"depth":"2"}, "icon":"/images/menu-icon.png"});
+		}
+		
+		if(sel) {
+			ref.edit(sel);
+		}
+	};
 							function demo_rename() {
 								var ref = $('#jstree_demo').jstree(true),
 									sel = ref.get_selected();
@@ -178,23 +198,23 @@
 											
 										//	console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
 											if(v.depth == '0'){
-												data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", children:children1});
+												data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", data:{depth:'0'}, children:children1});
 											}else if(v.depth == '1'){
 												if(children2!=''){
 													var len = children1.length - 1;
 													var menuCd = children1[len].id;
 													var menuNm = children1[len].text;
-													children1[len] = {id:menuCd, text:menuNm, children:children2};
+													children1[len] = {id:menuCd, text:menuNm, data:{depth:'1'}, children:children2};
 													children2 = [];
-													children1.push({id:v.menuCd, text:v.menuNm, data:{}});
+													children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
 												}else{
-													children1.push({id:v.menuCd, text:v.menuNm, data:{}});
+													children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
 												}
 												
 											}else if(v.depth == '2'){
-												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png", data:{url:v.url}});	
+												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png", data:{url:v.url, depth:'2'}});	
 											}
-											console.log(children2);
+										//	console.log(children2);
 										});
 										
 										if(children2 != ''){
@@ -227,7 +247,8 @@
 										}).bind("select_node.jstree", function(e, data){
 											var node = data.node;
 											$("#menuCd").val(node.id);
-											console.log(node.data);
+											$("#menuNm").val(node.text);
+										//	console.log(node.data);
 											if(node.data != null && node.data != 'undefined'){
 												$("#url").val(node.data.url);	
 											}else{
