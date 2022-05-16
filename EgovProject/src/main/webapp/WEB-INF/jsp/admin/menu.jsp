@@ -73,7 +73,7 @@
 		<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
 		<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
 		<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
-		<button type="button" class="btn btn-danger btn-sm" onclick="test();"><i class="glyphicon glyphicon-remove"></i> Save</button>
+		<button type="button" class="btn btn-danger btn-sm" onclick="demo_save();"><i class="glyphicon glyphicon-remove"></i> Save</button>
 	</div>
 	
 	<div id="wrap">
@@ -83,7 +83,13 @@
 		<div class="menu">
 			Menu Code:<input type="text" id="menuCd" name="menuCd" readonly="readonly"><br/>
 			Menu Name:<input type="text" id="menuNm" name="menuNm" readonly="readonly"><br/>
-			접근 URL:<input type="text" id="url" name="url">
+			
+			메뉴타입:	<label id="content"><input type="radio" name="menuType" id="content" value="content" checked>컨텐츠</label> 
+					<label id="board"><input type="radio" name="menuType" id="board" value="board">게시판</label>
+					<label id="program"><input type="radio" name="menuType" id="program" value="program">프로그램</label><br/>
+					
+			<font id="urlTxt">접근URL</font>:<input type="text" id="url" name="url"><br/>
+			
 		</div>
 	
 	</div>
@@ -99,8 +105,27 @@
 </footer>
 
 <script>
-/** * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴 * */ 
-	function test() { 
+	
+	$("input[name='menuType']:radio").change(function () {
+	    //라디오 버튼 값을 가져온다.
+	    var menuType = this.value;
+	                    console.log(menuType);
+	    switch(menuType){
+	    case 'content':
+	    	$("#urlTxt").text('컨텐츠ID');
+	    	break;
+	    case 'board':
+	    	$("#urlTxt").text('게시판ID');
+	    	break;
+		case 'program':
+	    	$("#urlTxt").text('접근URL');
+	    	break;
+    	}  
+	});
+
+
+	/** * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴 * */ 
+	function demo_save() { 
 		var newData = []; 
 		var jdata = $('#jstree_demo').jstree(true).get_json("#", {flat:true}); 
 		for (var i=0; i<jdata.length; i++) { 
