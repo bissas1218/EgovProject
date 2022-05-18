@@ -20,19 +20,20 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `menu_nm` varchar(100) DEFAULT NULL COMMENT '메뉴명',
   `p_menu_cd` varchar(50) DEFAULT NULL COMMENT '부모메뉴코드',
   `url` varchar(1000) DEFAULT NULL COMMENT '접근url',
-  `depth` int(1) DEFAULT NULL
+  `depth` int(1) DEFAULT NULL COMMENT '메뉴레벨',
+  `type` varchar(10) DEFAULT NULL COMMENT '메뉴타입'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- 테이블 데이터 egovprog.menu:~8 rows (대략적) 내보내기
-INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `url`, `depth`) VALUES
-	('M0001', 'EgovProject', NULL, NULL, 0),
-	('M0002', 'EgovFramework', 'M0001', NULL, 1),
-	('M0003', 'Language', 'M0001', NULL, 1),
-	('M0004', 'Java', 'M0003', 'test1.do', 2),
-	('M0005', 'Jquery', 'M0003', 'test2.do', 2),
-	('M0006', 'Server', 'M0001', NULL, 1),
-	('M0007', 'Linux', 'M0006', 'test3.do', 2),
-	('M0008', 'Office', 'M0001', NULL, 1);
+INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `url`, `depth`, `type`) VALUES
+	('M0001', 'EgovProject', NULL, NULL, 0, NULL),
+	('M0002', 'EgovFramework', 'M0001', NULL, 1, NULL),
+	('M0003', 'Language', 'M0001', NULL, 1, NULL),
+	('M0004', 'Java', 'M0003', 'test1.do', 2, 'content'),
+	('M0005', 'Jquery', 'M0003', 'test2.do', 2, 'board'),
+	('M0006', 'Server', 'M0001', NULL, 1, NULL),
+	('M0007', 'Linux', 'M0006', 'test3.do', 2, 'program'),
+	('M0008', 'Office', 'M0001', NULL, 1, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,5 +1,6 @@
 package egovframework.admin.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,5 +17,9 @@ public class MenuServiceImpl implements MenuService {
 	
 	public List<?> selectMenuList() throws Exception{
 		return menuDAO.selectMenuList();
+	}
+	
+	public int updateMenu(HashMap<Object, Object> params) throws Exception{
+		return menuDAO.updateMenu(params);
 	}
 }

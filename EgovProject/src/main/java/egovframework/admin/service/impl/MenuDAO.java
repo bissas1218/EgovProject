@@ -1,5 +1,6 @@
 package egovframework.admin.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.EgovAbstractDAO;
@@ -12,5 +13,9 @@ public class MenuDAO extends EgovAbstractDAO {
 
 	public List<?> selectMenuList() throws Exception {
 		return list("menuDAO.selectMenuList");
+	}
+	
+	public int updateMenu(HashMap<Object, Object> params) throws Exception{
+		return update("menuDAO.updateMenu", params);
 	}
 }

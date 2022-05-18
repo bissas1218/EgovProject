@@ -4,15 +4,24 @@
 <sqlMap namespace="Menu">
 
 	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="hashMap" type="java.util.HashMap"/>
 	
 	<select id="menuDAO.selectMenuList" resultClass="egovMap">
 
 			SELECT
-				MENU_CD, MENU_NM, P_MENU_CD, URL, DEPTH
+				MENU_CD, MENU_NM, P_MENU_CD, URL, DEPTH, TYPE
 			FROM MENU
 			ORDER BY MENU_CD ASC
 			
 	</select>
 	
+	<update id="menuDAO.updateMenu" parameterClass="hashMap">
+		
+		UPDATE MENU SET
+			MENU_NM = #menuNm#,
+			TYPE = #type#
+			WHERE MENU_CD = #menuCd#
+			
+	</update>
 
 </sqlMap>

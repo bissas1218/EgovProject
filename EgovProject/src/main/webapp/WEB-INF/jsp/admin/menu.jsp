@@ -73,7 +73,9 @@
 		<button type="button" class="btn btn-success btn-sm" onclick="demo_create();"><i class="glyphicon glyphicon-asterisk"></i> Create</button>
 		<button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();"><i class="glyphicon glyphicon-pencil"></i> Rename</button>
 		<button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();"><i class="glyphicon glyphicon-remove"></i> Delete</button>
-		<button type="button" class="btn btn-danger btn-sm" onclick="demo_save();"><i class="glyphicon glyphicon-remove"></i> Save</button>
+		<!-- 
+		<button type="button" class="btn btn-danger btn-sm" onclick="all_save();"><i class="glyphicon glyphicon-remove"></i> All Save</button>
+		 -->
 	</div>
 	
 	<div id="wrap">
@@ -81,15 +83,15 @@
 		</div>
 		
 		<div class="menu">
-			Menu Code:<input type="text" id="menuCd" name="menuCd" readonly="readonly"><br/>
-			Menu Name:<input type="text" id="menuNm" name="menuNm" readonly="readonly"><br/>
+			Menu Code : <font id="menuCdTxt"></font><br/>
+			Menu Name : <font id="menuNmTxt"></font><br/>
 			
 			메뉴타입:	<label id="content"><input type="radio" name="menuType" id="content" value="content" checked>컨텐츠</label> 
 					<label id="board"><input type="radio" name="menuType" id="board" value="board">게시판</label>
 					<label id="program"><input type="radio" name="menuType" id="program" value="program">프로그램</label><br/>
 					
 			<font id="urlTxt">접근URL</font>:<input type="text" id="url" name="url"><br/>
-			
+			<button type="button" class="btn btn-success btn-sm" onclick="demo_save();"><i class="glyphicon glyphicon-asterisk"></i> 선택된 메뉴저장</button>
 		</div>
 	
 	</div>
@@ -109,8 +111,11 @@
 	$("input[name='menuType']:radio").change(function () {
 	    //라디오 버튼 값을 가져온다.
 	    var menuType = this.value;
-	                    console.log(menuType);
-	    switch(menuType){
+	    changeUrlTxt(menuType);
+	});
+
+	function changeUrlTxt(menuType){
+		switch(menuType){
 	    case 'content':
 	    	$("#urlTxt").text('컨텐츠ID');
 	    	break;
@@ -121,11 +126,35 @@
 	    	$("#urlTxt").text('접근URL');
 	    	break;
     	}  
-	});
-
-
-	/** * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴 * */ 
+	}
+	
 	function demo_save() { 
+		var ref = $('#jstree_demo').jstree(true);
+		var sel = ref.get_selected();
+	
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		
+		//console.log(sel);
+		var node = $("#jstree_demo").jstree(true).get_node(sel)
+		console.log($("input[name='menuType']:checked").val());
+		
+		$.ajax({
+			type : "post",
+			url : "/menuSave.do",
+			data : {'menuCd':node.id, 'menuNm':node.text, 'type':$("input[name='menuType']:checked").val()},
+			dataType : "json",
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success : function(data){
+				alert(data.result);
+			},complete : function(){
+				jstree_draw();
+			}
+		});
+	}
+	
+	/** * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴 * */ 
+	function all_save() { 
 		var newData = []; 
 		var jdata = $('#jstree_demo').jstree(true).get_json("#", {flat:true}); 
 		for (var i=0; i<jdata.length; i++) { 
@@ -168,125 +197,160 @@
 			sel = ref.create_node(sel, {"data":{"depth":"1"}});
 		}else if(depth == '1'){
 			sel = ref.create_node(sel, {"data":{"depth":"2"}, "icon":"/images/menu-icon.png"});
+		}else if(depth == '2'){
+			return false;
 		}
 		
 		if(sel) {
 			ref.edit(sel);
 		}
 	};
-							function demo_rename() {
-								var ref = $('#jstree_demo').jstree(true),
-									sel = ref.get_selected();
-								if(!sel.length) { return false; }
-								sel = sel[0];
-								ref.edit(sel);
-							};
-							function demo_delete() {
-								var ref = $('#jstree_demo').jstree(true),
-									sel = ref.get_selected();
-								if(!sel.length) { return false; }
-								ref.delete_node(sel);
-							};
-							
-							$(function () {
-								
-								var to = false;
-								
-								$('#demo_q').keyup(function () {
-									if(to) { clearTimeout(to); }
-									to = setTimeout(function () {
-										var v = $('#demo_q').val();
-										$('#jstree_demo').jstree(true).search(v);
-									}, 250);
-								});
 	
-								jstree_draw();
-								
-							});
-							
-							function jstree_draw(){
-								
-								var data = [];
-								var children1 = [];
-								var children2 = [];
-								var tempCd;
-								
-								$.ajax({
-									type : "get",
-									url : "/menuList.do",
-									data : {'id':'admin'},
-									dataType : "json",
-									contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-									success : function(result){
-										
-										$.each(result.menuList, function(i, v){
-											
-										//	console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
-											if(v.depth == '0'){
-												data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", data:{depth:'0'}, children:children1});
-											}else if(v.depth == '1'){
-												if(children2!=''){
-													var len = children1.length - 1;
-													var menuCd = children1[len].id;
-													var menuNm = children1[len].text;
-													children1[len] = {id:menuCd, text:menuNm, data:{depth:'1'}, children:children2};
-													children2 = [];
-													children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
-												}else{
-													children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
-												}
-												
-											}else if(v.depth == '2'){
-												children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png", data:{url:v.url, depth:'2'}});	
-											}
-										//	console.log(children2);
-										});
-										
-										if(children2 != ''){
-											var len = children1.length - 1;
-											var menuCd = children1[len].id;
-											var menuNm = children1[len].text;
-											children1[len] = {id:menuCd, text:menuNm, children:children2};
-										}
-										
-									},error : function(xhr, status, error){
-										alert(status);
-									},complete : function(){
-										
-										$('#jstree_demo').jstree({
-											"core" : {
-												"animation" : 0,
-												"check_callback" : true,
-												'force_text' : true,
-												"themes" : { "stripes" : true },
-												'data' : data
-											},
-											"types" : {
-												"#" : { "max_children" : 1, "max_depth" : 3, "valid_children" : ["root"] },
-											//	"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
-												"default" : { "valid_children" : ["default","file"] },
-											//	"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
-											},
-											"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
-											
-										}).bind("select_node.jstree", function(e, data){
-											var node = data.node;
-											$("#menuCd").val(node.id);
-											$("#menuNm").val(node.text);
-										//	console.log(node.data);
-											if(node.data != null && node.data != 'undefined'){
-												$("#url").val(node.data.url);	
-											}else{
-												$("#url").val('');
-											}
-											
-										});
-									}
-								});
-								
+	function demo_rename() {
+		var ref = $('#jstree_demo').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		sel = sel[0];
+		ref.edit(sel);
+	};
+	
+	function demo_delete() {
+		var ref = $('#jstree_demo').jstree(true),
+			sel = ref.get_selected();
+		if(!sel.length) { return false; }
+		ref.delete_node(sel);
+	};
+	
+	$(function () {
+		
+		var to = false;
+		
+		$('#demo_q').keyup(function () {
+			if(to) { clearTimeout(to); }
+			to = setTimeout(function () {
+				var v = $('#demo_q').val();
+				$('#jstree_demo').jstree(true).search(v);
+			}, 250);
+		});
+
+		jstree_draw();
+		
+	});
+				
+	function jstree_data(callback){
+		
+		setTimeout(function(){
+			
+			var data = [];
+			var children1 = [];
+			var children2 = [];
+			var tempCd;
+			
+			$.ajax({
+				type : "get",
+				url : "/menuList.do",
+				data : {'id':'admin'},
+				dataType : "json",
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+				success : function(result){
+					
+					$.each(result.menuList, function(i, v){
+						
+					//	console.log(i+', '+v.menuCd+','+v.menuNm+', '+v.depth);
+						if(v.depth == '0'){
+							data.push({id:v.menuCd, text:v.menuNm, icon:"/images/tree_icon.png", data:{depth:'0'}, children:children1});
+						}else if(v.depth == '1'){
+							if(children2!=''){
+								var len = children1.length - 1;
+								var menuCd = children1[len].id;
+								var menuNm = children1[len].text;
+								children1[len] = {id:menuCd, text:menuNm, data:{depth:'1'}, children:children2};
+								children2 = [];
+								children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
+							}else{
+								children1.push({id:v.menuCd, text:v.menuNm, data:{depth:'1'}});
 							}
 							
-							</script>
+						}else if(v.depth == '2'){
+							children2.push({id:v.menuCd, text:v.menuNm, icon:"/images/menu-icon.png", data:{url:v.url, type:v.type, depth:'2'}});	
+						}
+					//	console.log(children2);
+					});
+					
+					if(children2 != ''){
+						var len = children1.length - 1;
+						var menuCd = children1[len].id;
+						var menuNm = children1[len].text;
+						children1[len] = {id:menuCd, text:menuNm, children:children2};
+					}
+					
+				},error : function(xhr, status, error){
+					alert(status);
+				},complete : function(){
+					
+					console.log('111:'+data);
+					callback(data);
+				}
+			});
+			
+			
+		},1000);
+		
+	}
+	
+	function jstree_draw(){
+		
+		//$('#jstree_demo').empty();
+		jstree_data(function(data2){
+			console.log('222:'+data2);
+			
+//			console.log(data);
+			// 트리메뉴 그리기
+			$('#jstree_demo').jstree({
+				"core" : {
+					"animation" : 0,
+					"check_callback" : true,
+					'force_text' : true,
+					"themes" : { "stripes" : true },
+					'data' : data2
+				},
+				"types" : {
+					"#" : { "max_children" : 1, "max_depth" : 3, "valid_children" : ["root"] },
+				//	"root" : { "icon" : "/images/tree_icon.png", "valid_children" : ["default"] },
+					"default" : { "valid_children" : ["default","file"] },
+				//	"file" : { "icon" : "glyphicon glyphicon-file", "valid_children" : [] }
+				},
+				"plugins" : [ "contextmenu", "dnd", "search", "state", "types", "wholerow" ]
+				
+			}).bind("select_node.jstree", function(e, data){	// 트리노드 선택
+				console.log('-------select node------->');
+				var node = data.node;
+				$("#menuCdTxt").text(node.id);
+				$("#menuNmTxt").text(node.text);
+				console.log(node.data.type);
+				if(node.data.depth == '2'){
+					$("#url").attr('disabled', false);
+					$("input[name='menuType']:radio").attr('disabled', false);
+					$("input:radio[name='menuType']").attr('checked', false);
+					$("input:radio[name='menuType'][value="+node.data.type+"]").attr('checked', true);
+					$("#url").val(node.data.url);	
+					changeUrlTxt(node.data.type);
+				}else{
+					$("#url").val('');
+					$("input[name='menuType']:radio").attr('disabled', true);
+					$("#url").attr('disabled', true);
+				}
+				
+			});
+			
+		});
+		
+		
+	
+		
+	}
+	
+</script>
 
 </body>
 </html>
