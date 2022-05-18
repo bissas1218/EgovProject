@@ -14,6 +14,70 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- 테이블 egovprog.animal 구조 내보내기
+CREATE TABLE IF NOT EXISTS `animal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `p_id` int(10) unsigned DEFAULT 0,
+  `nm` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+
+-- 테이블 데이터 egovprog.animal:~12 rows (대략적) 내보내기
+INSERT INTO `animal` (`id`, `p_id`, `nm`) VALUES
+	(1, 0, '동물'),
+	(2, 1, '말'),
+	(3, 1, '닭'),
+	(4, 2, '얼룩말'),
+	(5, 2, '조랑말'),
+	(6, 3, '흰닭'),
+	(7, 3, '검은닭'),
+	(8, 5, '망아지'),
+	(9, 6, '흰병아리'),
+	(10, 7, '검은병아리'),
+	(11, 9, '흰달걀'),
+	(12, 10, '검은달걀');
+
+-- 함수 egovprog.fnc_hierarchi 구조 내보내기
+DELIMITER //
+CREATE FUNCTION `fnc_hierarchi`() RETURNS int(11)
+    READS SQL DATA
+BEGIN 
+
+DECLARE v_id INT; 
+DECLARE v_parent INT; 
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET @id = NULL; 
+
+SET v_parent = @id; 
+SET v_id = -1; 
+
+IF @id IS NULL THEN 
+RETURN NULL; 
+END IF; 
+
+LOOP 
+SELECT MIN(id) 
+INTO @id 
+FROM animal 
+WHERE p_id = v_parent 
+AND id > v_id;
+
+ IF (@id IS NOT NULL) OR (v_parent = @start_with) THEN 
+ SET @level = @level + 1; 
+RETURN @id; 
+END IF; 
+
+SET @level := @level - 1; 
+
+SELECT id, p_id 
+INTO v_id , v_parent 
+FROM animal 
+WHERE id = v_parent; 
+
+END LOOP; 
+
+END//
+DELIMITER ;
+
 -- 테이블 egovprog.menu 구조 내보내기
 CREATE TABLE IF NOT EXISTS `menu` (
   `menu_cd` varchar(50) DEFAULT NULL COMMENT '메뉴코드',
@@ -43,3 +107,31 @@ INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `url`, `depth`, `type`, `
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+
+
+/*
+
+SELECT CASE WHEN LEVEL-1 > 0 THEN CONCAT(CONCAT(REPEAT(' ', level - 1),'┗'), ani.nm) 
+ELSE ani.nm 
+END AS nm, 
+ani.id, 
+ani.p_id, 
+fnc.level
+FROM (
+SELECT fnc_hierarchi() AS id, @level AS level
+FROM (
+SELECT @start_with:=0, @id:=@start_with, @level:=0) vars
+JOIN ANIMAL
+WHERE @id IS NOT NULL) fnc
+JOIN ANIMAL ani ON fnc.id = ani.id;
+
+
+
+SELECT fnc_hierarchi() AS id, @level AS level
+FROM (
+SELECT @start_with:=0, @id:=@start_with, @level:=0) vars
+JOIN ANIMAL
+WHERE @id IS NOT NULL;
+
+
+*/
