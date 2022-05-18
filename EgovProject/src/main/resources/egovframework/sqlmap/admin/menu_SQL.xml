@@ -19,9 +19,40 @@
 		
 		UPDATE MENU SET
 			MENU_NM = #menuNm#,
-			TYPE = #type#
+			TYPE = #type#,
+			URL = #url#
 			WHERE MENU_CD = #menuCd#
 			
 	</update>
 
+	<insert id="menuDAO.insertMenu" parameterClass="hashMap">
+	
+		<selectKey keyProperty="menuCd" resultClass="String">
+		SELECT 
+			case 
+			when LENGTH(x.newMenuCd) = 1 then CONCAT('000', x.newMenuCd)
+			when LENGTH(x.newMenuCd) = 2 then CONCAT('00', x.newMenuCd)
+			when LENGTH(x.newMenuCd) = 3 then CONCAT('0', x.newMenuCd)
+			when LENGTH(x.newMenuCd) = 4 then x.newMenuCd
+			end FROM (
+			SELECT max(right(MENU_CD,4))+1 newMenuCd FROM menu) x
+		</selectKey>
+		
+		INSERT INTO MENU (
+			MENU_CD,
+			MENU_NM,
+			P_MENU_CD,
+			URL, 
+			DEPTH,
+			TYPE
+		)VALUES(
+			CONCAT('M', #menuCd#),
+			#menuNm#,
+			#pMenuCd#,
+			#url#,
+			#depth#,
+			#type#
+		)
+	</insert>
+	
 </sqlMap>

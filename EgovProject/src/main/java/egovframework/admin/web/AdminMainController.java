@@ -37,8 +37,6 @@ public class AdminMainController {
 	@ResponseBody
 	public ModelAndView menuListAjax(ModelMap model) throws Exception {
 		List<?> menuList = menuService.selectMenuList();
-		System.out.println("=====>2"+menuList);
-		//model.addAttribute("result", menuList);
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("menuList", menuList);
@@ -49,12 +47,22 @@ public class AdminMainController {
 	@RequestMapping(value = "/menuSave.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView menuSaveAjax(@RequestParam HashMap<Object, Object> params, ModelMap model) throws Exception {
-		System.out.println("=====>id:"+params.get("menuCd"));
 		
-		int result = menuService.updateMenu(params);
+		String menuCd = params.get("menuCd").toString();
+		
+		System.out.println("=====>id:"+menuCd.substring(0,3));
+		int result = 0;
+		if(menuCd.substring(0,3).equals("j1_")) {
+			menuService.insertMenu(params);
+		}else {
+			result = menuService.updateMenu(params);
+		}
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		mav.addObject("result", result);
+		
+		List<?> menuList = menuService.selectMenuList();
+		mav.addObject("menuList", menuList);
 		
 		return mav;
 	}

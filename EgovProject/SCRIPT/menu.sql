@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.6.5-MariaDB - mariadb.org binary distribution
--- 서버 OS:                        Win32
+-- 서버 버전:                        10.6.7-MariaDB - mariadb.org binary distribution
+-- 서버 OS:                        Win64
 -- HeidiSQL 버전:                  12.0.0.6468
 -- --------------------------------------------------------
 
@@ -21,19 +21,22 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `p_menu_cd` varchar(50) DEFAULT NULL COMMENT '부모메뉴코드',
   `url` varchar(1000) DEFAULT NULL COMMENT '접근url',
   `depth` int(1) DEFAULT NULL COMMENT '메뉴레벨',
-  `type` varchar(10) DEFAULT NULL COMMENT '메뉴타입'
+  `type` varchar(10) DEFAULT NULL COMMENT '메뉴타입',
+  `menu_order` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- 테이블 데이터 egovprog.menu:~8 rows (대략적) 내보내기
-INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `url`, `depth`, `type`) VALUES
-	('M0001', 'EgovProject', NULL, NULL, 0, NULL),
-	('M0002', 'EgovFramework', 'M0001', NULL, 1, NULL),
-	('M0003', 'Language', 'M0001', NULL, 1, NULL),
-	('M0004', 'Java', 'M0003', 'test1.do', 2, 'content'),
-	('M0005', 'Jquery', 'M0003', 'test2.do', 2, 'board'),
-	('M0006', 'Server', 'M0001', NULL, 1, NULL),
-	('M0007', 'Linux', 'M0006', 'test3.do', 2, 'program'),
-	('M0008', 'Office', 'M0001', NULL, 1, NULL);
+-- 테이블 데이터 egovprog.menu:~9 rows (대략적) 내보내기
+INSERT INTO `menu` (`menu_cd`, `menu_nm`, `p_menu_cd`, `url`, `depth`, `type`, `menu_order`) VALUES
+	('M0001', 'EgovProject', NULL, NULL, 0, NULL, NULL),
+	('M0002', 'EgovFramework', 'M0001', NULL, 1, NULL, NULL),
+	('M0003', 'Language', 'M0001', NULL, 1, NULL, NULL),
+	('M0004', 'Java', 'M0003', 'con0001', 2, 'content', 1),
+	('M0005', 'Jquery', 'M0003', 'board_id', 2, 'board', 2),
+	('M0006', 'Server2', 'M0001', '', 1, 'program', NULL),
+	('M0007', 'Linux2', 'M0006', 'program.do', 2, 'program', 3),
+	('M0008', 'Office', 'M0001', NULL, 1, NULL, NULL),
+	('M0009', 'New node', 'M0006', '????', 2, 'content', 4),
+	('M0010', 'New node', 'M0006', '??????', 2, 'board', 5);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

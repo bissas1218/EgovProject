@@ -22,4 +22,8 @@ public class MenuServiceImpl implements MenuService {
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
 		return menuDAO.updateMenu(params);
 	}
+	
+	public void insertMenu(HashMap<Object, Object> params) throws Exception{
+		menuDAO.insertMenu(params);
+	}
 }

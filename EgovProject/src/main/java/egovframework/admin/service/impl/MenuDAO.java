@@ -18,4 +18,8 @@ public class MenuDAO extends EgovAbstractDAO {
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
 		return update("menuDAO.updateMenu", params);
 	}
+	
+	public void insertMenu(HashMap<Object, Object> params) throws Exception{
+		insert("menuDAO.insertMenu", params);
+	}
 }
