@@ -57,6 +57,9 @@ header #search-form .row {
     width: 200px;
 }
 
+
+
+
 .ais-SearchBox-form {
     background-color: #fff;
     display: -webkit-box;
@@ -181,7 +184,7 @@ img, svg{
 }
 @media(min-width:1400px){
 	.container{
-		max-width:1320px;
+		max-width:1720px;
 	}
 	.navbar-toggler{
 		display:none;
