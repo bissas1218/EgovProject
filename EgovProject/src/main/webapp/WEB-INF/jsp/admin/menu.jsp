@@ -129,6 +129,7 @@
 	}
 	
 	function demo_save() { 
+		
 		var ref = $('#jstree_demo').jstree(true);
 		var sel = ref.get_selected();
 	
@@ -140,11 +141,11 @@
 		//console.log($("input[name='menuType']:checked").val());
 		
 		var data = [];
-		
+		//console.log(node.data.depth);
 		$.ajax({
 			type : "post",
 			url : "/menuSave.do",
-			data : {'menuCd':node.id, 'menuNm':node.text, 'pMenuCd':node.parent, 'url':$("#url").val(), 'type':$("input[name='menuType']:checked").val()},
+			data : {'menuCd':node.id, 'menuNm':node.text, 'pMenuCd':node.parent, 'url':$("#url").val(), 'depth':node.data.depth, 'type':$("input[name='menuType']:checked").val()},
 			dataType : "json",
 			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 			success : function(data2){
@@ -303,6 +304,7 @@
 			},complete : function(){
 				
 				jstree_draw(data);
+				$('#jstree_demo').jstree("open_all");
 			}
 		});
 	}
@@ -336,7 +338,7 @@
 				$("#url").attr('disabled', false);
 				$("input[name='menuType']:radio").attr('disabled', false);
 				$("input:radio[name='menuType']").attr('checked', false);
-				console.log('type:'+node.data.type);
+			//	console.log('type:'+node.data.type);
 				$("input[name='menuType'][value="+node.data.type+"]").prop('checked', true);
 				$("#url").val(node.data.url);	
 				changeUrlTxt(node.data.type);
@@ -346,6 +348,8 @@
 				$("#url").attr('disabled', true);
 			}
 			
+		}).bind("loaded.jstree", function(e){
+			$('#jstree_demo').jstree("open_all");
 		});
 		
 	}

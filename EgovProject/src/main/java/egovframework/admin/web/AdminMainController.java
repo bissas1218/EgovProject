@@ -47,13 +47,13 @@ public class AdminMainController {
 	@RequestMapping(value = "/menuSave.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView menuSaveAjax(@RequestParam HashMap<Object, Object> params, ModelMap model) throws Exception {
-		
+		System.out.println("=====>menu save");
 		String menuCd = params.get("menuCd").toString();
 		
-		System.out.println("=====>id:"+menuCd.substring(0,3));
+		System.out.println("=====>id:"+params.get("menuNm"));
 		int result = 0;
-		if(menuCd.substring(0,3).equals("j1_")) {
-			menuService.insertMenu(params);
+		if(menuCd.substring(0,1).equals("j")) {
+			result = menuService.insertMenu(params);
 		}else {
 			result = menuService.updateMenu(params);
 		}

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 
 <header>
 	<nav class="navbar navbar-expand-xl justify-content-between">
@@ -22,20 +22,9 @@
 			
 				<!-- PC 1차메뉴 -->
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a href="/study/egov/intro.do" class="nav-link">EgovFramework</a></li>
-					<li class="nav-item"><a href="/study/java/firstJavaApp.do" class="nav-link active">Java</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Html</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Css</a></li>
-					<!-- 
-					<li class="nav-item"><a href="" class="nav-link">JavaScript</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Jquery</a></li>
-					<li class="nav-item"><a href="" class="nav-link">React</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Chart</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Mysql</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Oracle</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Tomcat</a></li>
-					<li class="nav-item"><a href="" class="nav-link">Linux</a></li>
-					 -->
+				<c:forEach items="${menuDepth1List}" var="menu1">
+					<li class="nav-item"><a href="/menuCall.do?menuCd=<c:out value="${menu1.id }"/>" class="nav-link"><c:out value="${menu1.nm }"/></a></li>
+				</c:forEach>
 				</ul>
 				
 				<!-- 검색어 입력창 -->

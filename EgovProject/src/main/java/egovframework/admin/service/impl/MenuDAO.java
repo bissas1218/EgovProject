@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.egovframe.rte.psl.dataaccess.EgovAbstractDAO;
+import org.egovframe.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Repository;
 
 import egovframework.example.sample.service.SampleDefaultVO;
@@ -15,11 +16,19 @@ public class MenuDAO extends EgovAbstractDAO {
 		return list("menuDAO.selectMenuList");
 	}
 	
+	public List<?> selectMenuDepth1List() throws Exception {
+		return list("menuDAO.selectMenuDepth1List");
+	}
+	
+	public EgovMap selectMenuInfo(String menuCd) throws Exception{
+		return (EgovMap) select("menuDAO.selectMenuInfo", menuCd);
+	}
+	
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
 		return update("menuDAO.updateMenu", params);
 	}
 	
-	public void insertMenu(HashMap<Object, Object> params) throws Exception{
-		insert("menuDAO.insertMenu", params);
+	public int insertMenu(HashMap<Object, Object> params) throws Exception{
+		return (int) insert("menuDAO.insertMenu", params);
 	}
 }

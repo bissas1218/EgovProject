@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.egovframe.rte.psl.dataaccess.util.EgovMap;
 import org.springframework.stereotype.Service;
 
 import egovframework.admin.service.MenuService;
@@ -19,11 +20,19 @@ public class MenuServiceImpl implements MenuService {
 		return menuDAO.selectMenuList();
 	}
 	
+	public EgovMap selectMenuInfo(String menuCd) throws Exception{
+		return menuDAO.selectMenuInfo(menuCd);
+	}
+	
+	public List<?> selectMenuDepth1List() throws Exception{
+		return menuDAO.selectMenuDepth1List();
+	}
+	
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
 		return menuDAO.updateMenu(params);
 	}
 	
-	public void insertMenu(HashMap<Object, Object> params) throws Exception{
-		menuDAO.insertMenu(params);
+	public int insertMenu(HashMap<Object, Object> params) throws Exception{
+		return menuDAO.insertMenu(params);
 	}
 }
