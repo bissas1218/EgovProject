@@ -20,6 +20,10 @@ public class MenuDAO extends EgovAbstractDAO {
 		return list("menuDAO.selectMenuDepth1List");
 	}
 	
+	public List<?> selectMenuDepth2List(String pMenuCd) throws Exception {
+		return list("menuDAO.selectMenuDepth2List", pMenuCd);
+	}
+	
 	public EgovMap selectMenuInfo(String menuCd) throws Exception{
 		return (EgovMap) select("menuDAO.selectMenuInfo", menuCd);
 	}

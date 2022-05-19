@@ -11,6 +11,8 @@ public interface MenuService {
 	
 	List<?> selectMenuDepth1List() throws Exception;
 	
+	List<?> selectMenuDepth2List(String pMenuCd) throws Exception;
+	
 	EgovMap selectMenuInfo(String menuCd) throws Exception;
 	
 	int updateMenu(HashMap<Object, Object> params) throws Exception;

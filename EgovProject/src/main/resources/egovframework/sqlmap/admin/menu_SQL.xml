@@ -32,6 +32,12 @@
 			
 	</select>
 	
+	<select id="menuDAO.selectMenuDepth2List" resultClass="hashMap" parameterClass="String">
+			
+			SELECT * FROM MENU WHERE P_ID = #pMenuCd#
+			
+	</select>
+	
 	<select id="menuDAO.selectMenuInfo" parameterClass="String" resultClass="egovMap">
 			
 			SELECT * FROM menu WHERE id = (

@@ -28,6 +28,10 @@ public class MenuServiceImpl implements MenuService {
 		return menuDAO.selectMenuDepth1List();
 	}
 	
+	public List<?> selectMenuDepth2List(String pMenuCd) throws Exception{
+		return menuDAO.selectMenuDepth2List(pMenuCd);
+	}
+	
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
 		return menuDAO.updateMenu(params);
 	}

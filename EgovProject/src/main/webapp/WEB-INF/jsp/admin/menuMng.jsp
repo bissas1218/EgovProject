@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>My Study List</title>
 
-<link rel="stylesheet" href="/css/study/common.css" />
+<link rel="stylesheet" href="/css/study/admin.css" />
 
  <style>
 
@@ -54,8 +54,9 @@
 			
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav mr-auto">
-					<li><a href="/menu.do" class="nav-link">메뉴관리</a></li>
+					<li><a href="/menuMng.do" class="nav-link">메뉴관리</a></li>
 					<li><a href="/contentMng.do" class="nav-link">컨텐츠관리</a></li>
+					<li><a href="/boardMng.do" class="nav-link">게시판관리</a></li>
 				</ul>
 			</div>
 			

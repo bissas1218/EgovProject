@@ -6,7 +6,7 @@ body{
 
 header nav{
 	height:81px;
-	background-color:#3a75b0;
+	background-color:rgb(227, 98, 28);
 }
 
 header .container-fluid{
@@ -195,7 +195,7 @@ img, svg{
 }
 
 @media (min-width: 1200px)
-header #search-form {
+	header #search-form {
     justify-content: flex-end;
     padding-top: 0;
 }

@@ -24,10 +24,11 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/header.do")
-	public String headerPage(ModelMap model) throws Exception {
+	public String headerPage(@RequestParam("pMenuCd") String pMenuCd, ModelMap model) throws Exception {
 		System.out.println("=====>header.do");
 		List<?> menuDepth1List = menuService.selectMenuDepth1List();
 		model.addAttribute("menuDepth1List", menuDepth1List);
+		model.addAttribute("pMenuCd", pMenuCd);
 		return "/header";
 	}
 	
@@ -37,10 +38,17 @@ public class MainController {
 		EgovMap map = menuService.selectMenuInfo(menuCd);
 		System.out.println("=====>map:"+map);
 		
+		model.addAttribute("pMenuCd", map.get("pId"));
+		model.addAttribute("menuCd", map.get("id"));
+		
 		String page = "";
 		if(map.get("type").equals("content")) {
+			List<?> menuDepth2List = menuService.selectMenuDepth2List(map.get("pId").toString());
+			model.addAttribute("menuDepth2List", menuDepth2List);
 			page = "content";
 		}else if(map.get("type").equals("board")) {
+			List<?> menuDepth2List = menuService.selectMenuDepth2List(map.get("pId").toString());
+			model.addAttribute("menuDepth2List", menuDepth2List);
 			page = "board";
 		}else if(map.get("type").equals("program")) {
 			page = "redirect:"+map.get("url");

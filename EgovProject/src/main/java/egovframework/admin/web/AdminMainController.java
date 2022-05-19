@@ -26,11 +26,11 @@ public class AdminMainController {
 		return "/admin/main";
 	}
 	
-	@RequestMapping(value = "/menu.do")
+	@RequestMapping(value = "/menuMng.do")
 	public String menuPage(ModelMap model) throws Exception {
 		//List<?> menuList = menuService.selectMenuList();
 		//System.out.println("=====>"+menuList);
-		return "/admin/menu";
+		return "/admin/menuMng";
 	}
 	
 	@RequestMapping(value = "/menuList.do", method=RequestMethod.GET)
@@ -47,10 +47,8 @@ public class AdminMainController {
 	@RequestMapping(value = "/menuSave.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView menuSaveAjax(@RequestParam HashMap<Object, Object> params, ModelMap model) throws Exception {
-		System.out.println("=====>menu save");
 		String menuCd = params.get("menuCd").toString();
 		
-		System.out.println("=====>id:"+params.get("menuNm"));
 		int result = 0;
 		if(menuCd.substring(0,1).equals("j")) {
 			result = menuService.insertMenu(params);

@@ -23,7 +23,7 @@
 				<!-- PC 1차메뉴 -->
 				<ul class="navbar-nav mr-auto">
 				<c:forEach items="${menuDepth1List}" var="menu1">
-					<li class="nav-item"><a href="/menuCall.do?menuCd=<c:out value="${menu1.id }"/>" class="nav-link"><c:out value="${menu1.nm }"/></a></li>
+					<li class="nav-item"><a href="/menuCall.do?menuCd=<c:out value="${menu1.id }"/>" class="nav-link<c:if test="${pMenuCd eq menu1.id}"> active</c:if>"><c:out value="${menu1.nm }"/></a></li>
 				</c:forEach>
 				</ul>
 				
@@ -68,6 +68,7 @@
     				</div>
   				</div>
         	</div>
+        	
 		</div>
 	</nav>
 </header>

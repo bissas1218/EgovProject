@@ -8,12 +8,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>My Study List</title>
 
-<link rel="stylesheet" href="/css/study/common.css" />
+<link rel="stylesheet" href="/css/study/style.css" />
  
 </head>
 <body>
 
-<jsp:include page="/header.do"></jsp:include>
+<jsp:include page="/header.do?pMenuCd="></jsp:include>
 
 <main>
 	<div class="container">
