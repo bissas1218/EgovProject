@@ -56,4 +56,6 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
     
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
+    
 </beans>

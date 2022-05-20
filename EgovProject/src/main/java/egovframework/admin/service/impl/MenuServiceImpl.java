@@ -39,4 +39,19 @@ public class MenuServiceImpl implements MenuService {
 	public int insertMenu(HashMap<Object, Object> params) throws Exception{
 		return menuDAO.insertMenu(params);
 	}
+	
+	public int insertUpdateContent(HashMap<Object, Object> params) throws Exception{
+		int cnt = menuDAO.selectContentId(params.get("menuCd").toString());
+		int result = 0;
+		if(cnt>0) {
+			result = menuDAO.updateContent(params);
+		}else if(cnt==0){
+			menuDAO.insertContent(params);
+		}
+		return result;
+	}
+	
+	public EgovMap selectContent(String menuCd) throws Exception{
+		return menuDAO.selectContent(menuCd);
+	}
 }

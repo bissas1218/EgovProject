@@ -35,4 +35,20 @@ public class MenuDAO extends EgovAbstractDAO {
 	public int insertMenu(HashMap<Object, Object> params) throws Exception{
 		return (int) insert("menuDAO.insertMenu", params);
 	}
+	
+	public int selectContentId(String menuCd) throws Exception{
+		return (int) select("menuDAO.selectContentId", menuCd);
+	}
+	
+	public int updateContent(HashMap<Object, Object> params) throws Exception{
+		return (int) update("menuDAO.updateContent", params);
+	}
+	
+	public void insertContent(HashMap<Object, Object> params) throws Exception{
+		insert("menuDAO.insertContent", params);
+	}
+	
+	public EgovMap selectContent(String menuCd) throws Exception{
+		return (EgovMap) select("menuDAO.selectContent", menuCd);
+	}
 }

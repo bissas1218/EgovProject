@@ -88,4 +88,32 @@
 		)
 	</insert>
 	
+	<select id="menuDAO.selectContentId" parameterClass="String" resultClass="Integer">
+		SELECT COUNT(*) FROM CONTENT WHERE ID = #menuCd#
+	</select>
+	
+	<update id="menuDAO.updateContent" parameterClass="hashMap">
+		
+		UPDATE CONTENT SET
+			CONTENT = #content#
+			WHERE id = #menuCd#
+			
+	</update>
+	
+	<insert id="menuDAO.insertContent" parameterClass="hashMap">
+	
+		INSERT INTO CONTENT (
+			id,
+			content
+		)VALUES(
+			#menuCd#,
+			#content#
+		)
+		
+	</insert>
+	
+	<select id="menuDAO.selectContent" parameterClass="String" resultClass="EgovMap">
+		SELECT content FROM CONTENT WHERE ID = #menuCd#
+	</select>
+	
 </sqlMap>

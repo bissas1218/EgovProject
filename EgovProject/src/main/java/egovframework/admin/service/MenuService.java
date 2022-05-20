@@ -18,4 +18,8 @@ public interface MenuService {
 	int updateMenu(HashMap<Object, Object> params) throws Exception;
 	
 	int insertMenu(HashMap<Object, Object> params) throws Exception;
+	
+	int insertUpdateContent(HashMap<Object, Object> params) throws Exception;
+	
+	EgovMap selectContent(String menuCd) throws Exception;
 }

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 <title>My Study List</title>
 
 <link rel="stylesheet" href="/css/study/admin.css" />
@@ -15,7 +15,7 @@
 	.demo { overflow:auto; border:1px solid silver; min-height:100px; }
 	
 	div#wrap{
-		width:100%;
+		width:1720px;
 		heigth:500px;
 		background-color:silver;
 		display:flex;
@@ -60,8 +60,6 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav mr-auto">
 					<li><a href="/menuMng.do" class="nav-link">메뉴관리</a></li>
-					<li><a href="/contentMng.do" class="nav-link">컨텐츠관리</a></li>
-					<li><a href="/boardMng.do" class="nav-link">게시판관리</a></li>
 				</ul>
 			</div>
 			
@@ -99,24 +97,13 @@
 			<font id="urlTxt">접근URL</font>:<input type="text" id="url" name="url"><br/>
 			<button type="button" class="btn btn-success btn-sm" onclick="demo_save();"><i class="glyphicon glyphicon-asterisk"></i> 선택된 메뉴저장</button>
 			
-			<div id="editor">
-				<h2>The three greatest things you learn from traveling</h2>
-	
-				<p>Like all the great things on earth traveling teaches us by example. Here are some of the most precious lessons I’ve learned over the years of traveling.</p>
-	
-				<h3>Appreciation of diversity</h3>
-	
-				<p>Getting used to an entirely different culture can be challenging. While it’s also nice to learn about cultures online or from books, nothing comes close to experiencing <a href="https://en.wikipedia.org/wiki/Cultural_diversity">cultural diversity</a> in person. You learn to appreciate each and every single one of the differences while you become more culturally fluid.</p>
-	
-				<figure class="image image-style-side"><img src="sample/img/umbrellas.jpg" alt="Three Monks walking on ancient temple.">
-					<figcaption>Leaving your comfort zone might lead you to such beautiful sceneries like this one.</figcaption>
-				</figure>
-	
-				<h3>Confidence</h3>
-	
-				<p>Going to a new place can be quite terrifying. While change and uncertainty makes us scared, traveling teaches us how ridiculous it is to be afraid of something before it happens. The moment you face your fear and see there was nothing to be afraid of, is the moment you discover bliss.</p>
+			<div id="editor_wrap">
+				<div id="editor">
+				</div>
 			</div>
-			
+			<div>
+				<button type="button" class="btn btn-danger btn-sm" onclick="content_save();"><i class="glyphicon glyphicon-remove"></i> 저장하기</button>
+			</div>
 		</div>
 	
 	</div>
@@ -131,7 +118,53 @@
 	</div>
 </footer>
 
+
+<style>
+  .ck-editor__editable { height: 700px; }
+  .ck-content { font-size: 12px; }
+</style>
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="/ckeditor/ko.js"></script>
+
 <script>
+	ClassicEditor
+		.create( document.querySelector( '#editor' ), {
+			language:"ko"
+		//	removePlugins: [ 'Heading' ],
+		//	toolbar: [ 'heading', '|', 'bold', 'italic', 'code' ]
+			,simpleUpload:
+            {
+                uploadUrl: "/ckImgUpload.do",
+                withCredentials: true,
+            }
+		} )
+		.then( editor => {
+			window.editor = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+</script>
+
+<script>
+	
+	function content_save(){
+		console.log( editor.getData() );
+		$.ajax({
+			type : "post",
+			url : "/contentSave.do",
+			data : {'menuCd':$("#menuCdTxt").text(), 'content':editor.getData()},
+			dataType : "json",
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success : function(data){
+				alert(data.result);
+				
+			},complete : function(){
+				
+			}
+		});
+	}
 	
 	$("input[name='menuType']:radio").change(function () {
 	    //라디오 버튼 값을 가져온다.
@@ -143,12 +176,15 @@
 		switch(menuType){
 	    case 'content':
 	    	$("#urlTxt").text('컨텐츠ID');
+	    	$("#editor_wrap").show();
 	    	break;
 	    case 'board':
 	    	$("#urlTxt").text('게시판ID');
+	    	$("#editor_wrap").hide();
 	    	break;
 		case 'program':
 	    	$("#urlTxt").text('접근URL');
+	    	$("#editor_wrap").hide();
 	    	break;
     	}  
 	}
@@ -367,34 +403,49 @@
 				$("input[name='menuType'][value="+node.data.type+"]").prop('checked', true);
 				$("#url").val(node.data.url);	
 				changeUrlTxt(node.data.type);
+				
+				if(node.data.type == 'content'){
+					$("#editor_wrap").show();
+				//	editor.setData('<h2>aaa</h2>');
+					editorSetData(node.id);
+				}else{
+					$("#editor_wrap").hide();
+				}
 			}else{
 				$("#url").val('');
 				$("input[name='menuType']:radio").attr('disabled', true);
 				$("#url").attr('disabled', true);
 			}
 			
-		}).bind("loaded.jstree", function(e){
+		}).bind("loaded.jstree", function(e, data){
 			$('#jstree_demo').jstree("open_all");
+		//	var node = data.node;
+		//	alert(node.data.type);
+		//	$("input[name='menuType'][value="+node.data.type+"]").prop('checked', true);
+			
 		});
 		
 	}
 	
+	function editorSetData(menuCd){
+		$.ajax({
+			type : "post",
+			url : "/selectContent.do",
+			data : {'menuCd':menuCd},
+			dataType : "json",
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success : function(result){
+				
+				editor.setData(result.data);
+			},error : function(xhr, status, error){
+				alert(status);
+			},complete : function(){
+				
+			}
+		});
+	}
 </script>
 
-<script src="/js/ckeditor.js"></script>
-
-<script>
-	ClassicEditor
-		.create( document.querySelector( '#editor' ), {
-			// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
-		} )
-		.then( editor => {
-			window.editor = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-</script>
 
 </body>
 </html>

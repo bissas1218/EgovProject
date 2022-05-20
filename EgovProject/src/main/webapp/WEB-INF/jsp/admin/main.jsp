@@ -27,8 +27,6 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav mr-auto">
 					<li><a href="/menuMng.do" class="nav-link">메뉴관리</a></li>
-					<li><a href="/contentMng.do" class="nav-link">컨텐츠관리</a></li>
-					<li><a href="/boardMng.do" class="nav-link">게시판관리</a></li>
 				</ul>
 			</div>
 			
