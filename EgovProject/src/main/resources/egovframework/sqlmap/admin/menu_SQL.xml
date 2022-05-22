@@ -28,36 +28,30 @@
 	
 	<select id="menuDAO.selectMenuDepth1List" resultClass="egovMap">
 			
-			SELECT * FROM MENU WHERE DEPTH = 1
+			SELECT * FROM menu WHERE DEPTH = 1
 			
 	</select>
 	
 	<select id="menuDAO.selectMenuDepth2List" resultClass="hashMap" parameterClass="String">
 			
-			SELECT * FROM MENU WHERE P_ID = #pMenuCd#
+			SELECT * FROM menu WHERE P_ID = #pMenuCd#
 			
 	</select>
 	
-	<select id="menuDAO.selectMenuInfo" parameterClass="String" resultClass="egovMap">
+	<select id="menuDAO.selectMenuInfo" parameterClass="hashMap" resultClass="egovMap">
 			
-			SELECT * FROM menu WHERE id = (
-				SELECT CASE WHEN (
-				SELECT depth
-				FROM MENU
-				WHERE ID = #menuCd#) = 1 THEN (
-				SELECT id
-				FROM menu
-				WHERE p_id = #menuCd# LIMIT 1) ELSE (
-				SELECT id
-				FROM menu
-				WHERE id = #menuCd#) END
-				FROM DUAL)
+			SELECT x.* FROM menu x WHERE id = (
+				SELECT CASE WHEN (SELECT depth FROM menu WHERE ID = #menuCd#) = 1 
+				THEN (SELECT id FROM menu	WHERE p_id = #menuCd# LIMIT 1) 
+				ELSE (SELECT id FROM menu	WHERE id = #menuCd#) 
+				END
+			FROM DUAL)
 			
 	</select>
 	
 	<update id="menuDAO.updateMenu" parameterClass="hashMap">
 		
-		UPDATE MENU SET
+		UPDATE menu SET
 			NM = #menuNm#,
 			TYPE = #type#,
 			URL = #url#
@@ -71,7 +65,7 @@
 		SELECT max(id)+1 newMenuCd FROM menu
 		</selectKey>
 		
-		INSERT INTO MENU (
+		INSERT INTO menu (
 			id,
 			nm,
 			p_id,
@@ -89,31 +83,70 @@
 	</insert>
 	
 	<select id="menuDAO.selectContentId" parameterClass="String" resultClass="Integer">
-		SELECT COUNT(*) FROM CONTENT WHERE ID = #menuCd#
+		SELECT COUNT(*) FROM content WHERE ID = #menuCd#
 	</select>
 	
 	<update id="menuDAO.updateContent" parameterClass="hashMap">
 		
-		UPDATE CONTENT SET
+		UPDATE content SET
 			CONTENT = #content#
-			WHERE id = #menuCd#
+			WHERE id = #menuCd# AND sub_cont_id = 0
 			
 	</update>
 	
 	<insert id="menuDAO.insertContent" parameterClass="hashMap">
 	
-		INSERT INTO CONTENT (
+		INSERT INTO content (
 			id,
+			sub_cont_id,
 			content
 		)VALUES(
 			#menuCd#,
+			0,
 			#content#
 		)
 		
 	</insert>
 	
-	<select id="menuDAO.selectContent" parameterClass="String" resultClass="EgovMap">
-		SELECT content FROM CONTENT WHERE ID = #menuCd#
+	<select id="menuDAO.selectSubContentId" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(*) FROM content WHERE ID = #menuCd# AND SUB_CONT_ID = #subContId#
+	</select>
+	
+	<update id="menuDAO.updateSubContent" parameterClass="hashMap">
+		
+		UPDATE content SET
+			CONTENT = #content#,
+			SUB_CONT_NM = #subContNm#
+			WHERE id = #menuCd# AND SUB_CONT_ID = #subContId#
+			
+	</update>
+	
+	<insert id="menuDAO.insertSubContent" parameterClass="hashMap">
+	
+		<selectKey keyProperty="subContId2" resultClass="Integer">
+		SELECT ifnull(max(sub_cont_id), 0)+1 newMenuCd FROM content WHERE ID=#menuCd#
+		</selectKey>
+		
+		INSERT INTO content (
+			id,
+			sub_cont_id,
+			content,
+			sub_cont_nm
+		)VALUES(
+			#menuCd#,
+			#subContId2#,
+			#content#,
+			#subContNm#
+		)
+		
+	</insert>
+	
+	<select id="menuDAO.selectContent" parameterClass="hashMap" resultClass="EgovMap">
+		SELECT content, sub_cont_nm FROM content WHERE ID = #menuCd# AND SUB_CONT_ID = #subContId#
+	</select>
+	
+	<select id="menuDAO.selectSubContList" parameterClass="String" resultClass="EgovMap">
+		SELECT id, sub_cont_id, sub_cont_nm FROM content WHERE ID = #menuCd# AND SUB_CONT_ID != 0
 	</select>
 	
 </sqlMap>

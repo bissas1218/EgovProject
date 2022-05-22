@@ -10,7 +10,32 @@
 <title>Insert title here</title>
 
 <link rel="stylesheet" href="/css/study/style.css" />
+<style type="text/css">
 
+span.text-tiny {
+    font-size: 0.85rem;
+}
+
+span.text-small {
+    font-size: 1.2rem;
+}
+
+span.text-big {
+    font-size: 2.5rem;
+}
+
+span.text-huge {
+    font-size: 3.0rem;
+}
+
+p{
+	margin:5px 0 0 5px;
+}
+h2{
+	margin:15px 0 10px 0;
+}
+
+</style>
 </head>
 <body>
 
@@ -26,6 +51,7 @@
 
 <main>
 	<div class="container">
+		<c:out value="${content }" escapeXml="false"/>
 	</div>
 </main>
 

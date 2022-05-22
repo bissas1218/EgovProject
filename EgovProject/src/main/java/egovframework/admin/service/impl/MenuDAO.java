@@ -24,8 +24,8 @@ public class MenuDAO extends EgovAbstractDAO {
 		return list("menuDAO.selectMenuDepth2List", pMenuCd);
 	}
 	
-	public EgovMap selectMenuInfo(String menuCd) throws Exception{
-		return (EgovMap) select("menuDAO.selectMenuInfo", menuCd);
+	public EgovMap selectMenuInfo(HashMap<Object, Object> params) throws Exception{
+		return (EgovMap) select("menuDAO.selectMenuInfo", params);
 	}
 	
 	public int updateMenu(HashMap<Object, Object> params) throws Exception{
@@ -48,7 +48,23 @@ public class MenuDAO extends EgovAbstractDAO {
 		insert("menuDAO.insertContent", params);
 	}
 	
-	public EgovMap selectContent(String menuCd) throws Exception{
-		return (EgovMap) select("menuDAO.selectContent", menuCd);
+	public int selectSubContentId(HashMap<Object, Object> params) throws Exception{
+		return (int) select("menuDAO.selectSubContentId", params);
+	}
+	
+	public int updateSubContent(HashMap<Object, Object> params) throws Exception{
+		return (int) update("menuDAO.updateSubContent", params);
+	}
+	
+	public int insertSubContent(HashMap<Object, Object> params) throws Exception{
+		return (int) insert("menuDAO.insertSubContent", params);
+	}
+	
+	public EgovMap selectContent(HashMap<Object, Object> params) throws Exception{
+		return (EgovMap) select("menuDAO.selectContent", params);
+	}
+	
+	public List<?> selectSubContList(String menuCd) throws Exception{
+		return list("menuDAO.selectSubContList", menuCd);
 	}
 }

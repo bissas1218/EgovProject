@@ -13,7 +13,7 @@ public interface MenuService {
 	
 	List<?> selectMenuDepth2List(String pMenuCd) throws Exception;
 	
-	EgovMap selectMenuInfo(String menuCd) throws Exception;
+	EgovMap selectMenuInfo(HashMap<Object, Object> params) throws Exception;
 	
 	int updateMenu(HashMap<Object, Object> params) throws Exception;
 	
@@ -21,5 +21,7 @@ public interface MenuService {
 	
 	int insertUpdateContent(HashMap<Object, Object> params) throws Exception;
 	
-	EgovMap selectContent(String menuCd) throws Exception;
+	EgovMap selectContent(HashMap<Object, Object> params) throws Exception;
+	
+	List<?> selectSubContList(String menuCd) throws Exception;
 }

@@ -31,7 +31,7 @@ public class AdminMainController {
 	@RequestMapping(value = "/menuMng.do")
 	public String menuPage(ModelMap model) throws Exception {
 		//List<?> menuList = menuService.selectMenuList();
-		//System.out.println("=====>"+menuList);
+		System.out.println("=====>menuMng.do");
 		return "/admin/menuMng";
 	}
 	
@@ -74,6 +74,7 @@ public class AdminMainController {
 		
 		System.out.println("=====>menuCd:"+menuCd);
 		System.out.println("=====>content:"+params.get("content"));
+		
 		int result = menuService.insertUpdateContent(params);
 		System.out.println("=====>result:"+result);
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -85,15 +86,29 @@ public class AdminMainController {
 	@RequestMapping(value = "/selectContent.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView selectContent(@RequestParam HashMap<Object, Object> params, ModelMap model) throws Exception {
-		String menuCd = params.get("menuCd").toString();
 		
-		System.out.println("=====>menuCd:"+menuCd);
-		EgovMap map = menuService.selectContent(menuCd);
-		System.out.println("=====>result:"+map.get("content"));
+		EgovMap map = menuService.selectContent(params);
+		System.out.println("=====>map:"+map);
 		ModelAndView mav = new ModelAndView("jsonView");
-		mav.addObject("data", HtmlUtils.htmlUnescape(map.get("content").toString()));
-		
+		if(map != null) {
+			System.out.println("=====>result:"+map.get("content"));
+			mav.addObject("content", HtmlUtils.htmlUnescape(map.get("content").toString()));
+			mav.addObject("subContNm", map.get("subContNm"));
+		}else {
+			mav.addObject("content", null);
+		}
 		return mav;
 	//	return map.get("content").toString();
+	}
+	
+	@RequestMapping(value = "/selectSubContList.do", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView selectSubContList(@RequestParam String menuCd, ModelMap model) throws Exception {
+		
+		List<?> subContList = menuService.selectSubContList(menuCd);
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		mav.addObject("subContList", subContList);
+		return mav;
 	}
 }

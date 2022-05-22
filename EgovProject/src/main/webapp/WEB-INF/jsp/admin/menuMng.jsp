@@ -33,14 +33,102 @@
 		width:1320px;
 		height:900px;
 	}
-	</style>
 	
+	span.text-tiny {
+    font-size: 0.85rem;
+	}
+	
+	span.text-small {
+	    font-size: 1.2rem;
+	}
+	
+	span.text-big {
+	    font-size: 2.5rem;
+	}
+	
+	span.text-huge {
+	    font-size: 3.0rem;
+	}
+
+p{
+	margin:5px 0 0 5px;
+}
+h2{
+	margin:15px 0 10px 0;
+}
+	
+</style>
+
 	<link rel="stylesheet" href="/dist/themes/default/style.min.css" />
 	
 	<link rel="icon" href="//static.jstree.com/3.3.12/assets/favicon.ico" type="image/x-icon" />
 	
 	<script type="text/javascript" src="/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="/js/dist/jstree.min.js"></script>
+	
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+	$("input[name=subContentChk]").change(function(){
+		
+		if($(this).is(':checked')){
+			$("#subContList").attr("disabled", false);
+			$("#subContNm").attr("disabled", false);
+			
+			// 하위컨텐츠 목록조회
+			$.ajax({
+				type : "get",
+				url : "/selectSubContList.do",
+				data : {'menuCd':$("#menuCdTxt").text()},
+				dataType : "json",
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+				success : function(data){
+					$("#subContList option").remove();
+					$("#subContList").append('<option value="99999">---New Content---</opton>'); 
+					for(var i=0; i < data.subContList.length; i++){
+						var option = $('<option value="'+data.subContList[i].subContId+'">'+data.subContList[i].subContId+ '-' + data.subContList[i].subContNm+'</option>');
+						$("#subContList").append(option); 
+					}
+				
+				},complete : function(){
+					
+				}
+			});
+			
+			editor.setData('');
+		}else{
+			$("#subContList option").remove();
+			$("#subContList").append('<option value="99999">---New Content---</opton>'); 
+			$("#subContNm").val('');
+			$("#subContList").attr("disabled", true);
+			$("#subContNm").attr("disabled", true);
+			
+			editorSetData($("#menuCdTxt").text());
+		}
+	});
+	
+	$("#subContList").change(function(){
+		$.ajax({
+			type : "post",
+			url : "/selectContent.do",
+			data : {'menuCd':$("#menuCdTxt").text(), 'subContId':$(this).val()},
+			dataType : "json",
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success : function(data){
+				$("#subContNm").val(data.subContNm);
+				editor.setData(data.content);
+			},complete : function(){
+				
+			}
+		});
+		
+	});
+	
+});	
+	
+</script>
 	
 </head>
 <body>
@@ -87,15 +175,20 @@
 		</div>
 		
 		<div class="menu2">
-			Menu Code : <font id="menuCdTxt"></font><br/>
-			Menu Name : <font id="menuNmTxt"></font><br/>
-			
+			Menu Code : <font id="menuCdTxt"></font> |
+			Menu Name : <font id="menuNmTxt"></font> |
 			메뉴타입:	<label id="content"><input type="radio" name="menuType" id="content" value="content" checked>컨텐츠</label> 
 					<label id="board"><input type="radio" name="menuType" id="board" value="board">게시판</label>
-					<label id="program"><input type="radio" name="menuType" id="program" value="program">프로그램</label><br/>
-					
-			<font id="urlTxt">접근URL</font>:<input type="text" id="url" name="url"><br/>
+					<label id="program"><input type="radio" name="menuType" id="program" value="program">프로그램</label> |
+			<font id="urlTxt">접근URL</font> : <input type="text" id="url" name="url">
 			<button type="button" class="btn btn-success btn-sm" onclick="demo_save();"><i class="glyphicon glyphicon-asterisk"></i> 선택된 메뉴저장</button>
+			<br/>
+			
+			<label id="subContentChk2"><input type="checkbox" id="subContentChk2" name="subContentChk">하위컨텐츠 ID</label> |
+			<select disabled="disabled" name="subContList" id="subContList">
+				<option value="999999">---New Content---</option>
+			</select> |
+			하위컨텐츠명 : <input type="text" name="subContNm" id="subContNm" disabled="disabled">
 			
 			<div id="editor_wrap">
 				<div id="editor">
@@ -150,11 +243,19 @@
 <script>
 	
 	function content_save(){
-		console.log( editor.getData() );
+		
+		if( $('input[name=subContentChk]').is(':checked') ){
+			if($("#subContNm").val() == ''){
+				alert('하위 컨텐츠명을 입력하세요.');
+				$("#subContNm").focus();
+				return false;
+			}
+		}
+		
 		$.ajax({
 			type : "post",
 			url : "/contentSave.do",
-			data : {'menuCd':$("#menuCdTxt").text(), 'content':editor.getData()},
+			data : {'menuCd':$("#menuCdTxt").text(), 'content':editor.getData(), 'subChk':$('input[name=subContentChk]').is(':checked'), 'subContId':$("#subContList").val(), 'subContNm':$("#subContNm").val() },
 			dataType : "json",
 			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 			success : function(data){
@@ -417,6 +518,14 @@
 				$("#url").attr('disabled', true);
 			}
 			
+			$('input[name=subContentChk]').prop('checked',false);
+			$("#subContList").attr("disabled", true);
+			$("#subContNm").attr("disabled", true);
+			
+			$("#subContList option").remove();
+			$("#subContList").append('<option value="99999">---New Content---</opton>'); 
+			$("#subContNm").val('');
+			
 		}).bind("loaded.jstree", function(e, data){
 			$('#jstree_demo').jstree("open_all");
 		//	var node = data.node;
@@ -431,12 +540,11 @@
 		$.ajax({
 			type : "post",
 			url : "/selectContent.do",
-			data : {'menuCd':menuCd},
+			data : {'menuCd':menuCd,'subContId':0},
 			dataType : "json",
 			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
 			success : function(result){
-				
-				editor.setData(result.data);
+				editor.setData(result.content);
 			},error : function(xhr, status, error){
 				alert(status);
 			},complete : function(){
