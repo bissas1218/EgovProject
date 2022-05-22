@@ -228,8 +228,17 @@ $(document).ready(function(){
 		//	toolbar: [ 'heading', '|', 'bold', 'italic', 'code' ]
 			,simpleUpload:
             {
-                uploadUrl: "/ckImgUpload.do",
+             	// The URL that the images are uploaded to.
+                uploadUrl: '/ckImgUpload.do',
+
+                // Enable the XMLHttpRequest.withCredentials property.
                 withCredentials: true,
+
+                // Headers sent along with the XMLHttpRequest to the upload server.
+                headers: {
+                    'X-CSRF-TOKEN': 'CSRF-Token',
+                    Authorization: 'Bearer <JSON Web Token>'
+                }
             }
 		} )
 		.then( editor => {

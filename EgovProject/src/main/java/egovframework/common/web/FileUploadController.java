@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class FileUploadController {
 
-	@RequestMapping(value = "/ckImgUpload2.do", method=RequestMethod.POST)
+	@RequestMapping(value = "/ckImgUpload.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView ckImgUpload(ModelMap model, MultipartRequest request, HttpSession session) throws Exception {
 		System.out.println("=====>ckImgUpload.do");
