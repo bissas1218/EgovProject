@@ -39,7 +39,7 @@ public class FileUploadController {
 	
 	
 	//@PostMapping("/ckImgUpload.do")
-	@RequestMapping(value = "/ckImgUpload3.do", method=RequestMethod.POST) 
+	@RequestMapping(value = "/ckImgUpload2.do", method=RequestMethod.POST) 
 	@ResponseBody
 	public ModelAndView uploadImage(@RequestParam Map<String, Object> paramMap) throws Exception
 	{
@@ -55,8 +55,8 @@ public class FileUploadController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/ckImgUpload.do", method=RequestMethod.POST) 
-	public void uploadImage2(@RequestParam Map<String, Object> paramMap) throws Exception
+	@RequestMapping(value = "/ckImgUpload3.do", method=RequestMethod.POST) 
+	public void uploadImage2() throws Exception
 	{
 		System.out.println("=====>ckImgUpload3.do");
 	}
