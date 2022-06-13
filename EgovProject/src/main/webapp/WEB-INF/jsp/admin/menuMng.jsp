@@ -221,6 +221,7 @@ $(document).ready(function(){
 <script src="/ckeditor/ko.js"></script>
 
 <script>
+	//var cb = function() { return (new Date()).getTime() }
 	ClassicEditor
 		.create( document.querySelector( '#editor' ), {
 			language:"ko"
@@ -229,16 +230,22 @@ $(document).ready(function(){
 			,simpleUpload:
             {
              	// The URL that the images are uploaded to.
-                uploadUrl: '/ckImgUpload.do',
+                //uploadUrl: '/ckImgUpload.do',
+                uploadUrl: '/ckImgUpload.jsp',
 
                 // Enable the XMLHttpRequest.withCredentials property.
-                withCredentials: true,
+                withCredentials: false,
 
                 // Headers sent along with the XMLHttpRequest to the upload server.
-                headers: {
-                    'X-CSRF-TOKEN': 'CSRF-Token',
-                    Authorization: 'Bearer <JSON Web Token>'
-                }
+            //    headers: {
+            //        'X-CSRF-TOKEN': 'CSRF-Token',
+            //       Authorization: 'Bearer <JSON Web Token>'
+            //    }
+           //     headers:{
+            //    	'x-header':'myhead',
+           //     	'x-header-cb':cb
+           //     }
+                
             }
 		} )
 		.then( editor => {

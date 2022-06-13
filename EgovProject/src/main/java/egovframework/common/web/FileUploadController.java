@@ -22,7 +22,7 @@ public class FileUploadController {
 
 	@RequestMapping(value = "/ckImgUpload.do", method=RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView ckImgUpload(ModelMap model, MultipartRequest request, HttpSession session) throws Exception {
+	public ModelAndView ckImgUpload(MultipartRequest request, HttpSession session) throws Exception {
 		System.out.println("=====>ckImgUpload.do");
 		MultipartFile uploadFile = request.getFile("upload");System.out.println("=====>1");
 		String uploadDir = session.getServletContext().getRealPath("/").replace("\\", "/") + "images/upload/";System.out.println("=====>2");
@@ -56,8 +56,32 @@ public class FileUploadController {
 	}
 	
 	@RequestMapping(value = "/ckImgUpload3.do", method=RequestMethod.POST) 
-	public void uploadImage2() throws Exception
+	@ResponseBody
+	public void uploadImage3() throws Exception
 	{
-		System.out.println("=====>ckImgUpload3.do");
+		System.out.println("=====>ckImgUpload3.do POST");
+	}
+	
+	@RequestMapping(value = "/ckImgUpload3.do", method=RequestMethod.GET) 
+	@ResponseBody
+	public void uploadImage3get() throws Exception
+	{
+		System.out.println("=====>ckImgUpload3.do GET");
+	}
+	
+	@ResponseBody
+	@PostMapping("/ckImgUpload4.do")
+	public Map<String, Object> uploadImage(@RequestParam Map<String, Object> paramMap, MultipartRequest request, HttpSession session) throws Exception
+	{
+		System.out.println("=====>ckImgUpload4.do");
+		MultipartFile uploadFile = request.getFile("upload");System.out.println("=====>1");
+		String uploadDir = session.getServletContext().getRealPath("/").replace("\\", "/") + "images/upload/";System.out.println("=====>2");
+		//String uploadDir = "D:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\EgovProject\\images\\upload\\";
+		String uploadId = UUID.randomUUID().toString() + "." + uploadFile.getOriginalFilename();System.out.println("=====>:"+uploadDir + uploadId);
+		//String uploadId = "test" + "." + uploadFile.getOriginalFilename();
+		uploadFile.transferTo(new File(uploadDir + uploadId));
+		System.out.println("=====>4");
+		paramMap.put("url", "/images/upload/" + uploadId);
+		return paramMap;
 	}
 }
