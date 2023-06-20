@@ -221,4 +221,16 @@ public class EgovSampleController {
 		status.setComplete();
 		return "forward:/egovSampleList.do";
 	}
+	
+	@RequestMapping(value = "/sidebar.do", method = RequestMethod.GET)
+	public String sideBar(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute("sampleVO", new SampleVO());
+		return "cmmn/sidebar";
+	}
+	
+	@RequestMapping(value = "/homepage.do", method = RequestMethod.GET)
+	public String homepage(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute("sampleVO", new SampleVO());
+		return "homepage";
+	}
 }
