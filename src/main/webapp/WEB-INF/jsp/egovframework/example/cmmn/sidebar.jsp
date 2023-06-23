@@ -16,12 +16,7 @@
 									</header>
 									<ul>
 										<li><a href="/egovSampleList.do">Board예제</a></li>
-										<li>
-											<span class="opener">Chart</span>
-											<ul>
-												<li><a href="/chartSample.do">Bar Charts</a></li>
-											</ul>
-										</li>
+										<li><a href="/chartSample.do">Charts</a></li>
 										<li><a href="/homepage.do">Homepage</a></li>
 										<li><a href="generic.html">Generic</a></li>
 										<li><a href="elements.html">Elements</a></li>
