@@ -87,11 +87,9 @@
 												      <li>Root node 2</li>
 												    </ul>
 												  </div>
-												  <button>demo button</button>
-
-												
-													
-
+													<hr />
+													<button>click</button>
+													<button>메뉴추가</button>
 											</div>
 											<div class="col-6 col-12-medium">
 
@@ -152,7 +150,7 @@
 														</div>
 													</div>
 												</form>
-												
+											</div>	
 										</div>
 
 								</section>
@@ -190,6 +188,7 @@
     });
     // 8 interact with the tree - either way is OK
     $('button').on('click', function () {
+    	console.log('click');
       $('#jstree').jstree(true).select_node('child_node_1');
       $('#jstree').jstree('select_node', 'child_node_1');
       $.jstree.reference('#jstree').select_node('child_node_1');
