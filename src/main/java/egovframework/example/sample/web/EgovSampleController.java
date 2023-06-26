@@ -102,7 +102,7 @@ public class EgovSampleController {
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "sample/egovSampleList";
+		return "admin/board/egovSampleList";
 	}
 	
 	
@@ -117,7 +117,7 @@ public class EgovSampleController {
 	@RequestMapping(value = "/addSample.do", method = RequestMethod.GET)
 	public String addSampleView2(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
-		return "sample/egovSampleRegister";
+		return "admin/board/egovSampleRegister";
 	}
 	
 	
@@ -139,7 +139,7 @@ public class EgovSampleController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
+			return "admin/sample/egovSampleRegister";
 		}
 
 		sampleService.insertSample(sampleVO);
@@ -164,7 +164,7 @@ public class EgovSampleController {
 		//System.out.println("page index:"+searchVO.getPageIndex());
 		// 변수명은 CoC 에 따라 sampleVO
 		model.addAttribute(selectSample(sampleVO, searchVO));
-		return "sample/egovSampleRegister";
+		return "admin/board/egovSampleRegister";
 	}
 	
 	/**
@@ -197,7 +197,7 @@ public class EgovSampleController {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
+			return "admin/board/egovSampleRegister";
 		}
 
 		sampleService.updateSample(sampleVO);
@@ -222,15 +222,9 @@ public class EgovSampleController {
 		return "forward:/egovSampleList.do";
 	}
 	
-	@RequestMapping(value = "/sidebar.do", method = RequestMethod.GET)
-	public String sideBar(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("sampleVO", new SampleVO());
-		return "cmmn/sidebar";
-	}
-	
-	@RequestMapping(value = "/homepage.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin.do", method = RequestMethod.GET)
 	public String homepage(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
-		return "homepage";
+		return "admin/homepage";
 	}
 }

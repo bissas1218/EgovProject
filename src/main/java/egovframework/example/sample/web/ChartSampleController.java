@@ -12,6 +12,6 @@ public class ChartSampleController {
 
 	@RequestMapping(value = "/chartSample.do")
 	public String chartSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
-		return "chart/chartSample";
+		return "admin/chart/chartSample";
 	}
 }
