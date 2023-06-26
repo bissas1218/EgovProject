@@ -30,7 +30,7 @@
 		<title>Editorial by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="admin/css/main.css" />
 	</head>
 	<body class="is-preload">
 
@@ -176,11 +176,11 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="admin/js/jquery.min.js"></script>
+			<script src="admin/js/browser.min.js"></script>
+			<script src="admin/js/breakpoints.min.js"></script>
+			<script src="admin/js/util.js"></script>
+			<script src="admin/js/main.js"></script>
 
 	</body>
 </html>
