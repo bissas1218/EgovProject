@@ -3,6 +3,7 @@
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
   /**
@@ -34,6 +35,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="admin/css/main.css" />
 		
+		<!--For Commons Validator Client Side-->
+	    <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
+	    <validator:javascript formName="menuVO" staticJavascript="false" xhtml="true" cdata="false"/>
+	    
 		<!-- 2 load the theme CSS file -->
   		<link rel="stylesheet" href="jstree/dist/themes/default/style.min.css" />
   		
@@ -72,24 +77,16 @@
 											<div class="col-6 col-12-medium">
 
 												<!-- Text stuff -->
-													<h3>Text</h3>
+													<h3>JStree</h3>
 													
 													<!-- 3 setup a container element -->
-												  <div id="jstree">
-												    <!-- in this example the tree is populated from inline HTML -->
-												    <ul>
-												      <li>Root node 1
-												        <ul>
-												          <li id="child_node_1">Child node 1</li>
-												          <li>Child node 2</li>
-												        </ul>
-												      </li>
-												      <li>Root node 2</li>
-												    </ul>
+												  <div id="tree">
+												   
 												  </div>
+												  
 													<hr />
-													<button>click</button>
-													<button>메뉴추가</button>
+													<button id="nodeSelect">선택된노드</button>
+													<button id="menuAddBtn">메뉴추가</button>
 											</div>
 											<div class="col-6 col-12-medium">
 
@@ -97,13 +94,17 @@
 												<!-- Form -->
 												<h3>Form</h3>
 
-												<form method="post" action="#">
+												<form:form modelAttribute="menuVO" id="detailForm" name="detailForm">
 													<div class="row gtr-uniform">
 														<div class="col-6 col-12-xsmall">
+														<!-- 
 															<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
+															 -->
+															<form:input path="menuId" maxlength="10" readonly="true" placeholder="메뉴ID" />
 														</div>
 														<div class="col-6 col-12-xsmall">
-															<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
+															<form:input path="menuNm" maxlength="20" placeholder="메뉴명" />
+															&nbsp;<form:errors path="menuNm" />
 														</div>
 														<!-- Break -->
 														<div class="col-12">
@@ -149,7 +150,7 @@
 															</ul>
 														</div>
 													</div>
-												</form>
+												</form:form>
 											</div>	
 										</div>
 
@@ -173,27 +174,251 @@
 			<script src="admin/js/main.js"></script>
 
 <!-- 4 include the jQuery library 
-  <script src="jstree/dist/libs/jquery.js"></script>
+  <script src="admin/js/jquery.min.js"></script>
   -->
   
   <!-- 5 include the minified jstree source -->
-  <script src="jstree/dist/jstree.min.js"></script>
+  <script src="jstree/dist/jstree.js"></script>
+  
   <script>
-  $(function () {
-    // 6 create an instance when the DOM is ready
-    $('#jstree').jstree();
-    // 7 bind to events triggered on the tree
-    $('#jstree').on("changed.jstree", function (e, data) {
-      console.log(data.selected);
-    });
+  
+  var data = [
+		{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
+		{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
+		{ "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2" },
+	];
+
+$('#tree').jstree({ 
+		'core' : {
+			'data' : data,
+			"check_callback" : true  // plugins 'dnd'와 같이 사용 이동하고싶을때
+		},
+		//'plugins' : ["contextmenu"]
+		"plugins" : ["dnd","types"],
+	    "types" : {
+	      "valid_children" : [ "default" ],
+	      "default" : {
+	        "max_depth" : 2 // 하위 depth 제한
+	      }
+	    }
+	}); 
+
+	//트리 구조 로딩 완료 시
+	$('#tree').bind("loaded.jstree", function(e) {
+		console.log('jstree loading complete!');
+		this.openAll();
+	}.bind(this));
+
+	// 트리 구조 새로고침 시
+  $("#tree").bind("refresh.jstree", function(e,d) {
+  	console.log('jstree refresh!');
+  }.bind(this));
+
+  /**
+   * 해당 ID 값의 데이터를 리턴
+   *  id : node.id
+   * */ 
+   this.findCoreData = function(id) {
+   	var coreData = $('#tree').jstree(true).settings.core.data;
+   	for (var i=0; i<coreData.length; i++) {
+   		var data = coreData[i];
+   		if (data.id == id) {
+   			return data;
+   		}
+   	}
+   	return null;
+   };
+   
+ //  console.log( findCoreData('ajson4') );
+   
+   /**
+    * root node get
+    * */ 
+    this.getRootNode = function() {
+    	return $('#tree').jstree(true).get_node('#');
+    };
+    
+  //  console.log( getRootNode() );
+    
+    /**
+     * 노드의 원시 데이터 set
+     * data : arry
+     * */ 
+     this.setCoreData = function(data) {
+     	$('#tree').jstree(true).settings.core.data = data;
+     };
+     
+     /**
+      * 노드의 원시 데이터 get
+      * */ 
+      this.getCoreData = function() {
+      	return $('#tree').jstree(true).settings.core.data;
+      };
+      
+      //console.log( getCoreData() );
+    
+      /**
+       * 현재 트리구조 + 원본 데이터를 Merge 하여 데이터를 리턴
+       * */ 
+       this.getData = function() {
+       	var newData = [];
+       	var jdata = $('#tree').jstree(true).get_json("#", {flat:true});
+       	for (var i=0; i<jdata.length; i++) {
+       		var current = jdata[i];
+       		var id = current.id;
+       		var data = this.findCoreData(id);
+       		if (data) {
+//               current.text = $("<div>"+current.text+"</div>").text();
+       			newData.push($.extend(data, current));
+       		}
+       	}
+       	return newData; 
+       };
+       
+      // console.log( getData() );
+       
+       /**
+        * 새로고침
+        * */
+        this.refresh = function() {
+        	$('#tree').jstree(true).refresh();
+        }
+       //console.log( refresh() );
+       
+       /**
+        * 데이터 추가
+        * d : obj
+        * */
+        this.addData = function(d){
+        	var data = this.getData();
+            data.splice(data.length, 0 ,d);
+        	this.setCoreData(data);
+        	//this.refresh(data);
+        	this.refresh();
+        }
+       
+        
+       
+    // node add
+       $('#menuAddBtn').on('click', function () {
+    		console.log('add node!');
+    		
+    		var ref = $('#tree').jstree(true),
+			sel = ref.get_selected();
+			if(!sel.length) { return false; }
+			sel = sel[0];
+			sel = ref.create_node(sel, {"type":"file"});
+			if(sel) {
+				ref.edit(sel);
+			}
+       });
+    
+       $('#tree').on("changed.jstree", function (e, data) {
+      	  console.log(data.selected);
+      	  console.log(getNode(data.selected[0]));
+      	  $("#menuId").val(data.selected[0]);
+      	  $("#menuNm").val(getNode(data.selected[0]).text);
+      	});
+       
     // 8 interact with the tree - either way is OK
-    $('button').on('click', function () {
-    	console.log('click');
-      $('#jstree').jstree(true).select_node('child_node_1');
-      $('#jstree').jstree('select_node', 'child_node_1');
-      $.jstree.reference('#jstree').select_node('child_node_1');
-    });
-  });
+   	$('#nodeSelect').on('click', function () {
+       	
+   		console.log('click');
+         	
+       //	$('#tree').jstree(true).select_node('child_node_1');
+       //  	$('#tree').jstree('select_node', 'child_node_1');
+       //  	$.jstree.reference('#tree').select_node('child_node_1');
+       });
+    
+       /**
+		  * 노드 이름 수정 폼
+		  *  id
+		  * */ 
+		  this.edit = function(id) {
+		  	$tree.jstree(true).edit(id);
+		  };
+		  
+
+/**
+* 노드 가져오기
+*  id
+* */ 
+this.getNode = function(id) {
+	return $("#tree").jstree(true).get_node(id);
+};
+
+/**
+* 자식노드 가져오기
+*  id
+* */ 
+this.childrenNode = function(id) {
+	var ids = this.getNode(id).children;
+	if(!ids) return [];
+
+	var children = [];
+	for (var i=0; i<ids.length; i++) {
+		children.push(this.getNode(ids[i]));
+	}
+	return children;
+};
+
+/**
+* 부모노드 가져오기
+*  id
+* */ 
+this.parentNode = function(id) {
+	return this.getNode(this.getNode(id).parent);
+};
+
+	/**
+	* 전체열기
+	* */ 
+	this.openAll = function() {
+		$("#tree").jstree("open_all");
+	};
+	
+
+/**
+* 전체 닫기
+* */ 
+this.closeAll = function() {
+	$tree.jstree("close_all");
+};
+
+/**
+* 특정 노드 열기
+*  id
+* */ 
+this.openNode = function(id) {
+	$tree.jstree("open_node", id)
+};
+
+/**
+* 특정 노드 닫기
+*  id
+* */ 
+this.closeNode = function(id) {
+	$tree.jstree("close_node", id)
+};
+
+/**
+* 특정노드 삭제
+*  id
+* */ 
+this.removeNode = function(id) {
+	$tree.jstree(true).delete_node(id);
+};
+
+/**
+* 특정노드 이름변경
+* node : 변경할 대상 node
+* text : 변경할 이름 string
+* */ 
+this.renameNode = function(node, text) {
+	$tree.jstree("rename_node", node, text);
+};
+
+
   </script>
   
 	</body>

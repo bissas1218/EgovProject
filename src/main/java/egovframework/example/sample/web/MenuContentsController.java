@@ -5,7 +5,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egovframework.example.sample.service.MenuVO;
 import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.example.sample.service.SampleVO;
 
 @Controller
 public class MenuContentsController {
@@ -17,6 +19,12 @@ public class MenuContentsController {
 	
 	@RequestMapping(value = "/menuMng.do")
 	public String menuMng(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		MenuVO menuVO = new MenuVO();
+		//menuVO.setMenuId("testMenuID");
+		
+		//System.out.println("page index:"+searchVO.getPageIndex());
+		// 변수명은 CoC 에 따라 sampleVO
+		model.addAttribute(menuVO);
 		return "admin/menuContent/menuMng";
 	}
 }
