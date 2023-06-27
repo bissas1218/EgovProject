@@ -3,7 +3,9 @@ package egovframework.example.sample.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.sample.service.MenuVO;
 import egovframework.example.sample.service.SampleDefaultVO;
@@ -26,5 +28,17 @@ public class MenuContentsController {
 		// 변수명은 CoC 에 따라 sampleVO
 		model.addAttribute(menuVO);
 		return "admin/menuContent/menuMng";
+	}
+	
+	@RequestMapping(value = "/ajaxTest.do")
+	@ResponseBody
+	public String ajaxTest() {
+		return "abcd";
+	}
+	
+	@RequestMapping(value = "/ajaxJsonTest.do")
+	@ResponseBody
+	public String ajaxJsonTest() {
+		return "abcd";
 	}
 }

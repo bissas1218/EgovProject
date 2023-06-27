@@ -170,6 +170,37 @@
   
   <script>
   
+  $(document).ready(function() {
+		
+	  console.log('document ready');  
+		
+		$.ajax({
+			type: 'get',
+			url: '/ajaxTest.do',
+			//data: ['text','testVal'],
+			dataType: 'text',
+			success: function(result){
+				console.log('ajax text success! : '+result);
+			},
+			error:function(){
+				console.log('ajax text error!');
+			}
+		});
+		
+		$.ajax({
+			type: 'get',
+			url: '/ajaxJsonTest.do',
+			data: 'testVal',
+			dataType: 'json',
+			success: function(result){
+				console.log('ajax json success! : '+result);
+			},
+			error:function(){
+				console.log('ajax json error!');
+			}
+		});
+  });
+  
   var data = [
 		{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
 		{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
