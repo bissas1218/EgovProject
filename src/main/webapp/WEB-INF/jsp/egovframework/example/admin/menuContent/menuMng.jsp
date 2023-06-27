@@ -106,16 +106,7 @@
 															<form:input path="menuNm" maxlength="20" placeholder="메뉴명" />
 															&nbsp;<form:errors path="menuNm" />
 														</div>
-														<!-- Break -->
-														<div class="col-12">
-															<select name="demo-category" id="demo-category">
-																<option value="">- Category -</option>
-																<option value="1">Manufacturing</option>
-																<option value="1">Shipping</option>
-																<option value="1">Administration</option>
-																<option value="1">Human Resources</option>
-															</select>
-														</div>
+														
 														<!-- Break -->
 														<div class="col-4 col-12-small">
 															<input type="radio" id="demo-priority-low" name="demo-priority" checked>
@@ -138,14 +129,11 @@
 															<input type="checkbox" id="demo-human" name="demo-human" checked>
 															<label for="demo-human">I am a human</label>
 														</div>
-														<!-- Break -->
-														<div class="col-12">
-															<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-														</div>
+														
 														<!-- Break -->
 														<div class="col-12">
 															<ul class="actions">
-																<li><input type="submit" value="Send Message" class="primary" /></li>
+																<li><input type="button" id="menuUpdateBtn" value="메뉴 수정" class="primary" /></li>
 																<li><input type="reset" value="Reset" /></li>
 															</ul>
 														</div>
@@ -186,6 +174,9 @@
 		{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
 		{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
 		{ "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2" },
+		{ "id" : "ajson4", "parent" : "ajson2", "text" : "Child 3" },
+		{ "id" : "ajson5", "parent" : "ajson1", "text" : "Child 4" },
+		{ "id" : "ajson6", "parent" : "ajson2", "text" : "Child 5" },
 	];
 
 $('#tree').jstree({ 
@@ -313,6 +304,15 @@ $('#tree').jstree({
 			}
        });
     
+    	$('#menuUpdateBtn').on('click', function() {
+    		console.log('update menu!');
+    		//this.refresh();
+    		
+    		// ajax
+    		
+    		$('#tree').jstree(true).refresh();
+    	});
+    	
        $('#tree').on("changed.jstree", function (e, data) {
       	  console.log(data.selected);
       	  console.log(getNode(data.selected[0]));
