@@ -1,10 +1,9 @@
-
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
-<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%
   /**
   * @Class Name : egovSampleList.jsp
@@ -37,7 +36,7 @@
 		
 		<!--For Commons Validator Client Side-->
 	    <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-	    <validator:javascript formName="menuVO" staticJavascript="false" xhtml="true" cdata="false"/>
+	    <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
 	    
 		<!-- 2 load the theme CSS file -->
   		<link rel="stylesheet" href="jstree/dist/themes/default/style.min.css" />
@@ -102,14 +101,10 @@
 												<form:form modelAttribute="menuVO" id="detailForm2" name="detailForm2">
 													<div class="row gtr-uniform">
 														<div class="col-6 col-12-xsmall">
-														<!-- 
-															<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
-															 -->
 															<form:input path="menuId" maxlength="10" readonly="true" placeholder="메뉴ID" />
 														</div>
 														<div class="col-6 col-12-xsmall">
 															<form:input path="menuNm" maxlength="20" placeholder="메뉴명" />
-															&nbsp;<form:errors path="menuNm" />
 														</div>
 														
 														<!-- Break -->

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.sample.service.MenuContentsService;
 import egovframework.example.sample.service.MenuVO;
@@ -27,6 +28,10 @@ public class MenuContentsController {
 
 	@Resource(name="menuContentsService")
 	private MenuContentsService menuContentsService;
+	
+	/** Validator */
+	@Resource(name = "beanValidator")
+	protected DefaultBeanValidator beanValidator;
 	
 	@RequestMapping(value = "/sidebar.do")
 	public String sideBar() throws Exception {

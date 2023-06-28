@@ -18,16 +18,13 @@
         		<arg0 key="title.sample.regUser" />
 			</field>
         </form>
-        <!-- 
-        <form name="menuVO">
-        	<field property="menuId" depends="required">
-        		<arg0 key="title.sample.name" /> 
-        	</field>
-        	<field property="menuNm" depends="required">
-        		<arg0 key="title.sample.name" /> 
-        	</field>
-        </form>
-         -->
+       
+       <form name="menuVO">
+       		<field property="menuNm" depends="requited">
+       			<arg0 key="title.menu.menuNm" />
+       		</field>
+       </form>
+       
     </formset>
 
 </form-validation>
