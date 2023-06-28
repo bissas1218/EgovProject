@@ -115,8 +115,6 @@
 
 												<!-- Form -->
 													<h3>Form</h3>
-<!-- 
-													<form method="post" action="#"> -->
 														<div class="row gtr-uniform">
 														
 															<c:if test="${registerFlag == 'modify'}">
@@ -192,11 +190,6 @@
 																</ul>
 															</div>
 														</div>
-												<!-- 	</form> -->
-
-											
-													
-												
 
 											</div>
 											<div class="col-6 col-12-medium">

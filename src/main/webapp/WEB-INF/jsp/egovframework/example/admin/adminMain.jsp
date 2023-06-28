@@ -31,6 +31,9 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="admin/css/main.css" />
+		
+		
+		
 	</head>
 	<body class="is-preload">
 
@@ -182,5 +185,60 @@
 			<script src="admin/js/util.js"></script>
 			<script src="admin/js/main.js"></script>
 
+		<script type="text/javascript">
+		$(document).ready(function() {
+			
+			  console.log('document ready');  
+				
+				$.ajax({
+					type: 'get',
+					url: '/ajaxTest.do',
+					contentType: 'application/text; charset=utf-8',
+					data: {id:"requestVal"},
+					dataType: 'text',
+					success: function(result){
+						console.log('ajax text success! : '+result);
+					},
+					error:function(){
+						console.log('ajax text error!');
+					}
+				});
+				
+
+			    
+				$.ajax({
+					type: 'get',
+					url: '/ajaxJsonTest.do',
+					contentType: 'application/json; charset=utf-8',
+					data: {id:"requestVal"},
+					dataType: 'json',
+					success: function(result){
+						console.log('ajax json success! id: ' + result.id + ', ' + 'nm: ' + result.nm);
+					},
+					error:function(){
+						console.log('ajax json error!');
+					}
+				});
+				
+				$.ajax({
+					type: 'get',
+					url: '/ajaxJsonListTest.do',
+					contentType: 'application/json; charset=utf-8',
+					data: {id:"testVal"},
+					dataType: 'json',
+					success: function(result){
+						console.log('ajax json list success! result : ' + result);
+						console.log(result.length);
+						for(var i=0; i<result.length; i++){
+							console.log(result[i].id);
+						}
+					},
+					error:function(){
+						console.log('ajax json list error!');
+					}
+				});
+		  });
+		</script>
+		
 	</body>
 </html>

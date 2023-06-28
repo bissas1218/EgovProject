@@ -15,6 +15,7 @@
  */
 package egovframework.example.sample.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import egovframework.example.sample.service.EgovSampleService;
@@ -25,6 +26,7 @@ import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -222,9 +225,46 @@ public class EgovSampleController {
 		return "forward:/egovSampleList.do";
 	}
 	
-	@RequestMapping(value = "/admin.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/adminMain.do", method = RequestMethod.GET)
 	public String homepage(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
-		return "admin/homepage";
+		return "admin/adminMain";
+	}
+	
+	@RequestMapping(value = "/ajaxTest.do")
+	@ResponseBody
+	public String ajaxTest(@RequestParam("id") String id) {
+		System.out.println("ajaxTextTest id:"+id);
+		return "resultVal";
+	}
+	
+	@RequestMapping(value = "/ajaxJsonTest.do", method=RequestMethod.GET)
+	public void ajaxJsonTest(@RequestParam("id") String id, HttpServletResponse response) {
+		System.out.println("ajaxJsonTest id:"+id);
+		
+	//	Map<String, String> res = new HashMap<String, String>();
+	//	res.put("id", "returnId");
+	//	res.put("nm", "returnNm");
+		
+		
+		try {
+			response.getWriter().print("{\"id\":\"returnId\", \"nm\":\"returnNm\"}");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	//	return res;
+	}
+	
+	@RequestMapping(value = "/ajaxJsonListTest.do", method=RequestMethod.GET)
+	public void ajaxJsonListTest(@RequestParam("id") String id, HttpServletResponse response) {
+		System.out.println("ajaxJsonTest id:"+id);
+	//	Map<String, String> res = new HashMap<String, String>();
+		//res.put("id", "returnVal");
+		try {
+			response.getWriter().print("[{\"id\":\"returnId1\", \"nm\":\"returnNm1\"}, {\"id\":\"returnId2\", \"nm\":\"returnNm2\"}]");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -84,17 +84,22 @@
 												   
 												  </div>
 												  
-													<hr />
-													<button id="nodeSelect">선택된노드</button>
+												  <br/>
+												  
+													<!-- button id="nodeSelect">선택된노드</button> -->
 													<button id="menuAddBtn">메뉴추가</button>
+													
+													<hr />
 											</div>
+											
+											
 											<div class="col-6 col-12-medium">
 
 
 												<!-- Form -->
 												<h3>Form</h3>
 
-												<form:form modelAttribute="menuVO" id="detailForm" name="detailForm">
+												<form:form modelAttribute="menuVO" id="detailForm2" name="detailForm2">
 													<div class="row gtr-uniform">
 														<div class="col-6 col-12-xsmall">
 														<!-- 
@@ -133,8 +138,8 @@
 														<!-- Break -->
 														<div class="col-12">
 															<ul class="actions">
-																<li><input type="button" id="menuUpdateBtn" value="메뉴 수정" class="primary" /></li>
-																<li><input type="reset" value="Reset" /></li>
+																<li><input type="button" id="menuUpdateBtn" value="메뉴 저장" class="primary" /></li>
+																<li><input type="reset" value="메뉴 삭제" /></li>
 															</ul>
 														</div>
 													</div>
@@ -170,49 +175,74 @@
   
   <script>
   
+  var menuList = [];
+  
   $(document).ready(function() {
 		
 	  console.log('document ready');  
 		
-		$.ajax({
-			type: 'get',
-			url: '/ajaxTest.do',
-			//data: ['text','testVal'],
-			dataType: 'text',
-			success: function(result){
-				console.log('ajax text success! : '+result);
-			},
-			error:function(){
-				console.log('ajax text error!');
-			}
-		});
+	  selectMenuList();
+		
+	//  console.log('--open all--');
+	//  openAll();
+  });
+  
+  function selectMenuList(){
+		console.log('---menuList---');
 		
 		$.ajax({
 			type: 'get',
-			url: '/ajaxJsonTest.do',
-			data: 'testVal',
+			url: '/menuList.do',
+			contentType: 'application/json; charset=utf-8',
+			data: {id:"testVal"},
 			dataType: 'json',
 			success: function(result){
-				console.log('ajax json success! : '+result);
+			//	console.log('ajax json list success! result : ' + result);
+			//	console.log(result.length);
+				
+				for(var i=0; i<result.length; i++){
+				//	console.log(result[i].id+', '+result[i].parent+', '+result[i].text);
+					menuList.push({ "id" : result[i].id, "parent" : result[i].parent, "text" : result[i].text });
+				}
+				/*
+				menuList = [
+					{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
+					{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
+					{ "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2" },
+					{ "id" : "ajson4", "parent" : "ajson2", "text" : "Child 3" },
+					{ "id" : "ajson5", "parent" : "ajson1", "text" : "Child 4" },
+					{ "id" : "ajson6", "parent" : "ajson2", "text" : "Child 5" },
+				];
+				*/
+			//	console.log(menuList);
+				
+				$('#tree').jstree(true).settings.core.data = menuList; // jstree원시데이터 삽입
+				
+				//$('#tree').jstree(true).refresh();	// jstree 새로고침
+				refresh();
+				
+				//openAll();
+				
+			//	$("#tree").jstree("open_all"); // jstree 전체열기
+				
 			},
 			error:function(){
-				console.log('ajax json error!');
+				console.log('ajax json list error!');
+			},
+			complete:function(){
+				console.log('ajax json list complete!');
+				//$("#tree").jstree("open_all");
+				//console.log('--open all--');
 			}
 		});
-  });
+  }
   
-  var data = [
-		{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
-		{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
-		{ "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2" },
-		{ "id" : "ajson4", "parent" : "ajson2", "text" : "Child 3" },
-		{ "id" : "ajson5", "parent" : "ajson1", "text" : "Child 4" },
-		{ "id" : "ajson6", "parent" : "ajson2", "text" : "Child 5" },
-	];
 
-$('#tree').jstree({ 
+console.log(menuList);
+	
+	$('#tree').jstree({ 
 		'core' : {
-			'data' : data,
+			'data' : menuList,
 			"check_callback" : true  // plugins 'dnd'와 같이 사용 이동하고싶을때
 		},
 		//'plugins' : ["contextmenu"]
@@ -232,9 +262,10 @@ $('#tree').jstree({
 	}.bind(this));
 
 	// 트리 구조 새로고침 시
-  $("#tree").bind("refresh.jstree", function(e,d) {
-  	console.log('jstree refresh!');
-  }.bind(this));
+  	$("#tree").bind("refresh.jstree", function(e,d) {
+  		console.log('jstree refresh!');
+  		this.openAll();
+  	}.bind(this));
 
   /**
    * 해당 ID 값의 데이터를 리턴
@@ -325,23 +356,38 @@ $('#tree').jstree({
        $('#menuAddBtn').on('click', function () {
     		console.log('add node!');
     		
-    		var ref = $('#tree').jstree(true),
-			sel = ref.get_selected();
-			if(!sel.length) { return false; }
-			sel = sel[0];
-			sel = ref.create_node(sel, {"type":"file"});
-			if(sel) {
-				ref.edit(sel);
-			}
+    		var model = $("#tree").jstree(true)._model.data;
+
+        	var add_chk = true;
+       		$.each(model, function (el, index){
+       			console.log(index.id.substr(0,1));
+       			if(index.id.substr(0,1) == 'j'){
+       				alert('메뉴추가는 한개씩 가능합니다. 기존 추가된 메뉴를 저장해주세요.');
+       				add_chk = false;
+       				return false;
+       			}
+       		});
+       		
+       		if(add_chk){
+       			var ref = $('#tree').jstree(true),
+    			sel = ref.get_selected();
+    			if(!sel.length) { return false; }
+    			sel = sel[0];
+    			sel = ref.create_node(sel, {"type":"file"});
+    			if(sel) {
+    				ref.edit(sel);
+    			}
+       		}
+    		
        });
     
     	$('#menuUpdateBtn').on('click', function() {
     		console.log('update menu!');
-    		//this.refresh();
     		
-    		// ajax
+    	
+		
     		
-    		$('#tree').jstree(true).refresh();
+    	//	refresh();
     	});
     	
        $('#tree').on("changed.jstree", function (e, data) {

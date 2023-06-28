@@ -10,9 +10,21 @@ public class MenuVO extends SampleDefaultVO {
 	/** 메뉴 id */
 	private String menuId;
 
+	/** 부모 메뉴 id */
+	private String pMenuId;
+	
 	/** 메뉴명 */
 	private String menuNm;
 	
+	
+	public String getpMenuId() {
+		return pMenuId;
+	}
+
+	public void setpMenuId(String pMenuId) {
+		this.pMenuId = pMenuId;
+	}
+
 	public String getMenuId() {
 		return menuId;
 	}
