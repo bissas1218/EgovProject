@@ -16,7 +16,17 @@ public class MenuVO extends SampleDefaultVO {
 	/** 메뉴명 */
 	private String menuNm;
 	
+	/** 레벨 */
+	private String level;
 	
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
 	public String getpMenuId() {
 		return pMenuId;
 	}

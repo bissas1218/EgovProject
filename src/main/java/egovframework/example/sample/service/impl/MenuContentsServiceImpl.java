@@ -18,4 +18,16 @@ public class MenuContentsServiceImpl implements MenuContentsService {
 	public List<MenuVO> selectMenuList() throws Exception {
 		return menuContentsDAO.selectMenuList();
 	}
+	
+	public int menuUpdate(MenuVO menuVO) throws Exception {
+		return menuContentsDAO.updateMenu(menuVO);
+	}
+	
+	public String menuInsert(MenuVO menuVO) throws Exception {
+		return menuContentsDAO.insertMenu(menuVO);
+	}
+	
+	public String selectNewMenuId() throws Exception {
+		return menuContentsDAO.selectNewMenuId();
+	}
 }

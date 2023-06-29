@@ -20,4 +20,23 @@
         ]]>
     </select>
     
+    <update id="menuContentsDAO.updateMenu" parameterClass="menuVO">
+    	<![CDATA[
+    		UPDATE MENU SET MENU_NM = #menuNm#
+    			WHERE MENU_ID = #menuId#
+    	]]>
+    </update>
+    
+    <insert id="menuContentsDAO.insertMenu" parameterClass="menuVO">
+    	<![CDATA[
+    		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM) VALUES (#menuId#, #pMenuId#, #menuNm#)
+    	]]>
+    </insert>
+    
+    <select id="menuContentsDAO.selectNewMenuId" resultClass="String">
+    	<![CDATA[
+    		SELECT MAX(RIGHT(MENU_ID, 4)) + 1 FROM MENU
+    	]]>
+    </select>
+    
 </sqlMap>

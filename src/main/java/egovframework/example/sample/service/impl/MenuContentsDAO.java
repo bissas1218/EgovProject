@@ -11,7 +11,19 @@ import egovframework.example.sample.service.MenuVO;
 public class MenuContentsDAO extends EgovAbstractDAO {
 
 	@SuppressWarnings("unchecked")
-	List<MenuVO> selectMenuList() throws Exception {
+	public List<MenuVO> selectMenuList() throws Exception {
 		return (List<MenuVO>) list("menuContentsDAO.selectMenuList");
+	}
+	
+	public int updateMenu(MenuVO menuVO) throws Exception {
+		return update("menuContentsDAO.updateMenu", menuVO);
+	}
+	
+	public String insertMenu(MenuVO menuVO) throws Exception {
+		return (String) insert("menuContentsDAO.insertMenu", menuVO);
+	}
+	
+	public String selectNewMenuId() throws Exception {
+		return (String) select("menuContentsDAO.selectNewMenuId");
 	}
 }
