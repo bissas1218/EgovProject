@@ -27,9 +27,16 @@
     	]]>
     </update>
     
+    <select id="menuContentsDAO.selectNextMenuOrder" parameterClass="String" resultClass="String">
+    	<![CDATA[
+    	select count(*)+1 from menu where p_menu_id = #pMenuId#
+    	]]>
+    </select>
+    
     <insert id="menuContentsDAO.insertMenu" parameterClass="menuVO">
     	<![CDATA[
-    		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM) VALUES (#menuId#, #pMenuId#, #menuNm#)
+    		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM, DEPTH, MENU_ORDER) 
+    			VALUES (#menuId#, #pMenuId#, #menuNm#, #depth#, #menuOrder#)
     	]]>
     </insert>
     

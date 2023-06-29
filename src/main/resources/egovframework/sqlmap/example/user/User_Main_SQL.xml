@@ -10,22 +10,14 @@
 		<result property="menuId" column="MENU_ID"/>
 		<result property="pMenuId" column="P_MENU_ID"/>
 		<result property="menuNm" column="MENU_NM"/>
-		<result property="level" column="LEVEL"/>
+		<result property="depth" column="DEPTH"/>
+		<result property="cMenuCnt" column="C_MENU_CNT"/>
 	</resultMap>
 	
 	<select id="UserMainDAO.selectUserMenuList" resultMap="menuMap">
 	<![CDATA[
-		WITH RECURSIVE CTE AS
-				(
-					SELECT t1.MENU_ID, t1.MENU_NM, t1.P_MENU_ID, 1 as LEVEL
-					FROM MENU t1
-					WHERE t1.P_MENU_ID = '##'		
-					UNION ALL		
-					SELECT t2.MENU_ID, t2.MENU_NM, t2.P_MENU_ID, 1 + level as LEVEL
-					FROM MENU t2
-					INNER JOIN CTE ON t2.P_MENU_ID = CTE.MENU_ID
-				)		
-				SELECT CTE.MENU_ID, CTE.MENU_NM, CTE.P_MENU_ID, CTE.LEVEL FROM CTE
+		select A.*, (select COUNT(*) from MENU where A.MENU_ID = P_MENU_ID) as c_menu_cnt 
+			from MENU A order by depth asc, menu_order asc
 	]]>
 	</select>
 	

@@ -22,7 +22,6 @@ public class UserMainController {
 	@RequestMapping(value = "/main.do")
 	public String userMain(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
 		
-		
 		return "user/main";
 	}
 	

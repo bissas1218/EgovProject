@@ -1,3 +1,5 @@
+DROP TABLE example.menu;
+
 CREATE TABLE `menu` (
   `MENU_ID` varchar(10) NOT NULL COMMENT '메뉴아이디',
   `P_MENU_ID` varchar(10) NOT NULL,
@@ -6,3 +8,7 @@ CREATE TABLE `menu` (
   `MENU_ORDER` int(11) NOT NULL,
   UNIQUE KEY `menu_MENU_ID_IDX` (`MENU_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='메뉴관리';
+
+INSERT INTO example.menu
+(MENU_ID, P_MENU_ID, MENU_NM, `DEPTH`, MENU_ORDER)
+VALUES('M-0001', '#', 'My Homepage', 0, 0);

@@ -20,10 +20,13 @@ public class MenuContentsDAO extends EgovAbstractDAO {
 	}
 	
 	public String insertMenu(MenuVO menuVO) throws Exception {
+		String nextOrder = (String) select("menuContentsDAO.selectNextMenuOrder", menuVO.getpMenuId());
+		menuVO.setMenuOrder(nextOrder);
 		return (String) insert("menuContentsDAO.insertMenu", menuVO);
 	}
 	
 	public String selectNewMenuId() throws Exception {
 		return (String) select("menuContentsDAO.selectNewMenuId");
 	}
+	
 }

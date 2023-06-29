@@ -393,13 +393,28 @@
     		}
 		
     	//	console.log(parentNode($("#menuId").val()).id);
+    	
+    	// depth 구하기
+    		var p_node = parentNode($("#menuId").val()).id;
+    		var num = 0;
+    		while(p_node){
+    			num++;
+    			console.log(p_node);
+    			p_node = parentNode(p_node);
+    		}
+    		//console.log(num-1);
     		
     		$.ajax({
 				type: 'post',
 				url: '/menuUpdate.do',
 			//	contentType: 'application/json; charset=utf-8',
 			//	data: 'menuId='+$("#menuId").val(),
-				data: { menuId:$("#menuId").val(), menuNm:$("#menuNm").val(), pMenuId:parentNode($("#menuId").val()).id },
+				data: { menuId:$("#menuId").val(), 
+						menuNm:$("#menuNm").val(), 
+						pMenuId:parentNode($("#menuId").val()).id,
+						depth:num-1,
+						menuOrder:0
+					},
 				dataType: 'text',
 				success: function(result){
 					console.log('ajax text success! : '+result);

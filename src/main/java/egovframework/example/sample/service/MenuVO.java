@@ -19,6 +19,39 @@ public class MenuVO extends SampleDefaultVO {
 	/** 레벨 */
 	private String level;
 	
+	/** 뎁스 */
+	private String depth;
+	
+	/** 메뉴순서 */
+	private String menuOrder;
+	
+	/** 자식메뉴수 */
+	private String cMenuCnt;
+	
+	public String getcMenuCnt() {
+		return cMenuCnt;
+	}
+
+	public void setcMenuCnt(String cMenuCnt) {
+		this.cMenuCnt = cMenuCnt;
+	}
+
+	public String getDepth() {
+		return depth;
+	}
+
+	public void setDepth(String depth) {
+		this.depth = depth;
+	}
+
+	public String getMenuOrder() {
+		return menuOrder;
+	}
+
+	public void setMenuOrder(String menuOrder) {
+		this.menuOrder = menuOrder;
+	}
+
 	public String getLevel() {
 		return level;
 	}
