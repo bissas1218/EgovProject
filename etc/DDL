@@ -6,9 +6,21 @@ CREATE TABLE `menu` (
   `MENU_NM` varchar(30) NOT NULL,
   `DEPTH` int(11) NOT NULL,
   `MENU_ORDER` int(11) NOT NULL,
+  `MENU_TYPE` varchar(10) NOT NULL,
+  `BOARD_ID` varchar(10) DEFAULT NULL,
   UNIQUE KEY `menu_MENU_ID_IDX` (`MENU_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='메뉴관리';
 
 INSERT INTO example.menu
 (MENU_ID, P_MENU_ID, MENU_NM, `DEPTH`, MENU_ORDER)
 VALUES('M-0001', '#', 'My Homepage', 0, 0);
+
+
+DROP TABLE example.board;
+
+CREATE TABLE `board` (
+  `BOARD_ID` varchar(10) NOT NULL,
+  `BOARD_NM` varchar(20) NOT NULL,
+  `BOARD_TYPE` varchar(10) NOT NULL,
+  UNIQUE KEY `board_BOARD_ID_IDX` (`BOARD_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='게시판관리';

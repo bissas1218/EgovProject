@@ -28,6 +28,28 @@ public class MenuVO extends SampleDefaultVO {
 	/** 자식메뉴수 */
 	private String cMenuCnt;
 	
+	/** 메뉴타입 */
+	private String menuType;
+	
+	/** 타입값 */
+	private String typeVal;
+	
+	public String getTypeVal() {
+		return typeVal;
+	}
+
+	public void setTypeVal(String typeVal) {
+		this.typeVal = typeVal;
+	}
+
+	public String getMenuType() {
+		return menuType;
+	}
+
+	public void setMenuType(String menuType) {
+		this.menuType = menuType;
+	}
+
 	public String getcMenuCnt() {
 		return cMenuCnt;
 	}

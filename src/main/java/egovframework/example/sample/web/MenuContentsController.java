@@ -58,13 +58,17 @@ public class MenuContentsController {
 			String resStr = "[";
 			for(int i=0; i<menuList.size(); i++) {
 			//	System.out.println(menuList.get(i).getMenuId());
-				resStr += "{\"id\":\""+menuList.get(i).getMenuId()+"\", \"parent\":\""+menuList.get(i).getpMenuId()+"\", \"text\":\""+menuList.get(i).getMenuNm()+"\"}";
+				resStr += "{\"id\":\""+menuList.get(i).getMenuId()+"\", \"parent\":\""+menuList.get(i).getpMenuId()+
+						"\", \"text\":\""+menuList.get(i).getMenuNm()+
+						"\", \"li_attr\":\""+menuList.get(i).getMenuType()+
+						"\", \"a_attr\":\""+menuList.get(i).getTypeVal()+
+						"\"}";
 				if(i != (menuList.size()-1)) {
 					resStr += ",";
 				}
 			}
 			resStr += "]";
-			//System.out.println("resStr:"+resStr);
+			System.out.println("resStr:"+resStr);
 			
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(resStr); 
@@ -113,8 +117,8 @@ public class MenuContentsController {
 			System.out.println("newMenuId:"+newMenuId);
 			menuVO.setMenuId(newMenuId);
 			
-			String result2 = menuContentsService.menuInsert(menuVO);
-			System.out.println("result2:"+result2);
+			menuContentsService.menuInsert(menuVO);
+			//System.out.println("result2:"+result2);
 			result = 1;
 			
 		}else {	// 수정
