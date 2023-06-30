@@ -2686,3 +2686,86 @@ input, select, textarea {
 			}
 
 	}
+	
+/* Pagination */
+ul.pagination {
+  cursor: default;
+  list-style: none;
+  padding-left: 0; }
+  ul.pagination li {
+    display: inline-block;
+    padding-left: 0;
+    vertical-align: middle; }
+    ul.pagination li > .page {
+      -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      border-bottom: 0;
+      border-radius: 0.375em;
+      display: inline-block;
+      font-size: 0.8em;
+      font-weight: 600;
+      height: 2em;
+      line-height: 2em;
+      margin: 0 0.125em;
+      min-width: 2em;
+      padding: 0 0.5em;
+      text-align: center; }
+      ul.pagination li > .page.active {
+        background-color: #f56a6a;
+        color: #ffffff !important; }
+        ul.pagination li > .page.active:hover {
+          background-color: #f67878; }
+        ul.pagination li > .page.active:active {
+          background-color: #f45c5c; }
+    ul.pagination li:first-child {
+      padding-right: 0.75em; }
+    ul.pagination li:last-child {
+      padding-left: 0.75em; }
+  @media screen and (max-width: 480px) {
+    ul.pagination li:nth-child(n+2):nth-last-child(n+2) {
+      display: none; }
+    ul.pagination li:first-child {
+      padding-right: 0; } }	
+      
+/* Table */
+.table-wrapper {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto; }
+
+table {
+  margin: 0 0 2em 0;
+  width: 100%; }
+  table tbody tr {
+    border: solid 1px rgba(210, 215, 217, 0.75);
+    border-left: 0;
+    border-right: 0; }
+    table tbody tr:nth-child(2n + 1) {
+      background-color: rgba(230, 235, 237, 0.25); }
+  table td {
+    padding: 0.75em 0.75em; }
+  table th {
+    color: rgb(255, 255, 255);
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 0 0.75em 0.75em 0.75em;
+    text-align: left; }
+  table thead {
+    border-bottom: solid 2px rgba(210, 215, 217, 0.75); }
+  table tfoot {
+    border-top: solid 2px rgba(210, 215, 217, 0.75); }
+  table.alt {
+    border-collapse: separate; }
+    table.alt tbody tr td {
+      border: solid 1px rgba(210, 215, 217, 0.75);
+      border-left-width: 0;
+      border-top-width: 0; }
+      table.alt tbody tr td:first-child {
+        border-left-width: 1px; }
+    table.alt tbody tr:first-child td {
+      border-top-width: 1px; }
+    table.alt thead {
+      border-bottom: 0; }
+    table.alt tfoot {
+      border-top: 0; }      

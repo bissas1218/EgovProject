@@ -6,6 +6,7 @@
 	<!-- admin -->
 	<sqlMap resource="egovframework/sqlmap/example/admin/EgovSample_Sample_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/example/admin/Menu_Contents_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/example/admin/Board_SQL.xml"/>
 	
 	<!-- user -->
 	<sqlMap resource="egovframework/sqlmap/example/user/User_Main_SQL.xml" />

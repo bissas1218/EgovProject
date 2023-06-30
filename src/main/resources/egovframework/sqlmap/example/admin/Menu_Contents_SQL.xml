@@ -10,19 +10,23 @@
 		<result property="menuId" column="MENU_ID"/>
 		<result property="pMenuId" column="P_MENU_ID"/>
 		<result property="menuNm" column="MENU_NM"/>
+		<result property="menuType" column="MENU_TYPE"/>
+		<result property="typeVal" column="TYPE_VAL"/>
 	</resultMap>
 	
 	<select id="menuContentsDAO.selectMenuList" resultMap="menuMap">
         <![CDATA[
             SELECT
-                MENU_ID, P_MENU_ID, MENU_NM
-            FROM MENU 
+                A.*
+            FROM MENU A
         ]]>
     </select>
     
     <update id="menuContentsDAO.updateMenu" parameterClass="menuVO">
     	<![CDATA[
     		UPDATE MENU SET MENU_NM = #menuNm#
+    			, MENU_TYPE = #menuType#
+    			, TYPE_VAL = #typeVal#
     			WHERE MENU_ID = #menuId#
     	]]>
     </update>
@@ -35,8 +39,8 @@
     
     <insert id="menuContentsDAO.insertMenu" parameterClass="menuVO">
     	<![CDATA[
-    		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM, DEPTH, MENU_ORDER) 
-    			VALUES (#menuId#, #pMenuId#, #menuNm#, #depth#, #menuOrder#)
+    		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM, DEPTH, MENU_ORDER, MENU_TYPE, TYPE_VAL) 
+    			VALUES (#menuId#, #pMenuId#, #menuNm#, #depth#, #menuOrder#, #menuType#, #typeVal#)
     	]]>
     </insert>
     

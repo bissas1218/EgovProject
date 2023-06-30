@@ -110,17 +110,37 @@
 														
 														<!-- Break -->
 														<div class="col-4 col-12-small">
-															<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-															<label for="demo-priority-low">Low</label>
+															<input type="radio" id="menuType-directory" name="menuType" value="directory" checked>
+															<label for="menuType-directory">디렉토리</label>
 														</div>
 														<div class="col-4 col-12-small">
-															<input type="radio" id="demo-priority-normal" name="demo-priority">
-															<label for="demo-priority-normal">Normal</label>
+															<input type="radio" id="menuType-board" name="menuType" value="board">
+															<label for="menuType-board">게시판</label>
 														</div>
 														<div class="col-4 col-12-small">
-															<input type="radio" id="demo-priority-high" name="demo-priority">
-															<label for="demo-priority-high">High</label>
+															<input type="radio" id="menuType-content" name="menuType" value="content">
+															<label for="menuType-content">컨텐츠</label>
 														</div>
+														<div class="col-4 col-12-small">
+															<input type="radio" id="menuType-program" name="menuType" value="program">
+															<label for="menuType-program">프로그램</label>
+														</div>
+														<div class="col-4 col-12-small">
+															<input type="radio" id="menuType-link" name="menuType" value="link">
+															<label for="menuType-link">링크</label>
+														</div>
+														
+														<!-- Break -->
+														<div class="col-12">
+															<select name="boardId" id="boardId">
+																<option value="">- 게시판목록 -</option>
+																<option value="B-0001">첫번째사용자게시판</option>
+																<option value="B-0002">두번째사용자게시판</option>
+																<option value="1">Administration</option>
+																<option value="1">Human Resources</option>
+															</select>
+														</div>
+														
 														<!-- Break -->
 														<div class="col-6 col-12-small">
 															<input type="checkbox" id="demo-copy" name="demo-copy">
@@ -195,33 +215,19 @@
 			data: {id:"testVal"},
 			dataType: 'json',
 			success: function(result){
-			//	console.log('ajax json list success! result : ' + result);
-			//	console.log(result.length);
 				
 				for(var i=0; i<result.length; i++){
 				//	console.log(result[i].id+', '+result[i].parent+', '+result[i].text);
-					menuList.push({ "id" : result[i].id, "parent" : result[i].parent, "text" : result[i].text });
+					menuList.push({ "id" : result[i].id, "parent" : result[i].parent, "text" : result[i].text, 
+						"li_attr" : result[i].li_attr, "a_attr" : result[i].a_attr });
 				}
-				/*
-				menuList = [
-					{ "id" : "ajson1", "parent" : "#", "text" : "My Homepage" },
-					{ "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1" },
-					{ "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2" },
-					{ "id" : "ajson4", "parent" : "ajson2", "text" : "Child 3" },
-					{ "id" : "ajson5", "parent" : "ajson1", "text" : "Child 4" },
-					{ "id" : "ajson6", "parent" : "ajson2", "text" : "Child 5" },
-				];
-				*/
+				
 			//	console.log(menuList);
 				
 				$('#tree').jstree(true).settings.core.data = menuList; // jstree원시데이터 삽입
 				
-				//$('#tree').jstree(true).refresh();	// jstree 새로고침
 				refresh();
 				
-				//openAll();
-				
-			//	$("#tree").jstree("open_all"); // jstree 전체열기
 				
 			},
 			error:function(){
@@ -413,7 +419,8 @@
 						menuNm:$("#menuNm").val(), 
 						pMenuId:parentNode($("#menuId").val()).id,
 						depth:num-1,
-						menuOrder:0
+						menuType:$('input:radio[name="menuType"]:checked').val(),
+						typeVal:$("#boardId option:selected").val()
 					},
 				dataType: 'text',
 				success: function(result){
@@ -431,13 +438,33 @@
     	//	refresh();
     	});
     	
+    	
        $('#tree').on("changed.jstree", function (e, data) {
-      	  console.log(data.selected);
-      	  console.log(getNode(data.selected[0]));
-      	  $("#menuId").val(data.selected[0]);
-      	  $("#menuNm").val(getNode(data.selected[0]).text);
+      	//  console.log(data.selected);
+      //	console.log(getNode(data.selected[0]));
+      //	  console.log(getNode(data.selected[0]).id);
+      //	console.log( getNode(data.selected[0]).original );
+      //	var obj = getNode(data.selected[0]).original;
+      //	console.log(obj);
+    //	var keys = Object.keys(obj);
+      	//console.log(obj);
+     // 	console.log(getNode(data.selected[0]).original.id);
+      //	  $("#menuId").val(data.selected[0]);
+      //	  $("#menuNm").val(getNode(data.selected[0]).text);
+      	//  console.log(getNode(data.selected[0]).li_attr);
       	});
        
+       $('#tree').on("select_node.jstree", function(e, data){
+    		console.log('node_select');   
+    		$("#menuId").val(data.selected[0]);
+        	  $("#menuNm").val(getNode(data.selected[0]).text);
+        	  console.log(getNode(data.selected[0]).original.li_attr);	// menu type
+        	  console.log(getNode(data.selected[0]).original.a_attr);	// type val
+        	//  $("input:radio[name ='menuType']:input[value='"+getNode(data.selected[0]).original.li_attr+"']").attr("checked", true);
+        	  $("input[name='menuType'][value='"+getNode(data.selected[0]).original.li_attr+"']").prop("checked", true);
+       });
+       
+    // tree node 선택
     // 8 interact with the tree - either way is OK
    	$('#nodeSelect').on('click', function () {
        	

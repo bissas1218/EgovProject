@@ -25,6 +25,12 @@
        		</field>
        	</form>
        
+       	<form name="boardVO">
+       		<field property="boardNm" depends="required">
+       			<arg0 key="title.board.boardNm" />
+       		</field>
+       	</form>
+       	
     </formset>
     
 </form-validation>

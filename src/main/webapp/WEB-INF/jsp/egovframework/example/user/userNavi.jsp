@@ -28,7 +28,7 @@
 				<c:forEach var="userMenuList3" items="${userMenuList}">
 				<c:if test="${userMenuList3.depth eq '3' && userMenuList2.menuId eq userMenuList3.pMenuId}">
 					<li>
-					<a href="#"><c:out value="${userMenuList3.menuNm }" /></a>
+					<a href="userBoard.do"><c:out value="${userMenuList3.menuNm }" /></a>
 					</li>
 				</c:if>
 				</c:forEach>

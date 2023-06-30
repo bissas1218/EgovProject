@@ -24,6 +24,7 @@
 								<li><a href="/contentsMng.do">컨텐츠관리</a>
 							</ul>
 						</li>
+						<li><a href="/boardMng.do">게시판관리</a>
 						<li><a href="/adminMain.do">Homepage</a></li>
 						<li><a href="generic.html">Generic</a></li>
 						<li><a href="elements.html">Elements</a></li>
