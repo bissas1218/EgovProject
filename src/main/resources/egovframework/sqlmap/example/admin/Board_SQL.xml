@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Board">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="boardVO" type="egovframework.example.sample.service.BoardVO"/>
+	
+	<select id="boardDAO.selectNewBoardId" resultClass="String">
+    	<![CDATA[
+    		SELECT MAX(RIGHT(BOARD_ID, 4)) + 1 FROM BOARD
+    	]]>
+    </select>
+    
+	<insert id="boardDAO.boardInsert" parameterClass="boardVO">
+		<![CDATA[
+			INSERT INTO BOARD (
+				BOARD_ID,
+				BOARD_NM,
+				BOARD_TYPE
+			) VALUES 
+			(#boardId#, #boardNm#, #boardType#)
+		]]>
+	</insert>
+	
+</sqlMap>
