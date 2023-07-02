@@ -1,5 +1,7 @@
 package egovframework.example.sample.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -15,5 +17,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	public void boardInsert(BoardVO boardVO) throws Exception {
 		boardDAO.boardInsert(boardVO); 
+	}
+	
+	public List<BoardVO> selectBoardList() throws Exception {
+		return boardDAO.selectBoardList();
 	}
 }

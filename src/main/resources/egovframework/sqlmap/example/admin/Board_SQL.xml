@@ -6,6 +6,12 @@
 	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="boardVO" type="egovframework.example.sample.service.BoardVO"/>
 	
+	<resultMap id="boardMap" class="egovframework.example.sample.service.BoardVO">
+		<result property="boardId" column="BOARD_ID"/>
+		<result property="boardNm" column="BOARD_NM"/>
+		<result property="boardType" column="BOARD_TYPE"/>
+	</resultMap>
+	
 	<select id="boardDAO.selectNewBoardId" resultClass="String">
     	<![CDATA[
     		SELECT MAX(RIGHT(BOARD_ID, 4)) + 1 FROM BOARD
@@ -22,5 +28,11 @@
 			(#boardId#, #boardNm#, #boardType#)
 		]]>
 	</insert>
+	
+	<select id="boardDAO.selectBoardList" resultMap="boardMap">
+		<![CDATA[
+			SELECT * FROM BOARD
+		]]>
+	</select>
 	
 </sqlMap>

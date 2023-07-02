@@ -1,5 +1,7 @@
 package egovframework.example.sample.service.impl;
 
+import java.util.List;
+
 import org.egovframe.rte.psl.dataaccess.EgovAbstractDAO;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +39,10 @@ public class BoardDAO extends EgovAbstractDAO {
 		boardVO.setBoardId(newBoardId);
 		
 		insert("boardDAO.boardInsert", boardVO);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BoardVO> selectBoardList() throws Exception {
+		return (List<BoardVO>) list("boardDAO.selectBoardList");
 	}
 }
