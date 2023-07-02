@@ -132,12 +132,11 @@
 														
 														<!-- Break -->
 														<div class="col-12">
-															<select name="boardId" id="boardId">
+															<select name="board_list" id="board_list">
 																<option value="">- 게시판목록 -</option>
-																<option value="B-0001">첫번째사용자게시판</option>
-																<option value="B-0002">두번째사용자게시판</option>
-																<option value="1">Administration</option>
-																<option value="1">Human Resources</option>
+																<c:forEach var="boardList" items="${boardList}">
+																<option value="<c:out value="${boardList.boardId}"/>"><c:out value="${boardList.boardNm}"/></option>
+																</c:forEach>
 															</select>
 														</div>
 														
@@ -420,7 +419,7 @@
 						pMenuId:parentNode($("#menuId").val()).id,
 						depth:num-1,
 						menuType:$('input:radio[name="menuType"]:checked').val(),
-						typeVal:$("#boardId option:selected").val()
+						typeVal:$("#board_list option:selected").val()
 					},
 				dataType: 'text',
 				success: function(result){
@@ -461,7 +460,8 @@
         	  console.log(getNode(data.selected[0]).original.li_attr);	// menu type
         	  console.log(getNode(data.selected[0]).original.a_attr);	// type val
         	//  $("input:radio[name ='menuType']:input[value='"+getNode(data.selected[0]).original.li_attr+"']").attr("checked", true);
-        	  $("input[name='menuType'][value='"+getNode(data.selected[0]).original.li_attr+"']").prop("checked", true);
+        	  $("input[name='menuType'][value='"+getNode(data.selected[0]).original.li_attr+"']").prop("checked", true);	// 메뉴타입 선택
+        	  $("#board_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 게시판 선택
        });
        
     // tree node 선택

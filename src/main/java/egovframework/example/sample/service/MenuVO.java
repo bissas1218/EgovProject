@@ -34,6 +34,17 @@ public class MenuVO extends SampleDefaultVO {
 	/** 타입값 */
 	private String typeVal;
 	
+	/** 게시판타입 */
+	private String boardType;
+	
+	public String getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(String boardType) {
+		this.boardType = boardType;
+	}
+
 	public String getTypeVal() {
 		return typeVal;
 	}

@@ -17,7 +17,7 @@
 	<select id="menuContentsDAO.selectMenuList" resultMap="menuMap">
         <![CDATA[
             SELECT
-                A.*
+                A.MENU_ID, A.P_MENU_ID, A.MENU_NM, A.DEPTH, A.MENU_ORDER, A.MENU_TYPE, A.TYPE_VAL
             FROM MENU A
         ]]>
     </select>

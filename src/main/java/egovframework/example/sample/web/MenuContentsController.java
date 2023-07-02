@@ -21,20 +21,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.example.sample.service.BoardService;
 import egovframework.example.sample.service.MenuContentsService;
 import egovframework.example.sample.service.MenuVO;
+import egovframework.example.sample.service.BoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
 @Controller
 public class MenuContentsController {
 
-	@Resource(name="menuContentsService")
-	private MenuContentsService menuContentsService;
-	
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
+	
+	@Resource(name="menuContentsService")
+	private MenuContentsService menuContentsService;
+	
+	@Resource(name="boardService")
+	private BoardService boardService;
 	
 	@RequestMapping(value = "/sidebar.do")
 	public String sideBar() throws Exception {
@@ -43,7 +48,13 @@ public class MenuContentsController {
 	
 	@RequestMapping(value = "/menuMng.do", method = RequestMethod.GET)
 	public String menuMng(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		
+		// 게시판목록 조회
+		List<BoardVO> boardList = boardService.selectBoardList();
+		model.addAttribute("boardList", boardList);
+		
 		model.addAttribute("menuVO", new MenuVO());
+		
 		return "admin/menuContent/menuMng";
 	}
 	
@@ -55,6 +66,7 @@ public class MenuContentsController {
 		try {
 			List<MenuVO> menuList = menuContentsService.selectMenuList();
 			//System.out.println("menuList:"+menuList);
+			
 			String resStr = "[";
 			for(int i=0; i<menuList.size(); i++) {
 			//	System.out.println(menuList.get(i).getMenuId());
@@ -63,9 +75,11 @@ public class MenuContentsController {
 						"\", \"li_attr\":\""+menuList.get(i).getMenuType()+
 						"\", \"a_attr\":\""+menuList.get(i).getTypeVal()+
 						"\"}";
+				
 				if(i != (menuList.size()-1)) {
 					resStr += ",";
 				}
+				
 			}
 			resStr += "]";
 			System.out.println("resStr:"+resStr);
