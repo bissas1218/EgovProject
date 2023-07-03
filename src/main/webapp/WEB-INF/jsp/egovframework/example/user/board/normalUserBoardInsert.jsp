@@ -17,11 +17,53 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="user/css/main.css" />
 	<link type="text/css" href="ckeditor/sample/css/sample.css" rel="stylesheet" media="screen" />
+	<script src="user/js/jquery.min.js"></script>
 	
 	<!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
     <validator:javascript formName="boardVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
+    <script type="text/javaScript" language="javascript" defer="defer">
+		<!--
+        /* 글 목록 화면 function */
+        function fn_egov_selectList() {
+           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
+           	document.detailForm.submit();
+        }
+        
+        /* 글 삭제 function */
+        function fn_egov_delete() {
+           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
+           	document.detailForm.submit();
+        }
+        
+        /* 글 등록 function */
+        function fn_egov_save() {
+        	console.log('boardInsertBtn1');
+        	frm = document.userBoardForm;
+        	if(!validateBoardVO(frm)){
+                return;
+            }else{
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
+                frm.submit();
+            }
+        }
+        
+        -->
+        
+        $('#boardInsertBtn').on('click', function () {
+    		console.log('boardInsertBtn2');
+    		frm = document.userBoardForm;
+        	if(!validateBoardVO(frm)){
+                return;
+            }else{
+            	//frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
+                //frm.submit();
+            }
+    	});
+        
+	</script>
+	    
 </head>
 
 <body class="is-preload no-sidebar">
@@ -74,6 +116,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 											<div class="col-12">
 												<form:input path="postTitle" maxlength="50" placeholder="제목" />
 												&nbsp;<form:errors path="postTitle" />
+											</div>
+											<div class="col-12">
+												<form:input path="boardNm" maxlength="50" placeholder="제목" />
+												&nbsp;<form:errors path="boardNm" />
 											</div>
 											<!-- 
 											<div class="col-6 col-12-xsmall">
@@ -163,7 +209,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 										<!-- Break -->
 										<div class="col-12">
 											<ul class="actions">
-												<li><input type="button" value="등록하기" class="primary" id="boardInsertBtn" /></li>
+												<li><input type="button" value="등록하기" class="primary" id="boardInsertBtn" onclick="fn_egov_save()"/></li>
 												<li><input type="reset" value="취소하기" /></li>
 											</ul>
 										</div>
@@ -190,7 +236,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 <!-- Scripts -->
 
-			<script src="user/js/jquery.min.js"></script>
+			
 			<script src="user/js/jquery.dropotron.min.js"></script>
 			<script src="user/js/browser.min.js"></script>
 			<script src="user/js/breakpoints.min.js"></script>
@@ -211,17 +257,6 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		.catch( err => {
 			console.error( err.stack );
 		} );
-	
-	$('#boardInsertBtn').on('click', function () {
-		console.log('boardInsertBtn');
-		frm = document.userBoardForm;
-    	if(!validateBoardVO(frm)){
-            return;
-        }else{
-        	//frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
-            //frm.submit();
-        }
-	});
 	
 </script>
 
