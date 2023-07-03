@@ -29,6 +29,9 @@
        		<field property="boardNm" depends="required">
        			<arg0 key="title.board.boardNm" />
        		</field>
+       		<field property="title" depends="required">
+       			<arg0 key="title.board.postTitle" />
+       		</field>
        	</form>
        	
     </formset>

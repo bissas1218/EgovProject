@@ -25,6 +25,12 @@ public class UserMainController {
 		return "user/main";
 	}
 	
+	@RequestMapping(value = "/userFooter.do")
+	public String userFooter(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+		
+		return "user/footer";
+	}
+	
 	@RequestMapping(value = "/userNavi.do")
 	public String userNaviPage(ModelMap model) throws Exception {
 		
