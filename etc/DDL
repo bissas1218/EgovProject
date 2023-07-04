@@ -24,3 +24,13 @@ CREATE TABLE `board` (
   `BOARD_TYPE` varchar(10) NOT NULL,
   UNIQUE KEY `board_BOARD_ID_IDX` (`BOARD_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='게시판관리';
+
+DROP TABLE example.normal_board;
+
+CREATE TABLE `normal_board` (
+  `NOR_BRD_ID` varchar(10) NOT NULL,
+  `BOARD_ID` varchar(10) NOT NULL,
+  `POST_TITLE` varchar(50) NOT NULL,
+  `POST_CONTENT` longtext NOT NULL,
+  UNIQUE KEY `NORMAL_BOARD_NOR_BRD_ID_IDX` (`NOR_BRD_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='일반게시판게시물';
