@@ -6,6 +6,7 @@ import org.egovframe.rte.psl.dataaccess.EgovAbstractDAO;
 import org.springframework.stereotype.Repository;
 
 import egovframework.example.sample.service.BoardVO;
+import egovframework.example.sample.service.SampleDefaultVO;
 
 @Repository("boardDAO")
 public class BoardDAO extends EgovAbstractDAO {
@@ -42,7 +43,11 @@ public class BoardDAO extends EgovAbstractDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<BoardVO> selectBoardList() throws Exception {
-		return (List<BoardVO>) list("boardDAO.selectBoardList");
+	public List<BoardVO> selectBoardList(SampleDefaultVO searchVO) throws Exception {
+		return (List<BoardVO>) list("boardDAO.selectBoardList", searchVO);
+	}
+	
+	public int selectBoardListTotCnt(SampleDefaultVO searchVO) throws Exception {
+		return (int) select("boardDAO.selectBoardListTotCnt", searchVO);
 	}
 }

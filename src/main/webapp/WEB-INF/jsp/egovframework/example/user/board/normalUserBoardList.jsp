@@ -118,7 +118,7 @@
 														
 														<ul class="actions">
 															<li><a href="#" class="button primary icon solid fa-search">Icon</a></li>
-															<li><a href="/normalUserBoardInsert.do" class="button icon solid fa-download">신규글등록</a></li>
+															<li><a href="/normalUserBoardInsert.do?boardId=<c:out value="${boardId}" />" class="button icon solid fa-download">신규글등록</a></li>
 														</ul>
 													
 														

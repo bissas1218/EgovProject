@@ -12,6 +12,26 @@
 		<result property="boardType" column="BOARD_TYPE"/>
 	</resultMap>
 	
+	<select id="boardDAO.selectBoardList" parameterClass="searchVO" resultMap="boardMap">
+			SELECT BOARD_ID, BOARD_NM, BOARD_TYPE
+			FROM BOARD
+			WHERE 1=1
+			<isNotEqual prepend="AND" property="searchKeyword" compareValue="all">
+				BOARD_TYPE = #searchKeyword#
+			</isNotEqual>
+			ORDER BY BOARD_ID DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#	
+	</select>
+	
+	<select id="boardDAO.selectBoardListTotCnt" parameterClass="searchVO" resultClass="Integer">
+			SELECT count(*)
+			FROM BOARD
+			WHERE 1=1
+			<isNotEqual prepend="AND" property="searchKeyword" compareValue="all">
+				BOARD_TYPE = #searchKeyword#
+			</isNotEqual>
+	</select>
+	
 	<select id="boardDAO.selectNewBoardId" resultClass="String">
     	<![CDATA[
     		SELECT MAX(RIGHT(BOARD_ID, 4)) + 1 FROM BOARD
@@ -29,10 +49,6 @@
 		]]>
 	</insert>
 	
-	<select id="boardDAO.selectBoardList" resultMap="boardMap">
-		<![CDATA[
-			SELECT * FROM BOARD
-		]]>
-	</select>
+	
 	
 </sqlMap>

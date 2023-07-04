@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UserBoard">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="normalBoardVO" type="egovframework.example.sample.service.NormalBoardVO"/>
+	
+	<select id="userBoardDAO.selectNewNormalBoardId" resultClass="String">
+    	<![CDATA[
+    		SELECT IFNULL(MAX(RIGHT(NOR_BRD_ID, 7)) + 1, 1) FROM NORMAL_BOARD
+    	]]>
+    </select>
+    
+	<insert id="userBoardDAO.insertNormalBoard" parameterClass="normalBoardVO">
+		<![CDATA[
+			INSERT INTO NORMAL_BOARD 
+				( NOR_BRD_ID
+				  , BOARD_ID
+				  , POST_TITLE
+				  , POST_CONTENT
+				   )
+			VALUES ( #norBrdId#
+				  , #boardId#
+				  , #postTitle#
+				  , #postContent# 
+				  )
+		]]>
+	</insert>
+	
+</sqlMap>

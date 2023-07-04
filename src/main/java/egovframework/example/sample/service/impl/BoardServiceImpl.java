@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.example.sample.service.BoardService;
 import egovframework.example.sample.service.BoardVO;
+import egovframework.example.sample.service.SampleDefaultVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
@@ -19,7 +20,12 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.boardInsert(boardVO); 
 	}
 	
-	public List<BoardVO> selectBoardList() throws Exception {
-		return boardDAO.selectBoardList();
+	public List<BoardVO> selectBoardList(SampleDefaultVO searchVO) throws Exception {
+		return boardDAO.selectBoardList(searchVO);
 	}
+	
+	public int selectBoardListTotCnt(SampleDefaultVO searchVO) throws Exception {
+		return boardDAO.selectBoardListTotCnt(searchVO);
+	}
+	
 }

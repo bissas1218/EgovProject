@@ -10,5 +10,6 @@
 	
 	<!-- user -->
 	<sqlMap resource="egovframework/sqlmap/example/user/User_Main_SQL.xml" />
+	<sqlMap resource="egovframework/sqlmap/example/user/User_Board_SQL.xml" />
 	
 </sqlMapConfig>

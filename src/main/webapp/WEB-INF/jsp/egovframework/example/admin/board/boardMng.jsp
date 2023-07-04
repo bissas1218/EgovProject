@@ -51,22 +51,42 @@
 									</header>
 
 									<!-- Content -->
-										<h2 id="content">관리방법</h2>
-										<p>개발자 개발환경을 다운로드 받아 설치 후 프로젝트를 생성해서 실행하기까지의 가이드를 제공한다. 개발자 개발환경을 다운로드 받아 설치 후 프로젝트를 생성해서 실행하기까지의 가이드를 제공한다. 개발자 개발환경을 다운로드 받아 설치 후 프로젝트를 생성해서 실행하기까지의 가이드를 제공한다. 개발자 개발환경을 다운로드 받아 설치 후 프로젝트를 생성해서 실행하기까지의 가이드를 제공한다.</p>
+									<h2 id="content">게시판 관리방법</h2>
+									<p>좌측에서 게시판 검색 선택 후 우측의 게시판관리에서 추가 또는 삭제,수정해 주세요.</p>
 
 									<hr class="major" />
 
-									<!-- Elements -->
-										<h2 id="elements">Elements</h2>
 										<div class="row gtr-200">
+									
 											<div class="col-6 col-12-medium">
 
 												<!-- Table -->
 													<h3>게시판목록</h3>
 
-													<h4>Alternate</h4>
+													<div class="row gtr-uniform">
+															<!-- Break -->
+															<div class="col-4 col-12-small">
+																<input type="radio" id="searchBoardType-all" name="searchBoardType" value="all" checked>
+																<label for="searchBoardType-all">전체</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="searchBoardType-nomal" name="searchBoardType" value="normal">
+																<label for="searchBoardType-nomal">일반게시판</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="searchBoardType-photo" name="searchBoardType" value="photo">
+																<label for="searchBoardType-photo">사진게시판</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="searchBoardType-video" name="searchBoardType" value="video">
+																<label for="searchBoardType-video">동영상게시판</label>
+															</div>
+													</div>
+														
+														<hr />
+														
 													<div class="table-wrapper">
-														<table class="alt">
+														<table class="alt" id="boardList">
 															<thead>
 																<tr>
 																	<th>번호</th>
@@ -75,31 +95,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<tr>
-																	<td>1</td>
-																	<td>우리집 멍멍이 게시판.</td>
-																	<td>일반게시판</td>
-																</tr>
-																<tr>
-																	<td>Item2</td>
-																	<td>Vis ac commodo adipiscing arcu aliquet.</td>
-																	<td>19.99</td>
-																</tr>
-																<tr>
-																	<td>Item3</td>
-																	<td> Morbi faucibus arcu accumsan lorem.</td>
-																	<td>29.99</td>
-																</tr>
-																<tr>
-																	<td>Item4</td>
-																	<td>Vitae integer tempus condimentum.</td>
-																	<td>19.99</td>
-																</tr>
-																<tr>
-																	<td>Item5</td>
-																	<td>Ante turpis integer aliquet porttitor.</td>
-																	<td>29.99</td>
-																</tr>
+																
 															</tbody>
 															<tfoot>
 															<!-- 
@@ -113,6 +109,7 @@
 													</div>
 
 													<ul class="pagination">
+													<!-- 
 														<li><span class="button disabled">Prev</span></li>
 														<li><a href="#" class="page active">1</a></li>
 														<li><a href="#" class="page">2</a></li>
@@ -122,6 +119,7 @@
 														<li><a href="#" class="page">9</a></li>
 														<li><a href="#" class="page">10</a></li>
 														<li><a href="#" class="button">Next</a></li>
+														 -->
 													</ul>
 													
 													<hr />
@@ -222,6 +220,10 @@
 
 	<script>
 	
+	$(document).ready(function() {
+		selectBoardList();
+	});
+	
 	$('#newBoardBtn').on('click', function() {
 		console.log('---new board add---'+$('input:radio[name="boardType"]:checked').val() );
 		frm = document.boardFrm;
@@ -252,6 +254,50 @@
 				}
 			});
         }
+	});
+	
+	function selectBoardList() {
+		
+		$.ajax({
+			type: 'get',
+			url: '/selectBoardList.do',
+			data: { searchKeyword:$('input:radio[name="searchBoardType"]:checked').val() },
+			dataType: 'json',
+			success: function(result){
+				console.log(result);
+				$("#boardList > tbody:last > tr").remove();
+				
+				for(var i=0; i<result.length; i++){
+					if(result[i].boardId != null){
+						$("#boardList > tbody:last").append("<tr><td>"+result[i].boardId+"</td><td>"+result[i].boardNm+"</td><td>"+result[i].boardType+"</td></tr>");	
+					}else{
+						console.log(result[i].totalRecordCount); // 
+						console.log(result[i].currentPageNo); 
+						console.log(result[i].recordCountPerPage);
+						console.log(result[i].pageSize);
+						console.log(result[i].firstPageNoOnPageList); 
+						console.log(result[i].lastPageNoOnPageList); 
+						
+						// pagination
+						var ul_list = $(".pagination"); //ul_list선언
+						ul_list.children().remove();
+						ul_list.append("<li>"+'<span class="button disabled">Prev</span>'+"</li>"); //ul_list안쪽에 li추가
+						for(var j = result[i].firstPageNoOnPageList; j <= result[i].lastPageNoOnPageList; j++){
+							ul_list.append("<li>"+"<a href='' class='page'>"+j+"</a>"+"</li>");
+						}
+						ul_list.append("<li>"+'<span class="button">Next</span>'+"</li>");
+					}
+					
+				}
+			},
+			error: function(){
+				console.log('ajax selectBoardList error!');
+			}
+		});
+	}
+	
+	$("input[name='searchBoardType']").change(function(){
+		selectBoardList();			
 	});
 	
 	</script>

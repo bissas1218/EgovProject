@@ -21,49 +21,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	
 	<!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <validator:javascript formName="boardVO" staticJavascript="false" xhtml="true" cdata="false"/>
+    <validator:javascript formName="normalBoardVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
-    <script type="text/javaScript" language="javascript" defer="defer">
-		<!--
-        /* 글 목록 화면 function */
-        function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
-           	document.detailForm.submit();
-        }
-        
-        /* 글 삭제 function */
-        function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
-           	document.detailForm.submit();
-        }
-        
-        /* 글 등록 function */
-        function fn_egov_save() {
-        	console.log('boardInsertBtn1');
-        	frm = document.userBoardForm;
-        	if(!validateBoardVO(frm)){
-                return;
-            }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
-                frm.submit();
-            }
-        }
-        
-        -->
-        
-        $('#boardInsertBtn').on('click', function () {
-    		console.log('boardInsertBtn2');
-    		frm = document.userBoardForm;
-        	if(!validateBoardVO(frm)){
-                return;
-            }else{
-            	//frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
-                //frm.submit();
-            }
-    	});
-        
-	</script>
-	    
 </head>
 
 <body class="is-preload no-sidebar">
@@ -88,7 +47,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			</header>
 		</div>
 		
-		<form:form modelAttribute="boardVO" id="userBoardForm" name="userBoardForm">
+		<form:form modelAttribute="normalBoardVO" id="normalBoardFrm" name="normalBoardFrm" method="POST">
 		
 		<!-- Main -->
 		<div id="main-wrapper">
@@ -114,13 +73,10 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 
 										<div class="row gtr-uniform">
 											<div class="col-12">
-												<form:input path="postTitle" maxlength="50" placeholder="제목" />
+												<form:input path="postTitle" maxlength="50" placeholder="게시물 제목" />
 												&nbsp;<form:errors path="postTitle" />
 											</div>
-											<div class="col-12">
-												<form:input path="boardNm" maxlength="50" placeholder="제목" />
-												&nbsp;<form:errors path="boardNm" />
-											</div>
+											
 											<!-- 
 											<div class="col-6 col-12-xsmall">
 												<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
@@ -209,7 +165,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 										<!-- Break -->
 										<div class="col-12">
 											<ul class="actions">
-												<li><input type="button" value="등록하기" class="primary" id="boardInsertBtn" onclick="fn_egov_save()"/></li>
+												<li><input type="button" value="등록하기" class="primary" id="boardInsertBtn" /></li>
 												<li><input type="reset" value="취소하기" /></li>
 											</ul>
 										</div>
@@ -225,6 +181,11 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 			</div>
 			
 		</div>
+		
+		<!-- 검색조건 유지 -->
+		<input type="hidden" name="postContent" id="postContent" value="" />
+		<input type="hidden" name="boardId" id="boardId" value="<c:out value="${normalBoardVO.boardId}" />" />
+		
 		</form:form>
 		
 		<!-- Footer -->
@@ -257,6 +218,20 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		.catch( err => {
 			console.error( err.stack );
 		} );
+	
+	$('#boardInsertBtn').on('click', function () {
+		
+		var value = window.editor.getData();
+		$("#postContent").val(value);
+		
+		frm = document.normalBoardFrm;
+    	if(!validateNormalBoardVO(frm)){
+            return;
+        }else{
+        	frm.action = "<c:url value='/normalUserBoardInsert.do'/>";
+            frm.submit();
+        }
+	});
 	
 </script>
 
