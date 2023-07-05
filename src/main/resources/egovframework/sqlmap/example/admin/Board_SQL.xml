@@ -10,9 +10,30 @@
 		<result property="boardId" column="BOARD_ID"/>
 		<result property="boardNm" column="BOARD_NM"/>
 		<result property="boardType" column="BOARD_TYPE"/>
+		<result property="boardDescrYn" column="BOARD_DESCR_YN"/>
+		<result property="boardDescr" column="BOARD_DESCR"/>
 	</resultMap>
 	
-	<select id="boardDAO.selectBoardList" parameterClass="searchVO" resultMap="boardMap">
+	<select id="boardDAO.selectBoard" parameterClass="String" resultMap="boardMap">
+		<![CDATA[
+			SELECT BOARD_ID, BOARD_NM, BOARD_TYPE, BOARD_DESCR_YN, BOARD_DESCR
+				FROM BOARD
+				WHERE BOARD_ID = #boardId#
+		]]>
+	</select>
+	
+	<resultMap id="boardListMap" class="egovframework.example.sample.service.BoardVO">
+		<result property="boardId" column="BOARD_ID"/>
+		<result property="boardNm" column="BOARD_NM"/>
+		<result property="boardType" column="BOARD_TYPE"/>
+	</resultMap>
+	
+	<select id="boardDAO.selectBoardTitleList" parameterClass="searchVO" resultMap="boardListMap">
+			SELECT BOARD_ID, BOARD_NM, BOARD_TYPE
+			FROM BOARD
+	</select>
+	
+	<select id="boardDAO.selectBoardList" parameterClass="searchVO" resultMap="boardListMap">
 			SELECT BOARD_ID, BOARD_NM, BOARD_TYPE
 			FROM BOARD
 			WHERE 1=1
@@ -43,12 +64,23 @@
 			INSERT INTO BOARD (
 				BOARD_ID,
 				BOARD_NM,
-				BOARD_TYPE
+				BOARD_TYPE,
+				BOARD_DESCR_YN,
+				BOARD_DESCR
 			) VALUES 
-			(#boardId#, #boardNm#, #boardType#)
+			(#boardId#, #boardNm#, #boardType#, #boardDescrYn#, #boardDescr#)
 		]]>
 	</insert>
 	
-	
+	<update id="boardDAO.updateBoard" parameterClass="boardVO">
+		<![CDATA[
+			UPDATE BOARD SET 
+				BOARD_NM = #boardNm#, 
+				BOARD_TYPE = #boardType#, 
+				BOARD_DESCR_YN = #boardDescrYn#,
+				BOARD_DESCR = #boardDescr#
+				WHERE BOARD_ID = #boardId#
+		]]>
+	</update>
 	
 </sqlMap>

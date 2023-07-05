@@ -11,6 +11,10 @@ import egovframework.example.sample.service.SampleDefaultVO;
 @Repository("boardDAO")
 public class BoardDAO extends EgovAbstractDAO {
 
+	public void boardUpdate(BoardVO boardVO) throws Exception {
+		update("boardDAO.updateBoard", boardVO);
+	}
+	
 	public void boardInsert(BoardVO boardVO) throws Exception {
 		
 		String newBoardId = (String) select("boardDAO.selectNewBoardId");
@@ -47,7 +51,16 @@ public class BoardDAO extends EgovAbstractDAO {
 		return (List<BoardVO>) list("boardDAO.selectBoardList", searchVO);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<BoardVO> selectBoardTitleList(SampleDefaultVO searchVO) throws Exception {
+		return (List<BoardVO>) list("boardDAO.selectBoardTitleList", searchVO);
+	}
+	
 	public int selectBoardListTotCnt(SampleDefaultVO searchVO) throws Exception {
 		return (int) select("boardDAO.selectBoardListTotCnt", searchVO);
+	}
+	
+	public BoardVO selectBoard(String boardId) throws Exception {
+		return (BoardVO) select("boardDAO.selectBoard", boardId);
 	}
 }

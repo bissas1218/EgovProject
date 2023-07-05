@@ -20,12 +20,24 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.boardInsert(boardVO); 
 	}
 	
+	public void boardUpdate(BoardVO boardVO) throws Exception {
+		boardDAO.boardUpdate(boardVO); 
+	}
+	
 	public List<BoardVO> selectBoardList(SampleDefaultVO searchVO) throws Exception {
 		return boardDAO.selectBoardList(searchVO);
 	}
 	
+	public List<BoardVO> selectBoardTitleList(SampleDefaultVO searchVO) throws Exception {
+		return boardDAO.selectBoardTitleList(searchVO);
+	}
+	
 	public int selectBoardListTotCnt(SampleDefaultVO searchVO) throws Exception {
 		return boardDAO.selectBoardListTotCnt(searchVO);
+	}
+	
+	public BoardVO selectBoard(String boardId) throws Exception {
+		return boardDAO.selectBoard(boardId);
 	}
 	
 }

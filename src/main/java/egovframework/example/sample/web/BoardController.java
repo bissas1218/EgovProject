@@ -44,9 +44,32 @@ public class BoardController {
 		return "admin/board/boardMng";
 	}
 	
+	@RequestMapping(value="/selectBoard.do")
+	public void selectBoard(BoardVO boardVO, HttpServletResponse response) throws Exception {
+		
+		System.out.println(boardVO.getBoardId());
+		boardVO = boardService.selectBoard(boardVO.getBoardId());
+		
+		try {
+			String resStr = "";
+			
+			resStr += "{\"boardId\":\""+boardVO.getBoardId()+"\", "
+					+ "\"boardNm\":\""+boardVO.getBoardNm()+"\", "
+					+ "\"boardDescrYn\":\""+boardVO.getBoardDescrYn()+"\", "
+					+ "\"boardDescr\":\""+boardVO.getBoardDescr()+"\", "
+					+ "\"boardType\":\""+boardVO.getBoardType()+"\"}";
+			System.out.println("resStr:"+resStr);
+			
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(resStr); 
+			//response.getWriter().print("[{\"id\":\"returnId1\", \"nm\":\"returnNm1\"}, {\"id\":\"returnId2\", \"nm\":\"returnNm2\"}]");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@RequestMapping(value="/selectBoardList.do")
-	public void boardMng2(@ModelAttribute("searchVO") SampleDefaultVO searchVO,	ModelMap model, HttpServletResponse response) throws Exception {
+	public void selectBoardList(@ModelAttribute("searchVO") SampleDefaultVO searchVO,	ModelMap model, HttpServletResponse response) throws Exception {
 		
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
@@ -67,7 +90,7 @@ public class BoardController {
 
 		int totCnt = boardService.selectBoardListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
-		System.out.println("paginationInfo:"+paginationInfo);
+		//System.out.println("paginationInfo:"+paginationInfo);
 		
 		//model.addAttribute("paginationInfo", paginationInfo);
 		
@@ -91,6 +114,7 @@ public class BoardController {
 					+ "\"recordCountPerPage\":\""+paginationInfo.getRecordCountPerPage()+"\", "
 					+ "\"firstPageNoOnPageList\":\""+paginationInfo.getFirstPageNoOnPageList()+"\", "
 					+ "\"lastPageNoOnPageList\":\""+paginationInfo.getLastPageNoOnPageList()+"\", "
+					+ "\"totalPageCount\":\""+paginationInfo.getTotalPageCount()+"\","
 					+ "\"pageSize\":\""+paginationInfo.getPageSize()+"\"}"
 					+ "]";
 			System.out.println("resStr:"+resStr);
@@ -103,8 +127,22 @@ public class BoardController {
 		}
 	}
 	
+	@RequestMapping(value = "/boardUpdate.do", method=RequestMethod.POST)
+	public void boardUpdate(BoardVO boardVO, BindingResult bindingResult, Model model, SessionStatus status,
+			HttpServletResponse response) throws Exception {
+		
+		// Server-Side Validation
+		beanValidator.validate(boardVO, bindingResult);
+		
+		boardService.boardUpdate(boardVO);
+		
+		//System.out.println("boardNm:"+boardVO.getBoardNm());
+		
+		response.getWriter().print("success");
+	}
+	
 	@RequestMapping(value = "/boardInsert.do", method=RequestMethod.POST)
-	public void menuUpdate(BoardVO boardVO, BindingResult bindingResult, Model model, SessionStatus status,
+	public void boardInsert(BoardVO boardVO, BindingResult bindingResult, Model model, SessionStatus status,
 			HttpServletResponse response) throws Exception {
 		
 		// Server-Side Validation

@@ -16,15 +16,26 @@ public class BoardVO extends SampleDefaultVO {
 	/** 게시판타입 */
 	private String boardType;
 	
-	/** 게시글제목 */
-	private String postTitle;
+	/** 게시판설명 사용유무 */
+	private String boardDescrYn;
 	
-	public String getPostTitle() {
-		return postTitle;
+	/** 게시판설명 */
+	private String boardDescr;
+	
+	public String getBoardDescrYn() {
+		return boardDescrYn;
 	}
 
-	public void setPostTitle(String postTitle) {
-		this.postTitle = postTitle;
+	public void setBoardDescrYn(String boardDescrYn) {
+		this.boardDescrYn = boardDescrYn;
+	}
+
+	public String getBoardDescr() {
+		return boardDescr;
+	}
+
+	public void setBoardDescr(String boardDescr) {
+		this.boardDescr = boardDescr;
 	}
 
 	public String getBoardType() {

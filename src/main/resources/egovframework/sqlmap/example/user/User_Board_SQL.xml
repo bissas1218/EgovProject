@@ -28,4 +28,35 @@
 		]]>
 	</insert>
 	
+	<select id="userBoardDAO.selectNormalBoardList" parameterClass="searchVO" resultClass="normalBoardVO">
+
+			SELECT
+					NOR_BRD_ID norBrdId
+				  , BOARD_ID boardId
+				  , POST_TITLE postTitle
+			FROM NORMAL_BOARD
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				NOR_BRD_ID LIKE CONCAT('%', #searchKeyword#, '%')
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				POST_TITLE LIKE CONCAT('%', #searchKeyword#, '%')
+			</isEqual>
+			ORDER BY NOR_BRD_ID DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+	</select>
+	
+	<select id="userBoardDAO.selectNormalBoardListTotCnt" parameterClass="searchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM NORMAL_BOARD
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				NOR_BRD_ID LIKE CONCAT('%', #searchKeyword#, '%')
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				POST_TITLE LIKE CONCAT('%', #searchKeyword#, '%')
+			</isEqual>
+	</select>
+	
 </sqlMap>
