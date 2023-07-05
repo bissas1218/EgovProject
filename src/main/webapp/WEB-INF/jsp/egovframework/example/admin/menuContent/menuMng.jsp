@@ -135,7 +135,11 @@
 															<select name="board_list" id="board_list">
 																<option value="">- 게시판목록 -</option>
 																<c:forEach var="boardList" items="${boardList}">
-																<option value="<c:out value="${boardList.boardId}"/>"><c:out value="${boardList.boardNm}"/></option>
+																<option value="<c:out value="${boardList.boardId}"/>">
+																	<c:out value="${boardList.boardId}"/>-
+																	<c:out value="${boardList.boardNm}"/>-
+																	<c:out value="${boardList.boardType}"/>
+																</option>
 																</c:forEach>
 															</select>
 														</div>

@@ -44,67 +44,37 @@
 					<div class="container">
 					
 					<!-- Main -->
-					<div id="main">
-						<div class="inner">
-
 
 							<!-- Content -->
-								<section>
 
-									<!-- Content -->
-										<h2 id="content">Sample Content</h2>
-										<p>Praesent ac adipiscing ullamcorper semper ut amet ac risus. Lorem sapien ut odio odio nunc. Ac adipiscing nibh porttitor erat risus justo adipiscing adipiscing amet placerat accumsan. Vis. Faucibus odio magna tempus adipiscing a non. In mi primis arcu ut non accumsan vivamus ac blandit adipiscing adipiscing arcu metus praesent turpis eu ac lacinia nunc ac commodo gravida adipiscing eget accumsan ac nunc adipiscing adipiscing lorem ipsum dolor sit amet nullam veroeros adipiscing.</p>
-
-									<hr class="major" />
+									<!-- 게시판설명 -->
+									<h2 id="content"><c:out value="${boardVO.boardNm }"/></h2>
+									<c:if test="${boardVO.boardDescrYn eq 'Y'}">
+									<p><c:out value="${boardVO.boardDescr}"/></p>
+									</c:if>
+									
 
 									<!-- Elements -->
-										<h2 id="elements">Elements</h2>
 										<div class="row gtr-200">
 											<div class="col-12">
 
-												<!-- Blockquote -->
-													<h3>Blockquote</h3>
-													<blockquote>Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Lorem ipsum dolor. Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus.</blockquote>
-
-												<!-- Table -->
-													<h3>Table</h3>
-
-													<h4>Default</h4>
 													<div class="table-wrapper">
 														<table>
 															<thead>
 																<tr>
-																	<th>Name</th>
-																	<th>Description</th>
-																	<th>Price</th>
+																	<th>게시글번호</th>
+																	<th>제목</th>
+																	<th>작성일</th>
 																</tr>
 															</thead>
 															<tbody>
+															<c:forEach items="${normalBoardList}" var="normalBoardList">
 																<tr>
-																	<td>Item1</td>
-																	<td>Ante turpis integer aliquet porttitor.</td>
-																	<td>29.99</td>
+																	<td><c:out value="${normalBoardList.norBrdId}"/></td>
+																	<td><c:out value="${normalBoardList.postTitle}"/></td>
+																	<td>2023-07-05</td>
 																</tr>
-																<tr>
-																	<td>Item2</td>
-																	<td>Vis ac commodo adipiscing arcu aliquet.</td>
-																	<td>19.99</td>
-																</tr>
-																<tr>
-																	<td>Item3</td>
-																	<td> Morbi faucibus arcu accumsan lorem.</td>
-																	<td>29.99</td>
-																</tr>
-																<tr>
-																	<td>Item4</td>
-																	<td>Vitae integer tempus condimentum.</td>
-																	<td>19.99</td>
-																</tr>
-																<tr>
-																	<td>Item5</td>
-																	<td>Ante turpis integer aliquet porttitor.</td>
-																	<td>29.99</td>
-																</tr>
+															</c:forEach>
 															</tbody>
 															<tfoot>
 															<!-- 
@@ -143,10 +113,7 @@
 											
 										</div>
 
-								</section>
 
-						</div>
-					</div>
 					
 						
 					</div>

@@ -50,7 +50,7 @@ public class MenuContentsController {
 	public String menuMng(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
 		
 		// 게시판목록 조회
-		List<BoardVO> boardList = boardService.selectBoardList(searchVO);
+		List<BoardVO> boardList = boardService.selectBoardTitleList(searchVO);
 		model.addAttribute("boardList", boardList);
 		
 		model.addAttribute("menuVO", new MenuVO());
