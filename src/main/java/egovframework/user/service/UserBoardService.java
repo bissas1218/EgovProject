@@ -12,5 +12,9 @@ public interface UserBoardService {
 	
 	List<NormalBoardVO> selectNormalBoardList(SampleDefaultVO searchVO) throws Exception;
 	
-	int selectNormalBoardListTotCnt(SampleDefaultVO searchVO);
+	int selectNormalBoardListTotCnt(SampleDefaultVO searchVO) throws Exception;
+	
+	NormalBoardVO selectNormalBoard(NormalBoardVO normalBoardVO) throws Exception;
+	
+	String updateNormalBoard(NormalBoardVO normalBoardVO) throws Exception;
 }

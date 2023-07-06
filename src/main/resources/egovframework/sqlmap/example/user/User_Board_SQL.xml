@@ -19,11 +19,13 @@
 				  , BOARD_ID
 				  , POST_TITLE
 				  , POST_CONTENT
+				  , REG_DATE
 				   )
 			VALUES ( #norBrdId#
 				  , #boardId#
 				  , #postTitle#
-				  , #postContent# 
+				  , #postContent#
+				  , NOW() 
 				  )
 		]]>
 	</insert>
@@ -34,29 +36,57 @@
 					NOR_BRD_ID norBrdId
 				  , BOARD_ID boardId
 				  , POST_TITLE postTitle
+				  , REG_DATE regDate
 			FROM NORMAL_BOARD
-			WHERE 1=1
+			WHERE BOARD_ID = #boardId#
 			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				NOR_BRD_ID LIKE CONCAT('%', #searchKeyword#, '%')
+				POST_TITLE LIKE CONCAT('%', #searchKeyword#, '%')
 			</isEqual>
 			<isEqual prepend="AND" property="searchCondition" compareValue="1">
-				POST_TITLE LIKE CONCAT('%', #searchKeyword#, '%')
+				POST_CONTENT LIKE CONCAT('%', #searchKeyword#, '%')
 			</isEqual>
 			ORDER BY NOR_BRD_ID DESC
 			LIMIT #recordCountPerPage# OFFSET #firstIndex#		
+			
 	</select>
 	
 	<select id="userBoardDAO.selectNormalBoardListTotCnt" parameterClass="searchVO" resultClass="int">
 
 			SELECT COUNT(*) totcnt
 			FROM NORMAL_BOARD
-			WHERE 1=1
+			WHERE BOARD_ID = #boardId#
 			<isEqual prepend="AND" property="searchCondition" compareValue="0">
-				NOR_BRD_ID LIKE CONCAT('%', #searchKeyword#, '%')
-			</isEqual>
-			<isEqual prepend="AND" property="searchCondition" compareValue="1">
 				POST_TITLE LIKE CONCAT('%', #searchKeyword#, '%')
 			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				POST_CONTENT LIKE CONCAT('%', #searchKeyword#, '%')
+			</isEqual>
+			
 	</select>
+	
+	<select id="userBoardDAO.selectNormalBoard" parameterClass="normalBoardVO" resultClass="normalBoardVO">
+		<![CDATA[
+			SELECT  A.NOR_BRD_ID norBrdId
+				  , A.BOARD_ID boardId
+				  , A.POST_TITLE postTitle
+				  , A.POST_CONTENT postContent
+				  , A.REG_DATE regDate
+				  , B.BOARD_NM boardNm
+				  , B.BOARD_DESCR_YN boardDescrYn
+				  , B.BOARD_DESCR boardDescr
+			FROM NORMAL_BOARD A, BOARD B
+			WHERE A.BOARD_ID = B.BOARD_ID 
+				AND A.NOR_BRD_ID = #norBrdId#
+			]]>	
+	</select>
+	
+	<update id="userBoardDAO.updateNormalBoard" parameterClass="normalBoardVO">
+		<![CDATA[
+			UPDATE NORMAL_BOARD SET
+				 POST_TITLE = #postTitle#
+				,POST_CONTENT = #postContent#
+				WHERE NOR_BRD_ID = #norBrdId#
+		]]>
+	</update>
 	
 </sqlMap>

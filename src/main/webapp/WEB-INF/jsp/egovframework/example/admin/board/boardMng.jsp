@@ -74,6 +74,10 @@
 																<label for="search_board_type-normal">일반게시판</label>
 															</div>
 															<div class="col-4 col-12-small">
+																<input type="radio" id="search_board_type-QandA" name="search_board_type" value="QandA">
+																<label for="search_board_type-QandA">Q&A게시판</label>
+															</div>
+															<div class="col-4 col-12-small">
 																<input type="radio" id="search_board_type-photo" name="search_board_type" value="photo">
 																<label for="search_board_type-photo">사진게시판</label>
 															</div>
@@ -150,6 +154,10 @@
 																<label for="board_type-normal">일반게시판</label>
 															</div>
 															<div class="col-4 col-12-small">
+																<input type="radio" id="board_type-QandA" name="board_type" value="QandA">
+																<label for="board_type-QandA">Q&A게시판</label>
+															</div>
+															<div class="col-4 col-12-small">
 																<input type="radio" id="board_type-photo" name="board_type" value="photo">
 																<label for="board_type-photo">사진게시판</label>
 															</div>
@@ -178,7 +186,9 @@
 																<label for="demo-human">첨부파일사용</label>
 															</div>
 															 -->
-															 
+														</div>
+														<hr/>
+														<div class="row gtr-uniform">
 															<!-- Break -->
 															<h3>게시판 설명</h3>
 															<div class="col-4 col-12-small">

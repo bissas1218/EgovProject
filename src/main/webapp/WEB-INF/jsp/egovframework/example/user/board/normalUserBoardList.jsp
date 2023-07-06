@@ -18,6 +18,11 @@
 		<link rel="stylesheet" href="user/css/main.css" />
 	</head>
 	<body class="is-preload no-sidebar">
+	<form:form modelAttribute="normalBoardVO" id="listForm" name="listForm" method="post">
+	<form:hidden path="pageIndex" />
+	<form:hidden path="boardId" />
+	<form:hidden path="norBrdId" />
+	
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -53,16 +58,28 @@
 									<p><c:out value="${boardVO.boardDescr}"/></p>
 									</c:if>
 									
+									
 
 									<!-- Elements -->
 										<div class="row gtr-200">
 											<div class="col-12">
 
+												<ul class="actions">
+													<li>
+								        				<form:select path="searchCondition">
+								        					<form:option value="0" label="제목" />
+								        					<form:option value="1" label="내용" />
+								        				</form:select>
+													</li>
+													<li><form:input path="searchKeyword" placeholder="검색어를 입력" /></li>
+													<li><a href="javascript:fn_egov_selectList();" class="button"><spring:message code="button.search" /></a></li>
+												</ul>
+									
 													<div class="table-wrapper">
 														<table>
 															<thead>
 																<tr>
-																	<th>게시글번호</th>
+																	<th>게시글ID</th>
 																	<th>제목</th>
 																	<th>작성일</th>
 																</tr>
@@ -71,8 +88,9 @@
 															<c:forEach items="${normalBoardList}" var="normalBoardList">
 																<tr>
 																	<td><c:out value="${normalBoardList.norBrdId}"/></td>
-																	<td><c:out value="${normalBoardList.postTitle}"/></td>
-																	<td>2023-07-05</td>
+																	<td><a href="javascript:fn_egov_select('<c:out value="${normalBoardList.norBrdId}"/>')">
+																		<c:out value="${normalBoardList.postTitle}"/></a></td>
+																	<td><c:out value="${normalBoardList.regDate}"/></td>
 																</tr>
 															</c:forEach>
 															</tbody>
@@ -97,15 +115,11 @@
 
 													<div id="pagination2">
 													<ul class="pagination" >
-														<li><span class="button disabled">Prev</span></li>
-														<li><a href="#" class="page active">1</a></li>
-														<li><a href="#" class="page">2</a></li>
-														<li><a href="#" class="page">3</a></li>
-														<li><span>&hellip;</span></li>
-														<li><a href="#" class="page">8</a></li>
-														<li><a href="#" class="page">9</a></li>
-														<li><a href="#" class="page">10</a></li>
-														<li><a href="#" class="button">Next</a></li>
+														<li><a href="javascript:fn_egov_link_page('${paginationInfo.currentPageNo-1}');" class="button<c:if test="${paginationInfo.currentPageNo-1 eq 0}"> disabled</c:if>">Prev</a></li>
+														<c:forEach var="pageNum" begin="${paginationInfo.firstPageNoOnPageList}" end="${paginationInfo.lastPageNoOnPageList}">
+														<li><a href="javascript:fn_egov_link_page('${pageNum}');" class="page<c:if test="${paginationInfo.currentPageNo eq pageNum}"> active</c:if>">${pageNum }</a></li>
+														</c:forEach>
+														<li><a href="javascript:fn_egov_link_page('${paginationInfo.currentPageNo+1}');" class="button<c:if test="${paginationInfo.totalPageCount eq paginationInfo.currentPageNo}"> disabled</c:if>">Next</a></li>
 													</ul>
 													</div>
 														
@@ -121,82 +135,7 @@
 
 			<!-- Footer -->
 				<div id="footer-wrapper">
-					<footer id="footer" class="container">
-						<div class="row">
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Contact -->
-									<section class="widget contact">
-										<h3>Contact Us</h3>
-										<ul>
-											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-										</ul>
-										<p>1234 Fictional Road<br />
-										Nashville, TN 00000<br />
-										(800) 555-0000</p>
-									</section>
-
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="copyright">
-									<ul class="menu">
-										<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</footer>
+					<jsp:include page="/userFooter.do"></jsp:include>
 				</div>
 
 			</div>
@@ -209,6 +148,29 @@
 			<script src="user/js/breakpoints.min.js"></script>
 			<script src="user/js/util.js"></script>
 			<script src="user/js/main.js"></script>
-
+	</form:form>
+	
+	<script type="text/javascript">
+	
+		/* 글 목록 화면 function */
+	    function fn_egov_selectList() {
+	    	document.listForm.action = "<c:url value='/normalUserBoardList.do'/>";
+	       	document.listForm.submit();
+	    }
+		
+	    /* pagination 페이지 링크 function */
+        function fn_egov_link_page(pageNo){
+        	document.listForm.pageIndex.value = pageNo;
+        	document.listForm.action = "<c:url value='/normalUserBoardList.do'/>";
+           	document.listForm.submit();
+        }
+	    
+        function fn_egov_select(id) {
+        	document.listForm.norBrdId.value = id;
+           	document.listForm.action = "<c:url value='/normalUserBoardView.do'/>";
+           	document.listForm.submit();
+        }
+	</script>
+	
 	</body>
 </html>

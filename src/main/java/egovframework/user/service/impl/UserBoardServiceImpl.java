@@ -30,7 +30,15 @@ public class UserBoardServiceImpl implements UserBoardService{
 	}
 
 	@Override
-	public int selectNormalBoardListTotCnt(SampleDefaultVO searchVO) {
+	public int selectNormalBoardListTotCnt(SampleDefaultVO searchVO) throws Exception {
 		return userBoardDAO.selectNormalBoardListTotCnt(searchVO);
+	}
+	
+	public NormalBoardVO selectNormalBoard(NormalBoardVO normalBoardVO) throws Exception {
+		return userBoardDAO.selectNormalBoard(normalBoardVO);
+	}
+	
+	public String updateNormalBoard(NormalBoardVO normalBoardVO) throws Exception {
+		return userBoardDAO.updateNormalBoard(normalBoardVO);
 	}
 }

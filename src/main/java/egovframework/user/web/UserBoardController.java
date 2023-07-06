@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
@@ -40,31 +41,31 @@ public class UserBoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value="/normalUserBoardList.do")
-	public String normalUserBoard(@ModelAttribute("searchVO") SampleDefaultVO searchVO, @RequestParam("boardId") String boardId, Model model) throws Exception {
-		System.out.println("boardId:"+boardId);
-		model.addAttribute("boardId", boardId);
+	public String normalUserBoard(@ModelAttribute("normalBoardVO") NormalBoardVO normalBoardVO, Model model) throws Exception {
+		//System.out.println("boardId:"+normalBoardVO.getBoardId());
+		model.addAttribute("boardId", normalBoardVO.getBoardId());
 		
-		BoardVO boardVO = boardService.selectBoard(boardId);
+		BoardVO boardVO = boardService.selectBoard(normalBoardVO.getBoardId());
 		model.addAttribute("boardVO", boardVO);
 		
 		/** EgovPropertyService.sample */
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+		normalBoardVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		normalBoardVO.setPageSize(propertiesService.getInt("pageSize"));
 
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
+		paginationInfo.setCurrentPageNo(normalBoardVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(normalBoardVO.getPageUnit());
+		paginationInfo.setPageSize(normalBoardVO.getPageSize());
 
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+		normalBoardVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		normalBoardVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		normalBoardVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<NormalBoardVO> normalBoardList = userBoardService.selectNormalBoardList(searchVO);
+		List<NormalBoardVO> normalBoardList = userBoardService.selectNormalBoardList(normalBoardVO);
 		model.addAttribute("normalBoardList", normalBoardList);
 
-		int totCnt = userBoardService.selectNormalBoardListTotCnt(searchVO);
+		int totCnt = userBoardService.selectNormalBoardListTotCnt(normalBoardVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 		
@@ -80,12 +81,15 @@ public class UserBoardController {
 		return "user/board/normalUserBoardInsert";
 	}
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/normalUserBoardInsert.do", method = RequestMethod.POST)
 	public String normalUserBoardInsertSubmit(NormalBoardVO normalBoardVO, ModelMap model, BindingResult bindingResult) throws Exception {
 		
-		System.out.println("boardId:"+normalBoardVO.getBoardId());
-		System.out.println("postTitle:"+normalBoardVO.getPostTitle());
-		System.out.println("postContent:"+normalBoardVO.getPostContent());
+		//System.out.println("boardId:"+normalBoardVO.getBoardId());
+		//System.out.println("postTitle:"+normalBoardVO.getPostTitle());
+		//System.out.println("postContent:"+normalBoardVO.getPostContent());
+		//System.out.println(StringEscapeUtils.unescapeHtml3(normalBoardVO.getPostContent()));
+		normalBoardVO.setPostContent(StringEscapeUtils.unescapeHtml3(normalBoardVO.getPostContent()));
 		
 		// Server-Side Validation
 		beanValidator.validate(normalBoardVO, bindingResult);
@@ -126,13 +130,59 @@ public class UserBoardController {
 		return "forward:/normalUserBoardList.do";
 	}
 	
-	@RequestMapping(value="/photoUserBoard.do")
-	public String photoUserBoard() throws Exception {
-		return "user/board/photoUserBoard";
+	@RequestMapping(value="/normalUserBoardView.do")
+	public String normalUserBoardView(@ModelAttribute("normalBoardVO") NormalBoardVO normalBoardVO, Model model) throws Exception {
+		
+		String searchKeyword = normalBoardVO.getSearchKeyword();
+		String searchCondition = normalBoardVO.getSearchCondition();
+		int pageIndex = normalBoardVO.getPageIndex();
+		
+		normalBoardVO = userBoardService.selectNormalBoard(normalBoardVO);
+		
+		normalBoardVO.setSearchCondition(searchCondition);
+		normalBoardVO.setSearchKeyword(searchKeyword);
+		normalBoardVO.setPageIndex(pageIndex);
+		
+		model.addAttribute("normalBoardVO", normalBoardVO);
+		
+		return "user/board/normalUserBoardView";
 	}
 	
-	@RequestMapping(value="/videoUserBoard.do")
+	@RequestMapping(value="/normalUserBoardUpdate.do")
+	public String normalUserBoardUpdate(@ModelAttribute("normalBoardVO") NormalBoardVO normalBoardVO, Model model) throws Exception {
+		
+		normalBoardVO = userBoardService.selectNormalBoard(normalBoardVO);
+		model.addAttribute("normalBoardVO", normalBoardVO);
+		
+		return "user/board/normalUserBoardUpdate";
+	}
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="/normalUserBoardUpdate.do", method = RequestMethod.POST)
+	public String normalUserBoardUpdateSubmit(NormalBoardVO normalBoardVO, ModelMap model, BindingResult bindingResult) throws Exception {
+		
+		//System.out.println("boardId:"+normalBoardVO.getBoardId());
+		//System.out.println("postTitle:"+normalBoardVO.getPostTitle());
+		//System.out.println("postContent:"+normalBoardVO.getPostContent());
+		//System.out.println(StringEscapeUtils.unescapeHtml3(normalBoardVO.getPostContent()));
+		normalBoardVO.setPostContent(StringEscapeUtils.unescapeHtml3(normalBoardVO.getPostContent()));
+		
+		// Server-Side Validation
+		beanValidator.validate(normalBoardVO, bindingResult);
+				
+		String result = userBoardService.updateNormalBoard(normalBoardVO);
+		System.out.println("update result:"+result);
+		
+		return "forward:/normalUserBoardList.do";
+	}
+	
+	@RequestMapping(value="/photoUserBoardList.do")
+	public String photoUserBoard() throws Exception {
+		return "user/board/photoUserBoardList";
+	}
+	
+	@RequestMapping(value="/videoUserBoardList.do")
 	public String videoUserBoard() throws Exception {
-		return "user/board/videoUserBoard";
+		return "user/board/videoUserBoardList";
 	}
 }

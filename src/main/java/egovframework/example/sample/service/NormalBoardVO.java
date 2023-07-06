@@ -1,12 +1,14 @@
 package egovframework.example.sample.service;
 
-public class NormalBoardVO {
+public class NormalBoardVO extends BoardVO  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** 게시물id */
 	private String norBrdId;
-	
-	/** 게시판id */
-	private String boardId;
 	
 	/** 게시물제목 */
 	private String postTitle;
@@ -14,20 +16,24 @@ public class NormalBoardVO {
 	/** 게시물내용 */
 	private String postContent;
 	
+	/** 등록일자 */
+	private String regDate;
+	
+	
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
 	public String getNorBrdId() {
 		return norBrdId;
 	}
 
 	public void setNorBrdId(String norBrdId) {
 		this.norBrdId = norBrdId;
-	}
-
-	public String getBoardId() {
-		return boardId;
-	}
-
-	public void setBoardId(String boardId) {
-		this.boardId = boardId;
 	}
 
 	public String getPostContent() {

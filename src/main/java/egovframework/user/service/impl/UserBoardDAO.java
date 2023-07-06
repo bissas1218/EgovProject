@@ -29,4 +29,12 @@ public class UserBoardDAO extends EgovAbstractDAO {
 	public int selectNormalBoardListTotCnt(SampleDefaultVO searchVO) {
 		return (Integer) select("userBoardDAO.selectNormalBoardListTotCnt", searchVO);
 	}
+	
+	public NormalBoardVO selectNormalBoard(NormalBoardVO normalBoardVO) throws Exception {
+		return (NormalBoardVO) select("userBoardDAO.selectNormalBoard", normalBoardVO);
+	}
+	
+	public String updateNormalBoard(NormalBoardVO normalBoardVO) throws Exception {
+		return (String) insert("userBoardDAO.updateNormalBoard", normalBoardVO);
+	}
 }
