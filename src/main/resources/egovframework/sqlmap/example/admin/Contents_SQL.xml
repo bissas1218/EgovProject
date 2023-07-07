@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Contents">
+
+	<typeAlias alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias alias="contentsVO" type="egovframework.example.sample.service.ContentsVO"/>
+
+    <select id="contentsDAO.selectContentsList" parameterClass="searchVO" resultClass="contentsVO">
+			SELECT CONTENTS_ID contentsId
+				, CONTENTS_NM contentsNm
+				, REG_DATE regDate
+			FROM CONTENTS
+			WHERE 1=1
+			<isNotEqual prepend="AND" property="searchKeyword" compareValue="all">
+				CONTENTS_NM LIKE CONCAT('%', #searchKeyword#, '%')
+			</isNotEqual>
+			ORDER BY REG_DATE DESC
+			LIMIT #recordCountPerPage# OFFSET #firstIndex#	
+	</select>
+	
+	<select id="contentsDAO.selectContentsListTotCnt" parameterClass="searchVO" resultClass="Integer">
+			SELECT count(*)
+			FROM CONTENTS
+			WHERE 1=1
+			<isNotEqual prepend="AND" property="searchKeyword" compareValue="all">
+				CONTENTS_NM LIKE CONCAT('%', #searchKeyword#, '%')
+			</isNotEqual>
+	</select>
+	
+	<select id="contentsDAO.selectNewContentsId" resultClass="String">
+    	<![CDATA[
+    		SELECT IFNULL(MAX(RIGHT(CONTENTS_ID, 7)) + 1, 1) FROM CONTENTS
+    	]]>
+    </select>
+    
+    <insert id="contentsDAO.insertContents" parameterClass="contentsVO">
+    	<![CDATA[
+    		INSERT CONTENTS (
+    			  CONTENTS_ID
+				, CONTENTS_NM
+				, CONTENTS_TEXT
+				, REG_DATE
+    		) VALUES (
+    			#contentsId#
+    			,#contentsNm#
+    			,#contentsText#
+    			,now()
+    		)
+    	]]>
+    </insert>
+    
+</sqlMap>
