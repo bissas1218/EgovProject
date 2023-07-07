@@ -36,3 +36,12 @@ CREATE TABLE `normal_board` (
   `POST_CONTENT` longtext NOT NULL,
   UNIQUE KEY `NORMAL_BOARD_NOR_BRD_ID_IDX` (`NOR_BRD_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='일반게시판게시물';
+
+DROP TABLE example.contents;
+
+CREATE TABLE `contents` (
+  `CONTENTS_ID` varchar(10) NOT NULL,
+  `CONTENTS_NM` varchar(50) NOT NULL,
+  `CONTENTS_TEXT` longtext NOT NULL,
+  `REG_DATE` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='컨텐츠';

@@ -86,15 +86,9 @@ public class BoardController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 		/* */
 		List<BoardVO> boardList = boardService.selectBoardList(searchVO);
-		//model.addAttribute("resultList", sampleList);
 
 		int totCnt = boardService.selectBoardListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
-		//System.out.println("paginationInfo:"+paginationInfo);
-		
-		//model.addAttribute("paginationInfo", paginationInfo);
-		
-		//return "admin/board/boardMng";
 		
 		try {
 			String resStr = "[";

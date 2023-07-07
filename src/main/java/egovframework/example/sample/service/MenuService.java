@@ -2,7 +2,7 @@ package egovframework.example.sample.service;
 
 import java.util.List;
 
-public interface MenuContentsService {
+public interface MenuService {
 
 	List<MenuVO> selectMenuList() throws Exception;
 	

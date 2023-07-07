@@ -14,7 +14,7 @@
 		<result property="typeVal" column="TYPE_VAL"/>
 	</resultMap>
 	
-	<select id="menuContentsDAO.selectMenuList" resultMap="menuMap">
+	<select id="menuDAO.selectMenuList" resultMap="menuMap">
         <![CDATA[
             SELECT
                 A.MENU_ID, A.P_MENU_ID, A.MENU_NM, A.DEPTH, A.MENU_ORDER, A.MENU_TYPE, A.TYPE_VAL
@@ -22,7 +22,7 @@
         ]]>
     </select>
     
-    <update id="menuContentsDAO.updateMenu" parameterClass="menuVO">
+    <update id="menuDAO.updateMenu" parameterClass="menuVO">
     	<![CDATA[
     		UPDATE MENU SET MENU_NM = #menuNm#
     			, MENU_TYPE = #menuType#
@@ -31,20 +31,20 @@
     	]]>
     </update>
     
-    <select id="menuContentsDAO.selectNextMenuOrder" parameterClass="String" resultClass="String">
+    <select id="menuDAO.selectNextMenuOrder" parameterClass="String" resultClass="String">
     	<![CDATA[
     	select count(*)+1 from menu where p_menu_id = #pMenuId#
     	]]>
     </select>
     
-    <insert id="menuContentsDAO.insertMenu" parameterClass="menuVO">
+    <insert id="menuDAO.insertMenu" parameterClass="menuVO">
     	<![CDATA[
     		INSERT INTO MENU (MENU_ID, P_MENU_ID, MENU_NM, DEPTH, MENU_ORDER, MENU_TYPE, TYPE_VAL) 
     			VALUES (#menuId#, #pMenuId#, #menuNm#, #depth#, #menuOrder#, #menuType#, #typeVal#)
     	]]>
     </insert>
     
-    <select id="menuContentsDAO.selectNewMenuId" resultClass="String">
+    <select id="menuDAO.selectNewMenuId" resultClass="String">
     	<![CDATA[
     		SELECT MAX(RIGHT(MENU_ID, 4)) + 1 FROM MENU
     	]]>

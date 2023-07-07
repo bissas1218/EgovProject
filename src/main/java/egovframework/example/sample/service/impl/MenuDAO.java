@@ -7,26 +7,26 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.example.sample.service.MenuVO;
 
-@Repository("menuContentsDAO")
-public class MenuContentsDAO extends EgovAbstractDAO {
+@Repository("menuDAO")
+public class MenuDAO extends EgovAbstractDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<MenuVO> selectMenuList() throws Exception {
-		return (List<MenuVO>) list("menuContentsDAO.selectMenuList");
+		return (List<MenuVO>) list("menuDAO.selectMenuList");
 	}
 	
 	public int updateMenu(MenuVO menuVO) throws Exception {
-		return update("menuContentsDAO.updateMenu", menuVO);
+		return update("menuDAO.updateMenu", menuVO);
 	}
 	
 	public String insertMenu(MenuVO menuVO) throws Exception {
-		String nextOrder = (String) select("menuContentsDAO.selectNextMenuOrder", menuVO.getpMenuId());
+		String nextOrder = (String) select("menuDAO.selectNextMenuOrder", menuVO.getpMenuId());
 		menuVO.setMenuOrder(nextOrder);
-		return (String) insert("menuContentsDAO.insertMenu", menuVO);
+		return (String) insert("menuDAO.insertMenu", menuVO);
 	}
 	
 	public String selectNewMenuId() throws Exception {
-		return (String) select("menuContentsDAO.selectNewMenuId");
+		return (String) select("menuDAO.selectNewMenuId");
 	}
 	
 }

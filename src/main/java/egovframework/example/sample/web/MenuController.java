@@ -22,21 +22,21 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.sample.service.BoardService;
-import egovframework.example.sample.service.MenuContentsService;
+import egovframework.example.sample.service.MenuService;
 import egovframework.example.sample.service.MenuVO;
 import egovframework.example.sample.service.BoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
 @Controller
-public class MenuContentsController {
+public class MenuController {
 
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
 	
-	@Resource(name="menuContentsService")
-	private MenuContentsService menuContentsService;
+	@Resource(name="menuService")
+	private MenuService menuService;
 	
 	@Resource(name="boardService")
 	private BoardService boardService;
@@ -55,8 +55,9 @@ public class MenuContentsController {
 		
 		model.addAttribute("menuVO", new MenuVO());
 		
-		return "admin/menuContent/menuMng";
+		return "admin/menu/menuMng";
 	}
+	
 	
 	@RequestMapping(value = "/menuList.do", method=RequestMethod.GET)
 	public void ajaxJsonListTest(@RequestParam("id") String id, HttpServletResponse response) throws Exception {
@@ -64,7 +65,7 @@ public class MenuContentsController {
 	//	Map<String, String> res = new HashMap<String, String>();
 		//res.put("id", "returnVal");
 		try {
-			List<MenuVO> menuList = menuContentsService.selectMenuList();
+			List<MenuVO> menuList = menuService.selectMenuList();
 			//System.out.println("menuList:"+menuList);
 			
 			String resStr = "[";
@@ -111,7 +112,7 @@ public class MenuContentsController {
 		if(menuVO.getMenuId().substring(0,1).equals("j")) {	// 신규
 			
 			// new menuId
-			String newMenuId = menuContentsService.selectNewMenuId();
+			String newMenuId = menuService.selectNewMenuId();
 			switch (newMenuId.length()) {
 			case 1:
 				newMenuId = "M-000" + newMenuId;
@@ -131,12 +132,12 @@ public class MenuContentsController {
 			System.out.println("newMenuId:"+newMenuId);
 			menuVO.setMenuId(newMenuId);
 			
-			menuContentsService.menuInsert(menuVO);
+			menuService.menuInsert(menuVO);
 			//System.out.println("result2:"+result2);
 			result = 1;
 			
 		}else {	// 수정
-			result = menuContentsService.menuUpdate(menuVO);
+			result = menuService.menuUpdate(menuVO);
 		}
 		
 		System.out.println("result:"+result);

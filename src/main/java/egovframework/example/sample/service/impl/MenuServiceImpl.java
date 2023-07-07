@@ -6,28 +6,28 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import egovframework.example.sample.service.MenuContentsService;
+import egovframework.example.sample.service.MenuService;
 import egovframework.example.sample.service.MenuVO;
 
-@Service("menuContentsService")
-public class MenuContentsServiceImpl implements MenuContentsService {
+@Service("menuService")
+public class MenuServiceImpl implements MenuService {
 	
-	@Resource(name="menuContentsDAO")
-	private MenuContentsDAO menuContentsDAO;
+	@Resource(name="menuDAO")
+	private MenuDAO menuDAO;
 	
 	public List<MenuVO> selectMenuList() throws Exception {
-		return menuContentsDAO.selectMenuList();
+		return menuDAO.selectMenuList();
 	}
 	
 	public int menuUpdate(MenuVO menuVO) throws Exception {
-		return menuContentsDAO.updateMenu(menuVO);
+		return menuDAO.updateMenu(menuVO);
 	}
 	
 	public String menuInsert(MenuVO menuVO) throws Exception {
-		return menuContentsDAO.insertMenu(menuVO);
+		return menuDAO.insertMenu(menuVO);
 	}
 	
 	public String selectNewMenuId() throws Exception {
-		return menuContentsDAO.selectNewMenuId();
+		return menuDAO.selectNewMenuId();
 	}
 }

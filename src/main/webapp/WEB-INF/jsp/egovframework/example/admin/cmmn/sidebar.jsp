@@ -17,13 +17,8 @@
 					<ul>
 						<li><a href="/egovSampleList.do">Board예제</a></li>
 						<li><a href="/chartSample.do">Charts</a></li>
-						<li>
-							<span class="opener">Menu/컨텐츠관리</span>
-							<ul>
-								<li><a href="/menuMng.do">메뉴관리</a></li>
-								<li><a href="/contentsMng.do">컨텐츠관리</a>
-							</ul>
-						</li>
+						<li><a href="/menuMng.do">메뉴관리</a></li>
+						<li><a href="/contentsMng.do">컨텐츠관리</a>
 						<li><a href="/boardMng.do">게시판관리</a>
 						<li><a href="/adminMain.do">Homepage</a></li>
 						<li><a href="generic.html">Generic</a></li>
