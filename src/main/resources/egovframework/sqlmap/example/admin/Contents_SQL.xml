@@ -28,6 +28,13 @@
 			</isNotEqual>
 	</select>
 	
+	<select id="contentsDAO.selectContentsAllList" parameterClass="searchVO" resultClass="contentsVO">
+			SELECT CONTENTS_ID contentsId
+				, CONTENTS_NM contentsNm
+				, REG_DATE regDate
+			FROM CONTENTS
+	</select>
+	
 	<select id="contentsDAO.selectNewContentsId" resultClass="String">
     	<![CDATA[
     		SELECT IFNULL(MAX(RIGHT(CONTENTS_ID, 7)) + 1, 1) FROM CONTENTS
@@ -49,5 +56,22 @@
     		)
     	]]>
     </insert>
+    
+    <select id="contentsDAO.selectContents" parameterClass="String" resultClass="contentsVO">
+    	<![CDATA[ 
+    		select CONTENTS_ID contentsId, 
+    			CONTENTS_NM contentsNm, 
+    			CONTENTS_TEXT contentsText, 
+    			REG_DATE regDate  
+    			from CONTENTS where CONTENTS_ID = #contentsId#
+    	]]>
+    </select>
+    
+    <update id="contentsDAO.updateContents" parameterClass="contentsVO">
+    	<![CDATA[ 
+    		UPDATE CONTENTS SET CONTENTS_TEXT = #contentsText#, CONTENTS_NM = #contentsNm#
+    			WHERE CONTENTS_ID = #contentsId#
+    	]]>
+    </update>
     
 </sqlMap>

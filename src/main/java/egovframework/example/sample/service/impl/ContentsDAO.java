@@ -16,6 +16,11 @@ public class ContentsDAO extends EgovAbstractDAO {
 		return (List<ContentsVO>) list("contentsDAO.selectContentsList", sampleVO);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<ContentsVO> selectContentsAllList(SampleDefaultVO sampleVO) throws Exception {
+		return (List<ContentsVO>) list("contentsDAO.selectContentsAllList", sampleVO);
+	}
+	
 	public int selectContentsListTotCnt(SampleDefaultVO sampleVO) throws Exception {
 		return (int) select("contentsDAO.selectContentsListTotCnt", sampleVO);
 	}
@@ -26,5 +31,13 @@ public class ContentsDAO extends EgovAbstractDAO {
 	
 	public String insertContents(ContentsVO contentsVO) throws Exception {
 		return (String) insert("contentsDAO.insertContents", contentsVO);
+	}
+	
+	public ContentsVO selectContents(String contentsId) throws Exception {
+		return (ContentsVO) select("contentsDAO.selectContents", contentsId);
+	}
+	
+	public int updateContents(ContentsVO contentsVO) throws Exception {
+		return update("contentsDAO.updateContents", contentsVO);
 	}
 }

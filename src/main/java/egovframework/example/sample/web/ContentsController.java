@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.example.sample.service.BoardVO;
 import egovframework.example.sample.service.ContentsService;
@@ -92,9 +94,10 @@ public class ContentsController {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/insertContents.do", method = RequestMethod.POST)
 	public String insertContents(@ModelAttribute("contentsVO") ContentsVO contentsVO) throws Exception {
-		System.out.println("===> "+contentsVO.getContentsText());
+		//System.out.println("===> "+contentsVO.getContentsText());
 		
 		// 신규컨텐츠id 생성
 		String newContentsId = contentsService.selectNewContentsId();
@@ -123,11 +126,39 @@ public class ContentsController {
 		default:
 			break;
 		}
-		System.out.println("newContentsId:"+newContentsId);
+		//System.out.println("newContentsId:"+newContentsId);
+		
+		contentsVO.setContentsText(StringEscapeUtils.unescapeHtml3(contentsVO.getContentsText()));
 		
 		contentsVO.setContentsId(newContentsId);
 		
 		String result = contentsService.insertContents(contentsVO);
+		System.out.println("result:"+result);
+		
+		return "redirect:/contentsMng.do";
+	}
+	
+	@RequestMapping(value="/selectContents.do")
+	public void selectContents(@RequestParam("contentsId") String contentsId, HttpServletResponse response) throws Exception {
+		ContentsVO vo = contentsService.selectContents(contentsId);
+		System.out.println("Contents Text:"+vo.getContentsText());
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print("{\"contentsId\":\""+vo.getContentsId()+"\", \"contentsNm\":\""+vo.getContentsNm()+"\", \"contentsText\":\""+vo.getContentsText()+"\"}");
+	}
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value = "/updateContents.do", method = RequestMethod.POST)
+	public String updateContents(@ModelAttribute("contentsVO") ContentsVO contentsVO) throws Exception {
+		
+		contentsVO.setContentsText(StringEscapeUtils.unescapeHtml3(contentsVO.getContentsText()));
+		
+		System.out.println("===> "+contentsVO.getContentsText());
+		
+		contentsVO.setContentsText(contentsVO.getContentsText().replaceAll("\"", "'"));
+		
+		System.out.println("===> "+contentsVO.getContentsText());
+		
+		int result = contentsService.updateContents(contentsVO);
 		System.out.println("result:"+result);
 		
 		return "redirect:/contentsMng.do";

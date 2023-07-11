@@ -11,6 +11,7 @@
 		<result property="pMenuId" column="P_MENU_ID"/>
 		<result property="menuNm" column="MENU_NM"/>
 		<result property="depth" column="DEPTH"/>
+		<result property="menuType" column="MENU_TYPE"/>
 		<result property="cMenuCnt" column="C_MENU_CNT"/>
 		<result property="boardType" column="BOARD_TYPE"/>
 		<result property="typeVal" column="TYPE_VAL"/>
@@ -18,9 +19,15 @@
 	
 	<select id="UserMainDAO.selectUserMenuList" resultMap="menuMap">
 	<![CDATA[
-		select A.*, 
-			(select COUNT(*) from MENU where A.MENU_ID = P_MENU_ID) as C_MENU_CNT,
-			(SELECT BOARD_TYPE FROM BOARD WHERE A.TYPE_VAL = BOARD_ID) AS BOARD_TYPE
+		select A.MENU_ID
+			, A.P_MENU_ID
+			, A.MENU_NM
+			, A.DEPTH
+			, A.MENU_ORDER
+			, A.MENU_TYPE
+			, A.TYPE_VAL 
+			, (select COUNT(*) from MENU where A.MENU_ID = P_MENU_ID) as C_MENU_CNT
+			, (SELECT BOARD_TYPE FROM BOARD WHERE A.TYPE_VAL = BOARD_ID) AS BOARD_TYPE
 			from MENU A 
 			order by depth asc, menu_order asc
 	]]>

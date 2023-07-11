@@ -26,6 +26,11 @@
 	    <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
 	    <validator:javascript formName="contentsVO" staticJavascript="false" xhtml="true" cdata="false"/>
 	    
+	    <style>
+			.ck-editor__editable{ height: 400px; }
+		/*	.ck-content{ font-size: 12px; } */
+		</style>
+	
 	</head>
 	<body class="is-preload">
 	
@@ -34,6 +39,7 @@
 
 				<form:form modelAttribute="contentsVO" id="contentsFrm" name="contentsFrm">
 				<form:hidden path="contentsText" />
+				<form:hidden path="contentsId" />
 				
 				<!-- Main -->
 					<div id="main">
@@ -169,7 +175,7 @@
 										<div class="col-12">
 											<ul class="actions">
 												<li><input type="button" value="등록하기" class="primary" id="contentsInsertBtn" /></li>
-												<li><input type="reset" value="취소하기" /></li>
+												<li><input type="button" value="수정하기" id="contentsUpdateBtn" /></li>
 											</ul>
 										</div>
 									</div>
@@ -190,7 +196,7 @@
 
 			</div>
 
-
+	
 		<!-- Scripts -->
 			<script src="admin/js/jquery.min.js"></script>
 			<script src="admin/js/browser.min.js"></script>
@@ -207,9 +213,9 @@
 		
 	});
 	
-	ClassicEditor
-	.create( document.querySelector( '#editor' ), {
-		// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+	ClassicEditor.create( document.querySelector( '#editor' ), {
+		language: 'ko',
+	//	toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ],
 	} )
 	.then( editor => {
 		window.editor = editor;
@@ -226,21 +232,12 @@
 			url: '/selectContentsList.do',
 			dataType: 'json',
 			success: function(result){
-				console.log(result);
-$("#boardList > tbody:last > tr").remove();
+				$("#boardList > tbody:last > tr").remove();
 				
 				for(var i=0; i<result.length; i++){
 					if(result[i].contentsId != null){
-						$("#boardList > tbody:last").append("<tr><td>"+result[i].contentsId+'</td><td><a href="javascript:selectBoard(\''+result[i].contentsId+'\');">'+result[i].contentsNm+"</a></td><td>"+result[i].regDate+"</td></tr>");	
+						$("#boardList > tbody:last").append("<tr><td>"+result[i].contentsId+'</td><td><a href="javascript:selectContents(\''+result[i].contentsId+'\');">'+result[i].contentsNm+"</a></td><td>"+result[i].regDate+"</td></tr>");	
 					}else{
-						/*
-						console.log(result[i].totalRecordCount); // 
-						console.log(result[i].currentPageNo); 
-						console.log(result[i].recordCountPerPage);
-						console.log(result[i].pageSize);
-						console.log(result[i].firstPageNoOnPageList); 
-						console.log(result[i].lastPageNoOnPageList); 
-						*/
 						
 						// pagination
 						var ul_list = $(".pagination"); //ul_list선언
@@ -261,7 +258,7 @@ $("#boardList > tbody:last > tr").remove();
 						}
 						
 						var nextClassVal = "button";
-						console.log(result[i].totalPageCount, result[i].currentPageNo);
+						//console.log(result[i].totalPageCount, result[i].currentPageNo);
 						if(result[i].totalPageCount == result[i].currentPageNo){
 							nextClassVal = "button disabled";
 						}
@@ -285,6 +282,42 @@ $("#boardList > tbody:last > tr").remove();
 		frm.action = "<c:url value='/insertContents.do'/>";
 		frm.submit();
 		
+	});
+	
+	function selectContents(contentsId){
+		//console.log(contentsId);
+		$.ajax({
+			type: 'get',
+			data: {contentsId: contentsId},
+			url: '/selectContents.do',
+			dataType: 'json',
+			success: function(result){
+				//console.log(result.contentsText);
+				window.editor.setData(result.contentsText);
+				$("#contentsId").val(result.contentsId);
+				$("#contentsNm").val(result.contentsNm);
+			},
+			error : function( jqXHR, textStatus, errorThrown ) {
+				console.log('---selectContents error!---');
+				console.log( jqXHR.status );
+				console.log( jqXHR.statusText );
+				console.log( jqXHR.responseText );
+				console.log( jqXHR.readyState );
+				console.log( textStatus );
+				console.log( errorThrown );
+
+			}
+		});
+	}
+	
+	$("#contentsUpdateBtn").on("click", function() {
+		
+		var val = window.editor.getData();
+		$("#contentsText").val(val);
+		
+		frm = document.contentsFrm;
+		frm.action = "<c:url value='/updateContents.do'/>";
+		frm.submit();
 	});
 	
 	</script>

@@ -20,6 +20,10 @@ public class ContentsServiceImpl implements ContentsService {
 		return contentsDAO.selectContentsList(sampleVO);
 	}
 
+	public List<ContentsVO> selectContentsAllList(SampleDefaultVO sampleVO) throws Exception {
+		return contentsDAO.selectContentsAllList(sampleVO);
+	}
+	
 	public int selectContentsListTotCnt(SampleDefaultVO sampleVO) throws Exception {
 		return contentsDAO.selectContentsListTotCnt(sampleVO);
 	}
@@ -30,5 +34,13 @@ public class ContentsServiceImpl implements ContentsService {
 	
 	public String insertContents(ContentsVO contentsVO) throws Exception {
 		return contentsDAO.insertContents(contentsVO);
+	}
+	
+	public ContentsVO selectContents(String contentsId) throws Exception {
+		return contentsDAO.selectContents(contentsId);
+	}
+	
+	public int updateContents(ContentsVO contentsVO) throws Exception {
+		return contentsDAO.updateContents(contentsVO);
 	}
 }

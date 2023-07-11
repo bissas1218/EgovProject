@@ -28,7 +28,16 @@
 				<c:forEach var="userMenuList3" items="${userMenuList}">
 				<c:if test="${userMenuList3.depth eq '3' && userMenuList2.menuId eq userMenuList3.pMenuId}">
 					<li>
-					<a href="<c:out value="${userMenuList3.boardType}" />UserBoardList.do?boardId=<c:out value="${userMenuList3.typeVal}" />"><c:out value="${userMenuList3.menuNm }" /></a>
+					<c:if test="${userMenuList3.menuType eq 'board'}">
+					<a href="<c:out value="${userMenuList3.boardType}" />UserBoardList.do?boardId=<c:out value="${userMenuList3.typeVal}" />">
+						<c:out value="${userMenuList3.menuNm }" />
+					</a>
+					</c:if>
+					<c:if test="${userMenuList3.menuType eq 'content'}">
+					<a href="UserContentsView.do?contentsId=<c:out value="${userMenuList3.typeVal}" />">
+						<c:out value="${userMenuList3.menuNm }" />
+					</a>
+					</c:if>
 					</li>
 				</c:if>
 				</c:forEach>

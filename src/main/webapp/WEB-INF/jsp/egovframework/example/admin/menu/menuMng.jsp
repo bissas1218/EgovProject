@@ -145,6 +145,19 @@
 														</div>
 														
 														<!-- Break -->
+														<div class="col-12">
+															<select name="contents_list" id="contents_list">
+																<option value="">- 컨텐츠목록 -</option>
+																<c:forEach var="contentsList" items="${contentsList}">
+																<option value="<c:out value="${contentsList.contentsId}"/>">
+																	<c:out value="${contentsList.contentsId}"/>-
+																	<c:out value="${contentsList.contentsNm}"/>
+																</option>
+																</c:forEach>
+															</select>
+														</div>
+														
+														<!-- Break -->
 														<div class="col-6 col-12-small">
 															<input type="checkbox" id="demo-copy" name="demo-copy">
 															<label for="demo-copy">Email me a copy</label>
@@ -413,6 +426,13 @@
     		}
     		//console.log(num-1);
     		
+    		var typeVal = '';
+    		if( $('input:radio[name="menuType"]:checked').val() == 'board'){
+    			typeVal = $("#board_list option:selected").val();
+    		}else if( $('input:radio[name="menuType"]:checked').val() == 'content'){
+    			typeVal = $("#contents_list option:selected").val();
+    		}
+    		
     		$.ajax({
 				type: 'post',
 				url: '/menuUpdate.do',
@@ -423,7 +443,7 @@
 						pMenuId:parentNode($("#menuId").val()).id,
 						depth:num-1,
 						menuType:$('input:radio[name="menuType"]:checked').val(),
-						typeVal:$("#board_list option:selected").val()
+						typeVal:typeVal
 					},
 				dataType: 'text',
 				success: function(result){
@@ -465,7 +485,15 @@
         	  console.log(getNode(data.selected[0]).original.a_attr);	// type val
         	//  $("input:radio[name ='menuType']:input[value='"+getNode(data.selected[0]).original.li_attr+"']").attr("checked", true);
         	  $("input[name='menuType'][value='"+getNode(data.selected[0]).original.li_attr+"']").prop("checked", true);	// 메뉴타입 선택
-        	  $("#board_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 게시판 선택
+        	  
+        	  if( getNode(data.selected[0]).original.li_attr == 'board' ){
+        		  $("#board_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 게시판 선택
+        		  $("#contents_list").val('').prop("selected", true);
+        	  }else if( getNode(data.selected[0]).original.li_attr == 'content' ) {
+        		  $("#contents_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 컨텐츠 선택
+        		  $("#board_list").val('').prop("selected", true);
+        	  }
+        	  
        });
        
     // tree node 선택

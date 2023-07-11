@@ -16,13 +16,17 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="user/css/main.css" />
-	<link type="text/css" href="ckeditor/sample/css/sample.css" rel="stylesheet" media="screen" />
 	<script src="user/js/jquery.min.js"></script>
 	
 	<!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
     <validator:javascript formName="normalBoardVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
+    <style>
+		.ck-editor__editable{ height: 400px; }
+	/*	.ck-content{ font-size: 12px; } */
+	</style>
+	
 </head>
 
 <body class="is-preload no-sidebar">

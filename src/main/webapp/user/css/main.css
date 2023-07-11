@@ -188,7 +188,10 @@ input, select, textarea {
 		font-style: italic;
 	}
 
-	p, ul, ol, dl, table {
+	p {
+  		margin: 0 0 0 0; }
+  
+	ul, ol, dl, table {
 		margin-bottom: 2em;
 	}
 

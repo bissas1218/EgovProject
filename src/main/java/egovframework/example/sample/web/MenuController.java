@@ -25,6 +25,8 @@ import egovframework.example.sample.service.BoardService;
 import egovframework.example.sample.service.MenuService;
 import egovframework.example.sample.service.MenuVO;
 import egovframework.example.sample.service.BoardVO;
+import egovframework.example.sample.service.ContentsService;
+import egovframework.example.sample.service.ContentsVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
@@ -41,6 +43,9 @@ public class MenuController {
 	@Resource(name="boardService")
 	private BoardService boardService;
 	
+	@Resource(name="contentsService")
+	private ContentsService contentsService;
+	
 	@RequestMapping(value = "/sidebar.do")
 	public String sideBar() throws Exception {
 		return "admin/cmmn/sidebar";
@@ -52,6 +57,10 @@ public class MenuController {
 		// 게시판목록 조회
 		List<BoardVO> boardList = boardService.selectBoardTitleList(searchVO);
 		model.addAttribute("boardList", boardList);
+		
+		// 컨텐츠목록 조회
+		List<ContentsVO> contentsList = contentsService.selectContentsAllList(searchVO);
+		model.addAttribute("contentsList", contentsList);
 		
 		model.addAttribute("menuVO", new MenuVO());
 		
