@@ -46,7 +46,7 @@
 						<div class="row">
 							<div class="col-12">
 								<h2>사진게시판</h2>
-								<p>It's a free responsive site template by HTML5 UPIt's a free responsive site template by HTML5 UPIt's a free responsive site template by HTML5 UPIt's a free responsive site template by HTML5 UP</p>
+								<p>추억이 담긴 사진게시판 입니다.</p>
 							</div>
 						</div>
 					</div>
@@ -61,127 +61,38 @@
 						<div id="wrapper">
 							<!-- Main -->
 							<div id="main">
+							<c:forEach items="${photoBoardList}" var="photoBoardList">
 								<article class="thumb">
-									<a href="images/fulls/13.jpg" class="image"><img src="images/thumbs/13.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
+									<a href="images/fulls/<c:out value="${photoBoardList.saveNm}"/>" class="image"><img src="images/thumbs/<c:out value="${photoBoardList.saveNm}"/>" alt="" /></a>
+									<h2><c:out value="${photoBoardList.title}"/></h2>
+									<p><c:out value="${photoBoardList.descr}"/> &nbsp;&nbsp;&nbsp; 
+										<a href="javascript:fn_photo_delete('P-0000001');" style="font-size:12pt;color:red;">[삭제]</a></p>
 								</article>
-								<article class="thumb">
-									<a href="images/fulls/14.jpg" class="image"><img src="images/thumbs/14.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
-								<article class="thumb">
-									<a href="images/fulls/15.jpg" class="image"><img src="images/thumbs/15.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
-								<article class="thumb">
-									<a href="images/fulls/16.jpg" class="image"><img src="images/thumbs/16.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
-								<article class="thumb">
-									<a href="images/fulls/17.jpg" class="image"><img src="images/thumbs/17.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
-								<article class="thumb">
-									<a href="images/fulls/18.jpg" class="image"><img src="images/thumbs/18.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
-								<article class="thumb">
-									<a href="images/fulls/19.jpg" class="image"><img src="images/thumbs/19.jpg" alt="" /></a>
-									<h2>Magna feugiat lorem</h2>
-									<p>Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.</p>
-								</article>
+							</c:forEach>
 							</div>
+							
+							<form name="photoUploadFrm" id="photoUploadFrm" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="boardId" id="boardId" value="<c:out value="${boardId}" />"/>
+							<div style="padding-top:10px;">
+								<ul class="actions">
+									<li><input type="text" name="title" id="title" /></li>
+									<li><input type="text" name="descr" id="descr" /></li>
+									<li><input type="file" name="photo_file1"/></li>
+									<li><a href="javascript:fn_photo_upload();" class="button icon solid fa-download">신규사진등록</a></li>
+								</ul>
+							</div>
+							</form>
+														
 						</div>
 			
-			
 					</div>
+					
 				</div>
 				
 
 			<!-- Footer -->
 				<div id="footer-wrapper">
-					<footer id="footer" class="container">
-						<div class="row">
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Contact -->
-									<section class="widget contact">
-										<h3>Contact Us</h3>
-										<ul>
-											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-										</ul>
-										<p>1234 Fictional Road<br />
-										Nashville, TN 00000<br />
-										(800) 555-0000</p>
-									</section>
-
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="copyright">
-									<ul class="menu">
-										<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</footer>
+					<jsp:include page="/userFooter.do"></jsp:include>
 				</div>
 
 			</div>
@@ -196,5 +107,17 @@
 			<script src="user/js/main.js"></script>
 			<script src="user/js/photoMain.js"></script>
 
+		<script type="text/javascript">
+		
+			function fn_photo_upload(){
+	           	document.photoUploadFrm.action = "<c:url value='/photoUserBoardInsert.do'/>";
+	           	document.photoUploadFrm.submit();
+			}
+			
+			function fn_photo_delete(photoId){
+				alert('사진을 삭제하시겠습니까?');
+			}
+			
+		</script>
 	</body>
 </html>
