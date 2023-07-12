@@ -17,4 +17,9 @@ public interface UserBoardService {
 	NormalBoardVO selectNormalBoard(NormalBoardVO normalBoardVO) throws Exception;
 	
 	String updateNormalBoard(NormalBoardVO normalBoardVO) throws Exception;
+	
+	String selectNewPhotoBoardId() throws Exception;
+	void insertPhotoUpload(PhotoBoardVO photoBoardVO) throws Exception;
+	
+	List<PhotoBoardVO> selectPhotoBoardList(String boardId) throws Exception;
 }

@@ -45,3 +45,19 @@ CREATE TABLE `contents` (
   `CONTENTS_TEXT` longtext NOT NULL,
   `REG_DATE` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='컨텐츠';
+
+DROP TABLE example.photo_board;
+
+CREATE TABLE `photo_board` (
+  `PHOTO_ID` varchar(10) NOT NULL,
+  `SAVE_NM` varchar(50) DEFAULT NULL,
+  `TYPE` varchar(10) DEFAULT NULL,
+  `SIZE` varchar(10) DEFAULT NULL,
+  `REAL_NM` varchar(50) DEFAULT NULL,
+  `SAVE_PATH` varchar(1000) DEFAULT NULL,
+  `TITLE` varchar(50) DEFAULT NULL,
+  `DESCR` varchar(100) DEFAULT NULL,
+  `REG_DATE` datetime DEFAULT NULL,
+  `BOARD_ID` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `photo_board_PHOTO_ID_IDX` (`PHOTO_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='사진게시판';

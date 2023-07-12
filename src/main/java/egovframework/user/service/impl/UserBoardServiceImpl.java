@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.user.service.PhotoBoardVO;
 import egovframework.user.service.UserBoardService;
 
 @Service("userBoardService")
@@ -40,5 +41,17 @@ public class UserBoardServiceImpl implements UserBoardService{
 	
 	public String updateNormalBoard(NormalBoardVO normalBoardVO) throws Exception {
 		return userBoardDAO.updateNormalBoard(normalBoardVO);
+	}
+	
+	public String selectNewPhotoBoardId() throws Exception {
+		return userBoardDAO.selectNewPhotoBoardId();
+	}
+	
+	public void insertPhotoUpload(PhotoBoardVO photoBoardVO) throws Exception {
+		userBoardDAO.insertPhotoUpload(photoBoardVO);
+	}
+	
+	public List<PhotoBoardVO> selectPhotoBoardList(String boardId) throws Exception {
+		return userBoardDAO.selectPhotoBoardList(boardId);
 	}
 }

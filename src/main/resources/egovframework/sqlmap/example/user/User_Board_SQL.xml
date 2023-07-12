@@ -5,6 +5,7 @@
 
 	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="normalBoardVO" type="egovframework.example.sample.service.NormalBoardVO"/>
+	<typeAlias  alias="photoBoardVO" type="egovframework.user.service.PhotoBoardVO"/>
 	
 	<select id="userBoardDAO.selectNewNormalBoardId" resultClass="String">
     	<![CDATA[
@@ -88,5 +89,56 @@
 				WHERE NOR_BRD_ID = #norBrdId#
 		]]>
 	</update>
+	
+	<select id="userBoardDAO.selectNewPhotoBoardId" resultClass="String">
+    	<![CDATA[
+    		SELECT IFNULL(MAX(RIGHT(PHOTO_ID, 7)) + 1, 1) FROM PHOTO_BOARD
+    	]]>
+    </select>
+    
+	<insert id="userBoardDAO.insertPhotoUpload" parameterClass="photoBoardVO">
+		<![CDATA[
+			INSERT INTO PHOTO_BOARD (
+				 PHOTO_ID
+				,SAVE_NM
+				,TYPE
+				,SIZE
+				,REAL_NM
+				,SAVE_PATH
+				,BOARD_ID
+				,TITLE
+				,DESCR
+				,REG_DATE
+			) VALUES (
+				 #photoId#
+				,#saveNm#
+				,#type#
+				,#size#
+				,#realNm#
+				,#savePath#
+				,#boardId#
+				,#title#
+				,#descr#
+				,NOW()
+			)
+		]]>
+	</insert>
+	
+	<select id="userBoardDAO.selectPhotoBoardList" resultClass="photoBoardVO" parameterClass="String">
+		<![CDATA[
+			SELECT   PHOTO_ID boardId
+					,SAVE_NM saveNm
+					,TYPE type
+					,SIZE size
+					,REAL_NM realNm
+					,SAVE_PATH savePath
+					,BOARD_ID boardId
+					,TITLE title
+					,DESCR descr
+					,REG_DATE regDate
+			FROM PHOTO_BOARD
+				WHERE BOARD_ID = #boardId#
+		]]>
+	</select>
 	
 </sqlMap>

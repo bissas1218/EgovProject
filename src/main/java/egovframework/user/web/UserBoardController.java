@@ -1,5 +1,9 @@
 package egovframework.user.web;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,12 +19,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.sample.service.BoardService;
 import egovframework.example.sample.service.BoardVO;
 import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.user.service.PhotoBoardVO;
 import egovframework.user.service.UserBoardService;
 
 @Controller
@@ -127,7 +134,7 @@ public class UserBoardController {
 		String result = userBoardService.insertNormalBoard(normalBoardVO);
 		System.out.println("result:"+result);
 		
-		return "forward:/normalUserBoardList.do";
+		return "redirect:/normalUserBoardList.do";
 	}
 	
 	@RequestMapping(value="/normalUserBoardView.do")
@@ -173,12 +180,113 @@ public class UserBoardController {
 		String result = userBoardService.updateNormalBoard(normalBoardVO);
 		System.out.println("update result:"+result);
 		
-		return "forward:/normalUserBoardList.do";
+		return "redirect:/normalUserBoardList.do";
 	}
 	
 	@RequestMapping(value="/photoUserBoardList.do")
-	public String photoUserBoard() throws Exception {
+	public String photoUserBoardList(@RequestParam("boardId") String boardId, Model model) throws Exception {
+		//System.out.println("===========================photoUserBoardList================================"+boardId);
+		model.addAttribute("boardId", boardId);
+		List<PhotoBoardVO> list = userBoardService.selectPhotoBoardList(boardId);
+		model.addAttribute("photoBoardList", list);
+		
 		return "user/board/photoUserBoardList";
+	}
+	
+	@RequestMapping(value="/photoUserBoardInsert.do", method = RequestMethod.POST)
+	public String photoUserBoardInsert(MultipartHttpServletRequest multipart, PhotoBoardVO photoBoardVO) throws Exception {
+		//System.out.println("===========================photoUserBoardInsert================================");
+		//System.out.println("file name:"+multipart);
+		//System.out.println("boardId:"+multipart.getParameter("boardId"));
+		//String boardId = multipart.getParameter("boardId");
+		
+		Iterator<String> itr = multipart.getFileNames();
+		
+		boolean isLocal = false;
+		//System.out.println(multipart.getParameter("id"));
+				
+		String requestUrl = new String(multipart.getRequestURL());
+		System.out.println(requestUrl);		
+		if (requestUrl.contains("localhost") || requestUrl.contains("127.0.0.1"))
+		{
+			isLocal = true;
+		}
+		isLocal = true;
+		String filePath = "/usr/local/리눅스 서버 경로.....";
+		String filePath2 = "/usr/local/리눅스 서버 경로.....";
+		if (isLocal) {
+			//filePath = "F:\\eGovFrameDev-3.8.0-64bit\\Server\\apache-tomcat-9.0.21\\webapps\\test";
+			//filePath = "C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\webapp\\images\\thumbs";
+			//filePath2 = "C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\webapp\\images\\fulls";
+			filePath = "C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\EgovProject\\images\\thumbs";
+			filePath2 = "C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\EgovProject\\images\\fulls";
+		}
+		
+		while(itr.hasNext()) {
+			MultipartFile mpf = multipart.getFile(itr.next());
+			
+			System.out.println(mpf);
+			System.out.println("name:"+mpf.getName());
+			System.out.println("content type:"+mpf.getContentType());
+			System.out.println("original filename:"+mpf.getOriginalFilename());
+			System.out.println("size:"+mpf.getSize());
+			System.out.println("bytes:"+mpf.getBytes());
+			System.out.println("resource:"+mpf.getResource());
+			
+			String orgFileNm = mpf.getOriginalFilename();
+			String fileExt = orgFileNm.substring(orgFileNm.lastIndexOf('.')+1);
+			String fileName =orgFileNm.substring(0, orgFileNm.lastIndexOf('.'));
+			photoBoardVO.setType(fileExt);
+			photoBoardVO.setRealNm(fileName);
+			photoBoardVO.setSavePath(filePath);
+			photoBoardVO.setSize(mpf.getSize());
+		//	photoBoardVO.setBoardId(boardId);
+			
+			String fullFileName =fileName +"_"+ new SimpleDateFormat("yyyyMMddhhmm").format(new Date()) + "." + fileExt;
+			
+			mpf.transferTo(new File(filePath + File.separator + fullFileName));
+			mpf.transferTo(new File(filePath2 + File.separator + fullFileName));
+			System.out.println(fullFileName);
+			
+			photoBoardVO.setSaveNm(fullFileName);
+			
+			// db저장
+		//	System.out.println(photoBoardVO.getTitle());
+			String newPhotoId = userBoardService.selectNewPhotoBoardId();
+			switch (newPhotoId.length()) {
+			case 1:
+				newPhotoId = "P-0000000" + newPhotoId;
+				break;
+			case 2:
+				newPhotoId = "P-000000" + newPhotoId;
+				break;
+			case 3:
+				newPhotoId = "P-00000" + newPhotoId;
+				break;
+			case 4:
+				newPhotoId = "P-0000" + newPhotoId;
+				break;
+			case 5:
+				newPhotoId = "P-000" + newPhotoId;
+				break;
+			case 6:
+				newPhotoId = "P-00" + newPhotoId;
+				break;
+			case 7:
+				newPhotoId = "P-0" + newPhotoId;
+				break;
+			case 8:
+				newPhotoId = "P-" + newPhotoId;
+				break;
+			default:
+				break;
+			}
+			photoBoardVO.setPhotoId(newPhotoId);
+			userBoardService.insertPhotoUpload(photoBoardVO);
+			
+		}
+		
+		return "redirect:/photoUserBoardList.do?boardId="+photoBoardVO.getBoardId();
 	}
 	
 	@RequestMapping(value="/videoUserBoardList.do")
