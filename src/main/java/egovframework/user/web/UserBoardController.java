@@ -29,6 +29,9 @@ import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.user.service.PhotoBoardVO;
 import egovframework.user.service.UserBoardService;
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 @Controller
 public class UserBoardController {
@@ -128,11 +131,11 @@ public class UserBoardController {
 		default:
 			break;
 		}
-		System.out.println("newNormalBoardId:"+newNormalBoardId);
+		//System.out.println("newNormalBoardId:"+newNormalBoardId);
 		normalBoardVO.setNorBrdId(newNormalBoardId);
 		
 		String result = userBoardService.insertNormalBoard(normalBoardVO);
-		System.out.println("result:"+result);
+		//System.out.println("result:"+result);
 		
 		return "redirect:/normalUserBoardList.do";
 	}
@@ -291,6 +294,18 @@ public class UserBoardController {
 	
 	@RequestMapping(value="/videoUserBoardList.do")
 	public String videoUserBoard() throws Exception {
+		
+		//FFmpeg ffmpeg = new FFmpeg("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\test\\resources\\ffmpeg\\bin\\ffmpeg.exe");
+		//FFprobe ffprobe = new FFprobe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\test\\resources\\ffmpeg\\bin\\ffprobe.exe");
+		
+		FFmpeg ffmpeg = new FFmpeg("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffmpeg.exe");
+		FFprobe ffprobe = new FFprobe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffprobe.exe");
+		
+		FFmpegProbeResult probeResult = ffprobe.probe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\webapp\\video\\42898.mp4");
+		System.out.println("비트레이드:"+probeResult.getStreams().get(0).bit_rate);
+		
 		return "user/board/videoUserBoardList";
 	}
+	
+	
 }

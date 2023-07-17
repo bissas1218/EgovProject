@@ -54,29 +54,16 @@
 				<div id="features-wrapper">
 					<div class="container">
 						<div class="row">
+							
 							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
+										<video src="/video/4611.mp4" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>Put something here</h2>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus.</p>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>An interesting title</h2>
-												<p>This is also an interesting subtitle</p>
+												<h2>4,720,731 바이트</h2>
+												<p>4,611KB</p>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
 										</div>
@@ -87,41 +74,11 @@
 
 								<!-- Box -->
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
+										<video src="/video/42898.mp4" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>Oh, and finally ...</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>Oh, and finally ...</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-										<div class="inner">
-											<header>
-												<h2>Oh, and finally ...</h2>
-												<p>Here's another intriguing subtitle</p>
+												<h2>43,927,401 바이트</h2>
+												<p>42,898KB</p>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
 										</div>
@@ -132,10 +89,10 @@
 
 								<!-- Box -->
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
+										<video src="/video/Img 0483.mp4" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>Oh, and finally ...</h2>
+												<h2>61,871,633 바이트</h2>
 												<p>Here's another intriguing subtitle</p>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
@@ -143,14 +100,14 @@
 									</section>
 
 							</div>
-														<div class="col-4 col-12-medium">
+							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
+										<video src="/video/Img 0511.mp4" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>Oh, and finally ...</h2>
+												<h2>89,525,507 바이트</h2>
 												<p>Here's another intriguing subtitle</p>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
@@ -158,14 +115,14 @@
 									</section>
 
 							</div>
-														<div class="col-4 col-12-medium">
+							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
 									<section class="box feature">
-										<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
+										<video src="/video/Img 0512.mp4" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>Oh, and finally ...</h2>
+												<h2>55,846,078 바이트</h2>
 												<p>Here's another intriguing subtitle</p>
 											</header>
 											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
@@ -173,7 +130,38 @@
 									</section>
 
 							</div>
-														
+									
+							<div class="col-4 col-12-medium">
+
+								<!-- Box -->
+									<section class="box feature">
+										<video src="/video/Img 0513.mp4" width="100%" height="100%" controls></video>
+										<div class="inner">
+											<header>
+												<h2>28,390,682 바이트</h2>
+												<p>Here's another intriguing subtitle</p>
+											</header>
+											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
+										</div>
+									</section>
+
+							</div>	
+							
+							<div class="col-4 col-12-medium">
+
+								<!-- Box -->
+									<section class="box feature">
+										<video src="/video/Img 0484.mp4" width="100%" height="100%" controls></video>
+										<div class="inner">
+											<header>
+												<h2>24,461,673 바이트</h2>
+												<p>Here's another intriguing subtitle</p>
+											</header>
+											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
+										</div>
+									</section>
+
+							</div>					
 						</div>
 					</div>
 				</div>
