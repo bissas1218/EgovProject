@@ -6,6 +6,7 @@
 	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="normalBoardVO" type="egovframework.example.sample.service.NormalBoardVO"/>
 	<typeAlias  alias="photoBoardVO" type="egovframework.user.service.PhotoBoardVO"/>
+	<typeAlias  alias="videoBoardVO" type="egovframework.user.service.VideoBoardVO"/>
 	
 	<select id="userBoardDAO.selectNewNormalBoardId" resultClass="String">
     	<![CDATA[
@@ -137,6 +138,57 @@
 					,DESCR descr
 					,REG_DATE regDate
 			FROM PHOTO_BOARD
+				WHERE BOARD_ID = #boardId#
+		]]>
+	</select>
+	
+	<select id="userBoardDAO.selectNewVideoBoardId" resultClass="String">
+    	<![CDATA[
+    		SELECT IFNULL(MAX(RIGHT(VIDEO_ID, 7)) + 1, 1) FROM VIDEO_BOARD
+    	]]>
+    </select>
+    
+	<insert id="userBoardDAO.insertVideoUpload" parameterClass="videoBoardVO">
+		<![CDATA[
+			INSERT INTO VIDEO_BOARD (
+				 VIDEO_ID
+				,SAVE_NM
+				,TYPE
+				,SIZE
+				,REAL_NM
+				,SAVE_PATH
+				,BOARD_ID
+				,TITLE
+				,DESCR
+				,REG_DATE
+			) VALUES (
+				 #videoId#
+				,#saveNm#
+				,#type#
+				,#size#
+				,#realNm#
+				,#savePath#
+				,#boardId#
+				,#title#
+				,#descr#
+				,NOW()
+			)
+		]]>
+	</insert>
+	
+	<select id="userBoardDAO.selectVideoBoardList" resultClass="videoBoardVO" parameterClass="String">
+		<![CDATA[
+			SELECT   VIDEO_ID videoId
+					,SAVE_NM saveNm
+					,TYPE type
+					,SIZE size
+					,REAL_NM realNm
+					,SAVE_PATH savePath
+					,BOARD_ID boardId
+					,TITLE title
+					,DESCR descr
+					,REG_DATE regDate
+			FROM VIDEO_BOARD
 				WHERE BOARD_ID = #boardId#
 		]]>
 	</select>

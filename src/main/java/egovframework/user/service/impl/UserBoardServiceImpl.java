@@ -10,6 +10,7 @@ import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.user.service.PhotoBoardVO;
 import egovframework.user.service.UserBoardService;
+import egovframework.user.service.VideoBoardVO;
 
 @Service("userBoardService")
 public class UserBoardServiceImpl implements UserBoardService{
@@ -53,5 +54,17 @@ public class UserBoardServiceImpl implements UserBoardService{
 	
 	public List<PhotoBoardVO> selectPhotoBoardList(String boardId) throws Exception {
 		return userBoardDAO.selectPhotoBoardList(boardId);
+	}
+	
+	public String selectNewVideoBoardId() throws Exception {
+		return userBoardDAO.selectNewVideoBoardId();
+	}
+	
+	public void insertVideoUpload(VideoBoardVO videoBoardVO) throws Exception {
+		userBoardDAO.insertVideoUpload(videoBoardVO);
+	}
+	
+	public List<VideoBoardVO> selectVideoBoardList(String boardId) throws Exception {
+		return userBoardDAO.selectVideoBoardList(boardId);
 	}
 }

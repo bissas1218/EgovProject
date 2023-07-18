@@ -22,4 +22,9 @@ public interface UserBoardService {
 	void insertPhotoUpload(PhotoBoardVO photoBoardVO) throws Exception;
 	
 	List<PhotoBoardVO> selectPhotoBoardList(String boardId) throws Exception;
+	
+	String selectNewVideoBoardId() throws Exception;
+	void insertVideoUpload(VideoBoardVO videoBoardVO) throws Exception;
+	
+	List<VideoBoardVO> selectVideoBoardList(String boardId) throws Exception;
 }

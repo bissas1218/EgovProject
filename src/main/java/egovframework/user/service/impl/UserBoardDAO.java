@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.user.service.PhotoBoardVO;
+import egovframework.user.service.VideoBoardVO;
 
 @Repository("userBoardDAO")
 public class UserBoardDAO extends EgovAbstractDAO {
@@ -51,5 +52,19 @@ public class UserBoardDAO extends EgovAbstractDAO {
 	@SuppressWarnings("unchecked")
 	public List<PhotoBoardVO> selectPhotoBoardList(String boardId) throws Exception {
 		return (List<PhotoBoardVO>) list("userBoardDAO.selectPhotoBoardList", boardId);
+	}
+	
+	public String selectNewVideoBoardId() throws Exception {
+		return (String) select("userBoardDAO.selectNewVideoBoardId");
+	}
+	
+	public void insertVideoUpload(VideoBoardVO videoBoardVO) throws Exception {
+		//System.out.println("explain:"+photoBoardVO.getExplain());
+		insert("userBoardDAO.insertVideoUpload", videoBoardVO);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<VideoBoardVO> selectVideoBoardList(String boardId) throws Exception {
+		return (List<VideoBoardVO>) list("userBoardDAO.selectVideoBoardList", boardId);
 	}
 }

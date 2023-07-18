@@ -29,8 +29,11 @@ import egovframework.example.sample.service.NormalBoardVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.user.service.PhotoBoardVO;
 import egovframework.user.service.UserBoardService;
+import egovframework.user.service.VideoBoardVO;
 import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 
 @Controller
@@ -293,19 +296,137 @@ public class UserBoardController {
 	}
 	
 	@RequestMapping(value="/videoUserBoardList.do")
-	public String videoUserBoard() throws Exception {
+	public String videoUserBoardList(@RequestParam("boardId") String boardId, Model model) throws Exception {
 		
-		//FFmpeg ffmpeg = new FFmpeg("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\test\\resources\\ffmpeg\\bin\\ffmpeg.exe");
-		//FFprobe ffprobe = new FFprobe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\test\\resources\\ffmpeg\\bin\\ffprobe.exe");
-		
-		FFmpeg ffmpeg = new FFmpeg("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffmpeg.exe");
-		FFprobe ffprobe = new FFprobe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffprobe.exe");
-		
-		FFmpegProbeResult probeResult = ffprobe.probe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\webapp\\video\\42898.mp4");
-		System.out.println("비트레이드:"+probeResult.getStreams().get(0).bit_rate);
+		model.addAttribute("boardId", boardId);
+		List<VideoBoardVO> list = userBoardService.selectVideoBoardList(boardId);
+		model.addAttribute("videoBoardList", list);
 		
 		return "user/board/videoUserBoardList";
 	}
 	
+	@RequestMapping(value="/videoUserBoardInsert.do", method = RequestMethod.POST)
+	public String videoUserBoardInsert(MultipartHttpServletRequest multipart, VideoBoardVO videoBoardVO) throws Exception {
+		
+		Iterator<String> itr = multipart.getFileNames();
+		
+		boolean isLocal = false;
+				
+		String requestUrl = new String(multipart.getRequestURL());
+		if (requestUrl.contains("localhost") || requestUrl.contains("127.0.0.1"))
+		{
+			isLocal = true;
+		}
+		isLocal = true;
+		String filePath = "/usr/local/리눅스 서버 경로.....";
+
+		if (isLocal) {
+			filePath = "C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\EgovProject\\video";
+		}
+		
+		while(itr.hasNext()) {
+			MultipartFile mpf = multipart.getFile(itr.next());
+			
+			System.out.println(mpf);
+			System.out.println("name:"+mpf.getName());
+			System.out.println("content type:"+mpf.getContentType());
+			System.out.println("original filename:"+mpf.getOriginalFilename());
+			System.out.println("size:"+mpf.getSize());
+			System.out.println("bytes:"+mpf.getBytes());
+			System.out.println("resource:"+mpf.getResource());
+			
+			String orgFileNm = mpf.getOriginalFilename();
+			String fileExt = orgFileNm.substring(orgFileNm.lastIndexOf('.')+1);
+			String fileName =orgFileNm.substring(0, orgFileNm.lastIndexOf('.'));
+			
+			fileExt = "mp4";
+			
+			videoBoardVO.setType(fileExt);
+			videoBoardVO.setRealNm(fileName);
+			videoBoardVO.setSavePath(filePath);
+			videoBoardVO.setSize(mpf.getSize());
+		//	videoBoardVO.setBoardId(boardId);
+			
+			String fullFileName =fileName +"_"+ new SimpleDateFormat("yyyyMMddhhmm").format(new Date()) + "." + fileExt;
+			
+			mpf.transferTo(new File(filePath + File.separator + fullFileName));
+			System.out.println(fullFileName);
+			
+			videoBoardVO.setSaveNm("new_" + fullFileName);
+			
+			// 동영상파일 변환하기
+			FFmpeg ffmpeg = new FFmpeg("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffmpeg.exe");
+			FFprobe ffprobe = new FFprobe("C:\\dev\\eGovFrameDev-4.1.0-64bit\\workspace\\EgovProject\\src\\main\\resources\\ffmpeg\\bin\\ffprobe.exe");
+			
+			FFmpegBuilder builder = new FFmpegBuilder().setInput(filePath + File.separator + fullFileName)	// 파일경로
+					.overrideOutputFiles(true)	// 오버라이드
+					.addOutput(filePath + File.separator + "new_" + fullFileName)	// 저장경로
+					.setFormat(fileExt)	// 	포맷(확장자)
+					.setVideoCodec("libx264") 	// 비디오코덱
+					.disableSubtitle()	// 서브타이틀제거
+					.setAudioChannels(2)	// 오디오 채널 (1:모노, 2:스테레오)
+					.setVideoResolution(1280, 720) // 동영상 해상도
+					.setVideoBitRate(1464800)	// 비디오 비트레이트
+					.setStrict(FFmpegBuilder.Strict.EXPERIMENTAL) // ffmpeg 빌더 실행 허용
+					.done();
+			
+			FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+			executor.createJob(builder).run();
+			
+			FFmpegProbeResult probeResult = ffprobe.probe(filePath + File.separator + "new_" + fullFileName);
+			System.out.println("비트레이드:"+probeResult.getStreams().get(0).bit_rate);
+			System.out.println("가로해상도:"+probeResult.getStreams().get(0).width);
+			System.out.println("세로해상도:"+probeResult.getStreams().get(0).height);
+			System.out.println("코덱이름:"+probeResult.getStreams().get(0).codec_name);
+			System.out.println("코덱타입:"+probeResult.getStreams().get(0).codec_type);
+			System.out.println("사이즈:"+probeResult.getStreams().size());
+			System.out.println("사이즈:"+probeResult.getStreams());
+			
+			/* db저장 */
+		//	System.out.println(videoBoardVO.getTitle());
+			String newVideoId = userBoardService.selectNewVideoBoardId();
+			switch (newVideoId.length()) {
+			case 1:
+				newVideoId = "V-0000000" + newVideoId;
+				break;
+			case 2:
+				newVideoId = "V-000000" + newVideoId;
+				break;
+			case 3:
+				newVideoId = "V-00000" + newVideoId;
+				break;
+			case 4:
+				newVideoId = "V-0000" + newVideoId;
+				break;
+			case 5:
+				newVideoId = "V-000" + newVideoId;
+				break;
+			case 6:
+				newVideoId = "V-00" + newVideoId;
+				break;
+			case 7:
+				newVideoId = "V-0" + newVideoId;
+				break;
+			case 8:
+				newVideoId = "V-" + newVideoId;
+				break;
+			default:
+				break;
+			}
+			
+			videoBoardVO.setVideoId(newVideoId);
+			
+			File file2 = new File(filePath + File.separator + "new_" + fullFileName);
+			System.out.println("파일크기:"+file2.length());
+			videoBoardVO.setSize(file2.length());
+			userBoardService.insertVideoUpload(videoBoardVO);
+			
+			// 원본 동영상파일 삭제
+			File file = new File(filePath + File.separator + fullFileName);
+			file.delete();
+		}
+		
+		return "redirect:/videoUserBoardList.do?boardId="+videoBoardVO.getBoardId();
+	}
 	
 }

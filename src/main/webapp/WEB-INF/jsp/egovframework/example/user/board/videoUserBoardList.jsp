@@ -55,113 +55,36 @@
 					<div class="container">
 						<div class="row">
 							
+							<c:forEach items="${videoBoardList}" var="videoBoardList">
 							<div class="col-4 col-12-medium">
 
 								<!-- Box -->
 									<section class="box feature">
-										<video src="/video/4611.mp4" width="100%" height="100%" controls></video>
+										<video src="video/<c:out value="${videoBoardList.saveNm}" />" width="100%" height="100%" controls></video>
 										<div class="inner">
 											<header>
-												<h2>4,720,731 바이트</h2>
-												<p>4,611KB</p>
+												<h2><c:out value="${videoBoardList.size}" /> 바이트</h2>
+												<p><c:out value="${videoBoardList.title}" /></p>
 											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
+											<p><c:out value="${videoBoardList.descr}" /></p>
 										</div>
 									</section>
 
 							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/42898.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>43,927,401 바이트</h2>
-												<p>42,898KB</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-														<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/Img 0483.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>61,871,633 바이트</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/Img 0511.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>89,525,507 바이트</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/Img 0512.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>55,846,078 바이트</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>
-									
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/Img 0513.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>28,390,682 바이트</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>	
+							</c:forEach>
 							
-							<div class="col-4 col-12-medium">
-
-								<!-- Box -->
-									<section class="box feature">
-										<video src="/video/Img 0484.mp4" width="100%" height="100%" controls></video>
-										<div class="inner">
-											<header>
-												<h2>24,461,673 바이트</h2>
-												<p>Here's another intriguing subtitle</p>
-											</header>
-											<p>Phasellus quam turpis, feugiat sit amet in, hendrerit in lectus. Praesent sed semper amet bibendum tristique fringilla.</p>
-										</div>
-									</section>
-
-							</div>					
+							<form name="videoUploadFrm" id="videoUploadFrm" method="post" enctype="multipart/form-data">
+							<input type="hidden" name="boardId" id="boardId" value="<c:out value="${boardId}" />"/>
+							<div style="padding-top:10px;">
+								<ul class="actions">
+									<li><input type="text" name="title" id="title" /></li>
+									<li><input type="text" name="descr" id="descr" /></li>
+									<li><input type="file" name="video_file1"/></li>
+									<li><a href="javascript:fn_video_upload();" class="button icon solid fa-download">신규동영상등록</a></li>
+								</ul>
+							</div>
+							</form>
+											
 						</div>
 					</div>
 				</div>
@@ -169,82 +92,7 @@
 
 			<!-- Footer -->
 				<div id="footer-wrapper">
-					<footer id="footer" class="container">
-						<div class="row">
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Links -->
-									<section class="widget links">
-										<h3>Random Stuff</h3>
-										<ul class="style2">
-											<li><a href="#">Etiam feugiat condimentum</a></li>
-											<li><a href="#">Aliquam imperdiet suscipit odio</a></li>
-											<li><a href="#">Sed porttitor cras in erat nec</a></li>
-											<li><a href="#">Felis varius pellentesque potenti</a></li>
-											<li><a href="#">Nullam scelerisque blandit leo</a></li>
-										</ul>
-									</section>
-
-							</div>
-							<div class="col-3 col-6-medium col-12-small">
-
-								<!-- Contact -->
-									<section class="widget contact">
-										<h3>Contact Us</h3>
-										<ul>
-											<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon brands fa-pinterest"><span class="label">Pinterest</span></a></li>
-										</ul>
-										<p>1234 Fictional Road<br />
-										Nashville, TN 00000<br />
-										(800) 555-0000</p>
-									</section>
-
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="copyright">
-									<ul class="menu">
-										<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</footer>
+					<jsp:include page="/userFooter.do"></jsp:include>
 				</div>
 
 			</div>
@@ -258,5 +106,18 @@
 			<script src="user/js/util.js"></script>
 			<script src="user/js/main.js"></script>
 
+		<script type="text/javascript">
+		
+			function fn_video_upload(){
+	           	document.videoUploadFrm.action = "<c:url value='/videoUserBoardInsert.do'/>";
+	           	document.videoUploadFrm.submit();
+			}
+			
+			function fn_video_delete(videoId){
+				alert('사진을 삭제하시겠습니까?');
+			}
+			
+		</script>
+		
 	</body>
 </html>
