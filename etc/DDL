@@ -61,3 +61,19 @@ CREATE TABLE `photo_board` (
   `BOARD_ID` varchar(10) DEFAULT NULL,
   UNIQUE KEY `photo_board_PHOTO_ID_IDX` (`PHOTO_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='사진게시판';
+
+DROP TABLE example.video_board;
+
+CREATE TABLE `video_board` (
+  `VIDEO_ID` varchar(10) NOT NULL,
+  `SAVE_NM` varchar(50) DEFAULT NULL,
+  `TYPE` varchar(10) DEFAULT NULL,
+  `SIZE` varchar(10) DEFAULT NULL,
+  `REAL_NM` varchar(50) DEFAULT NULL,
+  `SAVE_PATH` varchar(1000) DEFAULT NULL,
+  `TITLE` varchar(50) DEFAULT NULL,
+  `DESCR` varchar(100) DEFAULT NULL,
+  `REG_DATE` datetime DEFAULT NULL,
+  `BOARD_ID` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `video_board_VIDEO_ID_IDX` (`VIDEO_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='동영상게시판';
