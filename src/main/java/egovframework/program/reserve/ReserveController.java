@@ -34,6 +34,7 @@ public class ReserveController {
 		return "user/reserv/reserv";
 	}
 	
+	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/selectMonth.do", method=RequestMethod.GET)
 	public void ajaxJsonListTest(@RequestParam("year") int year, @RequestParam("month") int month, HttpServletResponse response) {
 		System.out.println("ajaxJsonTest month:"+month+", year:"+year);
@@ -64,12 +65,12 @@ public class ReserveController {
         
         cal.add ( cal.MONTH, + 1 ); //다음달
         
-        System.out.println(df.format(cal.getTime()));
+        String nextDate = df.format(cal.getTime());
         
         cal.set(year, month, 0);
         
         cal.add ( cal.MONTH, -1 ); //이전달
-        System.out.println(df.format(cal.getTime()));
+        String beforeDate = df.format(cal.getTime());
         
 		try {
 			response.getWriter().print("{\"startDate\":\""+start+
@@ -77,6 +78,8 @@ public class ReserveController {
 					"\", \"dayOfWeekNumber\":\""+dayOfWeekNumber+
 					"\", \"curYear\":\""+year+
 					"\", \"curMonth\":\""+month+
+					"\", \"nextDate\":\""+nextDate+
+					"\", \"beforeDate\":\""+beforeDate+
 					"\"}");
 		}catch(IOException e) {
 			e.printStackTrace();

@@ -63,50 +63,15 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>1</td>
-												<td>2</td>
-												<td>3</td>
-												<td>4</td>
-												<td>5</td>
-												<td>6</td>
-												<td>7</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>2</td>
-												<td>3</td>
-												<td>4</td>
-												<td>5</td>
-												<td>6</td>
-												<td>7</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>2</td>
-												<td>3</td>
-												<td>4</td>
-												<td>5</td>
-												<td>6</td>
-												<td>7</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>2</td>
-												<td>3</td>
-												<td>4</td>
-												<td>5</td>
-												<td>6</td>
-												<td>7</td>
-											</tr>
+											
 										</tbody>
 										<tfoot>
 											<tr>
 												<td colspan="7" style="text-align:center;">
 													<p style="font-size:28px;font-weight:bold;">
-													<a href="javascript:selectMonth(2023, 6);" style="text-decoration: none;"><</a>
+													<a href="javascript:fn_before_month();" style="text-decoration: none;"><</a>
 													&nbsp;<font id="txtYear"></font>.<font id="txtMonth"></font>&nbsp;
-													<a href="javascript:selectMonth(2023, 8);" style="text-decoration: none;">></a>
+													<a href="javascript:fn_next_month();" style="text-decoration: none;">></a>
 													</p>
 												</td>
 											</tr>
@@ -139,12 +104,25 @@
 
 <script type="text/javascript">
 
+	var beforeDate = '';
+	var nextDate = '';
+	
 	$(document).ready(function() {
-		selectMonth('${year}', '${month}');
+		fn_selectMonth('${year}', '${month}');
 	});
 
-	function selectMonth(year, Number(month)){
-		console.log(month);
+	function fn_before_month(){
+		//console.log(beforeDate.substr(0,4)+', '+beforeDate.substr(4,2));
+		fn_selectMonth(beforeDate.substr(0,4), beforeDate.substr(4,2));
+	}
+	
+	function fn_next_month(){
+		//console.log(nextDate);
+		fn_selectMonth(nextDate.substr(0,4), nextDate.substr(4,2));
+	}
+	
+	function fn_selectMonth(year, month){
+		//console.log(month);
 		$.ajax({
 			type: 'get',
 			url: '/selectMonth.do',
@@ -152,22 +130,30 @@
 			data: {month:month, year:year},
 			dataType: 'json',
 			success: function(result){
-				console.log('ajax json list success! result : ' + result.dayOfWeekNumber + ', ' + result.endDate.substr(8,2));
+			//	console.log('ajax json list success! result : ' + result.dayOfWeekNumber + ', ' + result.endDate.substr(8,2));
 			//	console.log(result.length);
+				
+				var dayOfWeekNumber = 0;
+				if(Number(result.dayOfWeekNumber) != 7){
+					dayOfWeekNumber = Number(result.dayOfWeekNumber);	
+				}
+				
 				var html = '<tr>';
-				for(var i=1; i<=Number(result.endDate.substr(8,2))+Number(result.dayOfWeekNumber); i++){
+				var dayEnd = Number(result.endDate.substr(8,2)) + dayOfWeekNumber;
+			//	console.log(dayEnd);
+				for(var i = 1; i <= dayEnd; i++){
 					//console.log(i, ', '+i%7);
-					if(i<=Number(result.dayOfWeekNumber)){
+					if(i<=dayOfWeekNumber){
 						html += '<td></td>';
 					}else{
-						html += '<td>' + (i-Number(result.dayOfWeekNumber)) + '</td>';
+						
+						html += '<td>' + (i-dayOfWeekNumber) + '</td>';
+						
 						if(i%7 == 0){
-							console.log('---');
+							//console.log('---');
 							html += '</tr><tr>';
 						}
 					}
-					
-					
 				}
 				
 				html += '</tr>';
@@ -177,6 +163,10 @@
 				
 				$("#txtYear").text(result.curYear);
 				$("#txtMonth").text(result.curMonth);
+				
+				//console.log(result.beforeDate+', '+result.nextDate);
+				beforeDate = result.beforeDate;
+				nextDate = result.nextDate;
 				
 			},
 			error:function(){
