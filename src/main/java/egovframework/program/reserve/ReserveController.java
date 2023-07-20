@@ -1,6 +1,7 @@
 package egovframework.program.reserve;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -56,6 +57,19 @@ public class ReserveController {
  
         // 4. 숫자 요일 출력
         System.out.println(dayOfWeekNumber);  // 6
+        
+        DateFormat df = new SimpleDateFormat("yyyyMM");
+        Calendar cal = Calendar.getInstance( );
+        cal.set(year, month, 0);
+        
+        cal.add ( cal.MONTH, + 1 ); //다음달
+        
+        System.out.println(df.format(cal.getTime()));
+        
+        cal.set(year, month, 0);
+        
+        cal.add ( cal.MONTH, -1 ); //이전달
+        System.out.println(df.format(cal.getTime()));
         
 		try {
 			response.getWriter().print("{\"startDate\":\""+start+

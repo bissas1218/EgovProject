@@ -143,7 +143,7 @@
 		selectMonth('${year}', '${month}');
 	});
 
-	function selectMonth(year, month){
+	function selectMonth(year, Number(month)){
 		console.log(month);
 		$.ajax({
 			type: 'get',
