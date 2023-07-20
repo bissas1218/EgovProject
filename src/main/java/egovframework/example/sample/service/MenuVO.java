@@ -37,6 +37,17 @@ public class MenuVO extends SampleDefaultVO {
 	/** 게시판타입 */
 	private String boardType;
 	
+	/** 프로그램 url */
+	private String programUrl;
+	
+	public String getProgramUrl() {
+		return programUrl;
+	}
+
+	public void setProgramUrl(String programUrl) {
+		this.programUrl = programUrl;
+	}
+
 	public String getBoardType() {
 		return boardType;
 	}

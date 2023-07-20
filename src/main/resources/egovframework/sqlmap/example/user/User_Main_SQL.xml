@@ -6,7 +6,7 @@
 	<typeAlias alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias alias="menuVO" type="egovframework.example.sample.service.MenuVO"/>
 	
-	<resultMap id="menuMap" class="egovframework.example.sample.service.MenuVO">
+	<resultMap id="menuListMap" class="egovframework.example.sample.service.MenuVO">
 		<result property="menuId" column="MENU_ID"/>
 		<result property="pMenuId" column="P_MENU_ID"/>
 		<result property="menuNm" column="MENU_NM"/>
@@ -15,9 +15,10 @@
 		<result property="cMenuCnt" column="C_MENU_CNT"/>
 		<result property="boardType" column="BOARD_TYPE"/>
 		<result property="typeVal" column="TYPE_VAL"/>
+		<result property="programUrl" column="PROGRAM_URL"/>
 	</resultMap>
 	
-	<select id="UserMainDAO.selectUserMenuList" resultMap="menuMap">
+	<select id="UserMainDAO.selectUserMenuList" resultMap="menuListMap">
 	<![CDATA[
 		select A.MENU_ID
 			, A.P_MENU_ID
@@ -28,6 +29,7 @@
 			, A.TYPE_VAL 
 			, (select COUNT(*) from MENU where A.MENU_ID = P_MENU_ID) as C_MENU_CNT
 			, (SELECT BOARD_TYPE FROM BOARD WHERE A.TYPE_VAL = BOARD_ID) AS BOARD_TYPE
+			, (SELECT URL FROM PROGRAM WHERE A.TYPE_VAL = PROGRAM_ID) AS PROGRAM_URL
 			from MENU A 
 			order by depth asc, menu_order asc
 	]]>

@@ -77,3 +77,12 @@ CREATE TABLE `video_board` (
   `BOARD_ID` varchar(10) DEFAULT NULL,
   UNIQUE KEY `video_board_VIDEO_ID_IDX` (`VIDEO_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='동영상게시판';
+
+DROP TABLE example.program;
+
+CREATE TABLE `program` (
+  `PROGRAM_ID` varchar(7) NOT NULL,
+  `URL` varchar(30) NOT NULL,
+  `PROGRAM_NM` varchar(50) NOT NULL,
+  UNIQUE KEY `program_PROGRAM_ID_IDX` (`PROGRAM_ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='프로그램관리';

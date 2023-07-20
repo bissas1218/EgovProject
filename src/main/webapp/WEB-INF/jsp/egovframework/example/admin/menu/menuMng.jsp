@@ -158,6 +158,16 @@
 														</div>
 														
 														<!-- Break -->
+														<div class="col-12">
+															<select name="program_list" id="program_list">
+																<option value="">- 프로그램목록 -</option>
+																<option value="P-00001">
+																	예약하기(P-0001)
+																</option>
+															</select>
+														</div>
+														
+														<!-- Break -->
 														<div class="col-6 col-12-small">
 															<input type="checkbox" id="demo-copy" name="demo-copy">
 															<label for="demo-copy">Email me a copy</label>
@@ -431,6 +441,8 @@
     			typeVal = $("#board_list option:selected").val();
     		}else if( $('input:radio[name="menuType"]:checked').val() == 'content'){
     			typeVal = $("#contents_list option:selected").val();
+    		}else if( $('input:radio[name="menuType"]:checked').val() == 'program'){
+    			typeVal = $("#program_list option:selected").val();
     		}
     		
     		$.ajax({
@@ -489,9 +501,15 @@
         	  if( getNode(data.selected[0]).original.li_attr == 'board' ){
         		  $("#board_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 게시판 선택
         		  $("#contents_list").val('').prop("selected", true);
+        		  $("#program_list").val('').prop("selected", true);
         	  }else if( getNode(data.selected[0]).original.li_attr == 'content' ) {
         		  $("#contents_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 컨텐츠 선택
         		  $("#board_list").val('').prop("selected", true);
+        		  $("#program_list").val('').prop("selected", true);
+        	  }else if( getNode(data.selected[0]).original.li_attr == 'program' ) {
+        		  $("#program_list").val(getNode(data.selected[0]).original.a_attr).prop("selected", true);	// 프로그램 선택
+        		  $("#board_list").val('').prop("selected", true);
+        		  $("#contents_list").val('').prop("selected", true);
         	  }
         	  
        });

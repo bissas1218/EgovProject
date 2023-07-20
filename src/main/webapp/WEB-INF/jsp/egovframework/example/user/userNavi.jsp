@@ -38,6 +38,11 @@
 						<c:out value="${userMenuList3.menuNm }" />
 					</a>
 					</c:if>
+					<c:if test="${userMenuList3.menuType eq 'program'}">
+					<a href="<c:out value="${userMenuList3.programUrl}" />">
+						<c:out value="${userMenuList3.menuNm }" />
+					</a>
+					</c:if>
 					</li>
 				</c:if>
 				</c:forEach>
