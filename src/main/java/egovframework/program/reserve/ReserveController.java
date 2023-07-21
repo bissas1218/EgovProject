@@ -24,12 +24,18 @@ public class ReserveController {
 
 	@RequestMapping(value = "/reserv.do")
 	public String reservPage(Model model) throws Exception {
-		System.out.println("---reser.do-----");
+		//System.out.println("---reser.do-----");
 		YearMonth today = YearMonth.now();
 		
-		System.out.println("today:"+today.getMonthValue());
+		//System.out.println("today:"+today);
 		model.addAttribute("year", today.getYear());
 		model.addAttribute("month", today.getMonthValue());
+		
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance( );
+        //System.out.println(df.format(cal.getTime()));
+        
+		model.addAttribute("today", df.format(cal.getTime()));
 		
 		return "user/reserv/reserv";
 	}
@@ -37,18 +43,18 @@ public class ReserveController {
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/selectMonth.do", method=RequestMethod.GET)
 	public void ajaxJsonListTest(@RequestParam("year") int year, @RequestParam("month") int month, HttpServletResponse response) {
-		System.out.println("ajaxJsonTest month:"+month+", year:"+year);
+		//System.out.println("ajaxJsonTest month:"+month+", year:"+year);
 		
-		YearMonth today = YearMonth.of(year, month);// .now();
-		System.out.println("today:"+today);
-		LocalDate start = today.atDay(1);
-		LocalDate end = today.atEndOfMonth();
-		System.out.println("start:"+start+", end:"+end);
+		YearMonth curDay = YearMonth.of(year, month);// .now();
+		//System.out.println("curDay:"+curDay);
+		LocalDate start = curDay.atDay(1);
+		LocalDate end = curDay.atEndOfMonth();
+		//System.out.println("start:"+start+", end:"+end);
 		
 		 // 1. LocalDate 생성
         LocalDate date = LocalDate.of(year, month, 1);
         // LocalDateTime date = LocalDateTime.of(2021, 12, 25, 1, 15, 20);
-        System.out.println(date);  // 
+       // System.out.println(date);  // 
  
         // 2. DayOfWeek 객체 구하기
         DayOfWeek dayOfWeek = date.getDayOfWeek();
@@ -57,7 +63,7 @@ public class ReserveController {
         int dayOfWeekNumber = dayOfWeek.getValue();
  
         // 4. 숫자 요일 출력
-        System.out.println(dayOfWeekNumber);  // 6
+        //System.out.println(dayOfWeekNumber);  // 6
         
         DateFormat df = new SimpleDateFormat("yyyyMM");
         Calendar cal = Calendar.getInstance( );
@@ -71,7 +77,15 @@ public class ReserveController {
         
         cal.add ( cal.MONTH, -1 ); //이전달
         String beforeDate = df.format(cal.getTime());
-        
+        //System.out.println("before date:"+Integer.parseInt(beforeDate.substring(0,4)));
+        //System.out.println("before date:"+Integer.parseInt(beforeDate.substring(4,6)));
+        curDay = YearMonth.of(Integer.parseInt(beforeDate.substring(0,4)), Integer.parseInt(beforeDate.substring(4,6)));// .now();
+		//System.out.println("curDay:"+curDay);
+		//LocalDate start = curDay.atDay(1);
+		//curDay.atEndOfMonth();
+		
+        YearMonth.now();
+		
 		try {
 			response.getWriter().print("{\"startDate\":\""+start+
 					"\", \"endDate\":\""+end+
@@ -79,7 +93,7 @@ public class ReserveController {
 					"\", \"curYear\":\""+year+
 					"\", \"curMonth\":\""+month+
 					"\", \"nextDate\":\""+nextDate+
-					"\", \"beforeDate\":\""+beforeDate+
+					"\", \"beforeDate\":\""+curDay.atEndOfMonth().toString().replace("-", "")+
 					"\"}");
 		}catch(IOException e) {
 			e.printStackTrace();

@@ -16,6 +16,20 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="user/css/main.css" />
+		
+		<style type="text/css">
+		 #carendarDiv table {
+		    
+		  }
+		  #carendarDiv table tbody td {
+		    background-color:white;
+		  }
+		  #carendarDiv table th:first-child, td:first-child {
+		    
+		  }
+		  
+		</style>
+		
 	</head>
 	<body class="is-preload no-sidebar">
 		<div id="page-wrapper">
@@ -48,8 +62,8 @@
 
 						<div class="" style="width:100%">
 
-							<h4>예약하기</h4>
-								<div class="table-wrapper">
+							<h4>예약하기 오늘날짜:<c:out value="${today}"/></h4>
+								<div class="table-wrapper" id="carendarDiv">
 									<table class="alt" id="carendarTable">
 										<thead>
 											<tr>
@@ -108,20 +122,28 @@
 	var nextDate = '';
 	
 	$(document).ready(function() {
-		fn_selectMonth('${year}', '${month}');
+		fn_selectCalendarList('${year}', '${month}');
+		
+		// 날짜선택 이밴트
+		$('#carendarTable tbody').on('click', 'td', function () {
+	    	//console.log(this.id);
+	    	$("#"+this.id).css("background","gold");
+	    });
 	});
 
+	// 전월 달력이동
 	function fn_before_month(){
 		//console.log(beforeDate.substr(0,4)+', '+beforeDate.substr(4,2));
-		fn_selectMonth(beforeDate.substr(0,4), beforeDate.substr(4,2));
+		fn_selectCalendarList(beforeDate.substr(0,4), beforeDate.substr(4,2));
 	}
 	
+	// 다음월 달력이동
 	function fn_next_month(){
 		//console.log(nextDate);
-		fn_selectMonth(nextDate.substr(0,4), nextDate.substr(4,2));
+		fn_selectCalendarList(nextDate.substr(0,4), nextDate.substr(4,2));
 	}
 	
-	function fn_selectMonth(year, month){
+	function fn_selectCalendarList(year, month){
 		//console.log(month);
 		$.ajax({
 			type: 'get',
@@ -140,20 +162,58 @@
 				
 				var html = '<tr>';
 				var dayEnd = Number(result.endDate.substr(8,2)) + dayOfWeekNumber;
-			//	console.log(dayEnd);
+				var trNum = 1;
+				
+				//console.log( result );
+				var beforeMonthDay = Number(result.beforeDate.substr(6,2)) - dayOfWeekNumber;
+				var chk = 0;
+				// 전월, 현재월, 다음월 날짜 그리기
 				for(var i = 1; i <= dayEnd; i++){
+					
+					chk++;
+					
 					//console.log(i, ', '+i%7);
 					if(i<=dayOfWeekNumber){
-						html += '<td></td>';
+						
+						html += '<td id="'+result.beforeDate.substr(0,6)+(beforeMonthDay+i)+'">'+(beforeMonthDay+i)+'</td>';	// 이전월 날짜 채우기
+						
 					}else{
 						
-						html += '<td>' + (i-dayOfWeekNumber) + '</td>';
+						// css 날짜 id값 구하기
+						var disDay = i-dayOfWeekNumber;
+						var dayCssId = result.curYear;
 						
-						if(i%7 == 0){
-							//console.log('---');
-							html += '</tr><tr>';
+						if(String(result.curMonth).length == 1){
+							dayCssId += '0' + result.curMonth;
+						}else{
+							dayCssId += result.curMonth;
 						}
+						
+						if(String(disDay).length == 1){
+							dayCssId += '0' + disDay;	
+						}else{
+							dayCssId += disDay;
+						}
+						
+						// 현대월 날짜 그리기
+						if(i%7 == 0){
+							html += '<td id="'+dayCssId+'"><b style="color:blue;">' + disDay + '</b></td>';
+							html += '</tr><tr>';
+							trNum++;
+							chk = 0;
+						}else if(chk == 1){
+							html += '<td id="'+dayCssId+'"><b style="color:red;">' + disDay + '</b></td>';
+						}else{
+							html += '<td id="'+dayCssId+'"><b>' + disDay + '</b></td>';
+						}
+						
+						//console.log(trNum);
 					}
+				}
+				
+				// 다음달 1일부터 채우기
+				for(var j = 1; j <= ((trNum * 7) - dayEnd); j++){
+					html += '<td id="'+(result.nextDate + '0' + j)+'">'+j+'</td>';
 				}
 				
 				html += '</tr>';
@@ -168,12 +228,17 @@
 				beforeDate = result.beforeDate;
 				nextDate = result.nextDate;
 				
+				$("#"+${today}+" b").css("text-decoration","underline");
+				
 			},
 			error:function(){
 				console.log('ajax json select month error!');
 			}
 		});
 	}
+	
+
+	
 </script>
 
 	</body>
