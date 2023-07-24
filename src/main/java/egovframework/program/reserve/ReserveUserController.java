@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ReserveController {
+public class ReserveUserController {
 
 	@RequestMapping(value = "/reserv.do")
 	public String reservPage(Model model) throws Exception {

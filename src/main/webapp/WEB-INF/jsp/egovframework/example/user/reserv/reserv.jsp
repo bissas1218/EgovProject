@@ -197,12 +197,12 @@
 						
 						// 현대월 날짜 그리기
 						if(i%7 == 0){
-							html += '<td id="'+dayCssId+'"><b style="color:blue;">' + disDay + '</b></td>';
+							html += '<td id="'+dayCssId+'"><b style="color:blue;">' + disDay + '</b></td>';	// 토요일
 							html += '</tr><tr>';
 							trNum++;
 							chk = 0;
 						}else if(chk == 1){
-							html += '<td id="'+dayCssId+'"><b style="color:red;">' + disDay + '</b></td>';
+							html += '<td id="'+dayCssId+'"><b style="color:red;">' + disDay + '</b></td>';	// 일요일
 						}else{
 							html += '<td id="'+dayCssId+'"><b>' + disDay + '</b></td>';
 						}

@@ -18,8 +18,16 @@
 						<li><a href="/egovSampleList.do">Board예제</a></li>
 						<li><a href="/chartSample.do">Charts</a></li>
 						<li><a href="/menuMng.do">메뉴관리</a></li>
-						<li><a href="/contentsMng.do">컨텐츠관리</a>
-						<li><a href="/boardMng.do">게시판관리</a>
+						<li><a href="/contentsMng.do">컨텐츠관리</a></li>
+						<li><a href="/boardMng.do">게시판관리</a></li>
+						<li>
+							<span class="opener">예약관리</span>
+							<ul>
+								<li><a href="/reservList.do">예약현황</a></li>
+								<li><a href="/reservMng.do">예약설정</a></li>
+							</ul>
+						</li>
+						<li><a href="/scheduleMng.do">일정관리</a></li>
 						<li><a href="/adminMain.do">Homepage</a></li>
 						<li><a href="generic.html">Generic</a></li>
 						<li><a href="elements.html">Elements</a></li>
