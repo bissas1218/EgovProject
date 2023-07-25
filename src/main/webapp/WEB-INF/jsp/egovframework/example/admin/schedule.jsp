@@ -103,10 +103,7 @@
 														<div class="col-6 col-12-small">
 
 															<h4>일정목록</h4>
-															<ul>
-																<li>예진휴무 09:00 ~ 13:00</li>
-																<li>치과예약 14:00</li>
-																<li>약먹기 하루종일</li>
+															<ul id="schedule_list">
 															</ul>
 
 														</div>
@@ -121,10 +118,10 @@
 													<form method="post" action="#">
 														<div class="row gtr-uniform">
 															<div class="col-6 col-12-xsmall">
-																<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
+																<input type="text" name="s_date" id="s_date" value="" placeholder="날짜" readonly="readonly"/>
 															</div>
 															<div class="col-6 col-12-xsmall">
-																<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
+																<input type="text" name="title" id="title" value="" placeholder="일정제목" />
 															</div>
 															<!-- Break -->
 															<div class="col-12">
@@ -165,8 +162,8 @@
 															<!-- Break -->
 															<div class="col-12">
 																<ul class="actions">
-																	<li><input type="submit" value="Send Message" class="primary" /></li>
-																	<li><input type="reset" value="Reset" /></li>
+																	<li><input type="button" onclick="fn_saveSchedule();" value="일정저장하기" class="primary" /></li>
+																	<li><input type="reset" value="일정삭제하기" /></li>
 																</ul>
 															</div>
 														</div>
@@ -204,8 +201,37 @@
 		
 		// 날짜선택 이밴트
 		$('#carendarTable tbody').on('click', 'td', function () {
+			
+			var s_date = $("#s_date").val();
+			
+			if(s_date != ''){
+				//$("#"+s_date).css("background", "white");	
+			}
+			
 	    	//console.log(this.id);
-	    	$("#"+this.id).css("background","gold");
+	    	//$("#"+this.id).css("background","gold");
+	    	$("#s_date").val(this.id);
+	    	
+	    	// 일정조회
+	    	$.ajax({
+				type: 'get',
+				url: '/selectScheduleList.do',
+				data: {
+					sDate:$("#s_date").val()
+				},
+				dataType: 'json',
+				success: function(result){
+					console.log(result);
+					$("#schedule_list").children().remove();
+					for(var i=0; i<result.length; i++){
+						console.log(result[i].title);
+						$("#schedule_list").append("<li>"+result[i].title+"</li>");
+					}
+				},
+				error:function(){
+					console.log('ajax schedule list error!!!');
+				}
+			});
 	    });
 	});
 
@@ -221,88 +247,24 @@
 		fn_selectCalendarList(nextDate.substr(0,4), nextDate.substr(4,2));
 	}
 	
+	// 달력조회
 	function fn_selectCalendarList(year, month){
 		//console.log(month);
 		$.ajax({
 			type: 'get',
-			url: '/selectMonth.do',
+			url: '/selectScheduleMonth.do',
 			contentType: 'application/json; charset=utf-8',
 			data: {month:month, year:year},
 			dataType: 'json',
 			success: function(result){
-			//	console.log('ajax json list success! result : ' + result.dayOfWeekNumber + ', ' + result.endDate.substr(8,2));
-			//	console.log(result.length);
 				
-				var dayOfWeekNumber = 0;
-				if(Number(result.dayOfWeekNumber) != 7){
-					dayOfWeekNumber = Number(result.dayOfWeekNumber);	
-				}
-				
-				var html = '<tr>';
-				var dayEnd = Number(result.endDate.substr(8,2)) + dayOfWeekNumber;
-				var trNum = 1;
-				
-				//console.log( result );
-				var beforeMonthDay = Number(result.beforeDate.substr(6,2)) - dayOfWeekNumber;
-				var chk = 0;
-				// 전월, 현재월, 다음월 날짜 그리기
-				for(var i = 1; i <= dayEnd; i++){
-					
-					chk++;
-					
-					//console.log(i, ', '+i%7);
-					if(i<=dayOfWeekNumber){
-						
-						html += '<td id="'+result.beforeDate.substr(0,6)+(beforeMonthDay+i)+'">'+(beforeMonthDay+i)+'</td>';	// 이전월 날짜 채우기
-						
-					}else{
-						
-						// css 날짜 id값 구하기
-						var disDay = i-dayOfWeekNumber;
-						var dayCssId = result.curYear;
-						
-						if(String(result.curMonth).length == 1){
-							dayCssId += '0' + result.curMonth;
-						}else{
-							dayCssId += result.curMonth;
-						}
-						
-						if(String(disDay).length == 1){
-							dayCssId += '0' + disDay;	
-						}else{
-							dayCssId += disDay;
-						}
-						
-						// 현대월 날짜 그리기
-						if(i%7 == 0){
-							html += '<td id="'+dayCssId+'"><b style="color:blue;">' + disDay + '</b></td>';	// 토요일
-							html += '</tr><tr>';
-							trNum++;
-							chk = 0;
-						}else if(chk == 1){
-							html += '<td id="'+dayCssId+'"><b style="color:red;">' + disDay + '</b></td>';	// 일요일
-						}else{
-							html += '<td id="'+dayCssId+'"><b>' + disDay + '</b></td>';
-						}
-						
-						//console.log(trNum);
-					}
-				}
-				
-				// 다음달 1일부터 채우기
-				for(var j = 1; j <= ((trNum * 7) - dayEnd); j++){
-					html += '<td id="'+(result.nextDate + '0' + j)+'">'+j+'</td>';
-				}
-				
-				html += '</tr>';
-				
+				console.log(result.html);
 				$("#carendarTable tbody").empty();
-				$("#carendarTable tbody").append(html);
+				$("#carendarTable tbody").append(result.html);
 				
 				$("#txtYear").text(result.curYear);
 				$("#txtMonth").text(result.curMonth);
 				
-				//console.log(result.beforeDate+', '+result.nextDate);
 				beforeDate = result.beforeDate;
 				nextDate = result.nextDate;
 				
@@ -316,6 +278,37 @@
 	}
 	
 
+	function fn_saveSchedule(){
+		//console.log(selDate);
+		if( $("#s_date").val() == '' ){
+			alert('일정을 저장할 날짜를 선택하세요!');
+		}else if( $("#title").val() == '' ){
+			alert('일정제목을 입력하세요!');
+			$("#title").focus();
+		}else{
+			
+			$.ajax({
+				type: 'post',
+				url: '/updateSchedule.do',
+				data: {
+					sDate:$("#s_date").val(), 
+					title:$("#title").val()
+				},
+				dataType: 'json',
+				success: function(result){
+					console.log(result);
+					$("#schedule_list").children().remove();
+					for(var i=0; i<result.length; i++){
+						console.log(result[i].title);
+						$("#schedule_list").append("<li>"+result[i].title+"</li>");
+					}
+				},
+				error:function(){
+					console.log('ajax schedule insert error!!!');
+				}
+			});
+		}
+	}
 	
 </script>
 
