@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Schedule">
+
+	<typeAlias alias="scheduleVO" type="egovframework.example.sample.service.ScheduleVO"/>
+
+	<insert id="scheduleMngDAO.insertSchedule" parameterClass="scheduleVO">
+	<![CDATA[
+		INSERT INTO SCHEDULE (
+			 S_DATE
+			,TITLE
+		) VALUES (
+			 #sDate#
+			,#title#
+		)
+	]]>
+	</insert>
+	
+	<select id="scheduleMngDAO.selectScheduleList" parameterClass="String" resultClass="scheduleVO">
+	<![CDATA[
+		SELECT ID id, 
+			S_DATE sDate, 
+			TITLE title
+		 FROM SCHEDULE WHERE S_DATE = #sDate#
+	]]>
+	</select>
+	
+	<select id="scheduleMngDAO.selectScheduleListCnt" parameterClass="scheduleVO" resultClass="scheduleVO">
+	<![CDATA[ 
+		select
+			s_date,
+			count(s_date)
+		from
+			schedule
+		where
+			s_date >= '20230701'
+			and s_date <= '20230731'
+		group by
+			s_date
+	]]>
+	</select>
+	
+</sqlMap>
