@@ -21,9 +21,9 @@
 						<li><a href="/contentsMng.do">컨텐츠관리</a></li>
 						<li><a href="/boardMng.do">게시판관리</a></li>
 						<li>
-							<span class="opener">예약관리</span>
+							<span class="opener">골프예약관리</span>
 							<ul>
-								<li><a href="/reservList.do">예약현황</a></li>
+								<li><a href="/golfReservList.do">예약현황</a></li>
 								<li><a href="/reservMng.do">예약설정</a></li>
 							</ul>
 						</li>

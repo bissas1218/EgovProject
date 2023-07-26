@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ReserveUserController {
 
-	@RequestMapping(value = "/reserv.do")
+	@RequestMapping(value = "/golfReserv.do")
 	public String reservPage(Model model) throws Exception {
 		//System.out.println("---reser.do-----");
 		YearMonth today = YearMonth.now();
@@ -37,7 +37,7 @@ public class ReserveUserController {
         
 		model.addAttribute("today", df.format(cal.getTime()));
 		
-		return "user/reserv/reserv";
+		return "user/reserv/golf/reserv";
 	}
 	
 	@SuppressWarnings("static-access")
