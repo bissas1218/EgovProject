@@ -30,6 +30,24 @@ public class ScheduleMngController {
 	@Resource(name="scheduleMngService")
 	private ScheduleMngService scheduleMngService;
 	
+	@RequestMapping(value="/schedule.do")
+	public String schedule(Model model) throws Exception {
+		
+		YearMonth today = YearMonth.now();
+		
+		//System.out.println("today:"+today);
+		model.addAttribute("year", today.getYear());
+		model.addAttribute("month", today.getMonthValue());
+		
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance( );
+        //System.out.println(df.format(cal.getTime()));
+        
+		model.addAttribute("today", df.format(cal.getTime()));
+		
+		return "user/schedule";
+	}
+	
 	@RequestMapping(value="/scheduleMng.do")
 	public String scheduleMng(Model model) throws Exception {
 		
@@ -45,7 +63,7 @@ public class ScheduleMngController {
         
 		model.addAttribute("today", df.format(cal.getTime()));
 		
-		return "admin/schedule";
+		return "admin/scheduleMng";
 	}
 	
 	@SuppressWarnings("static-access")
@@ -95,15 +113,7 @@ public class ScheduleMngController {
         YearMonth.now();
 		
         response.setCharacterEncoding("UTF-8");
-        /*
-		response.getWriter().print("{\"startDate\":\""+start+
-				"\", \"endDate\":\""+end+
-				"\", \"dayOfWeekNumber\":\""+dayOfWeekNumber+
-				"\", \"curYear\":\""+year+
-				"\", \"curMonth\":\""+month+
-				"\", \"nextDate\":\""+nextDate+
-				"\", \"beforeDate\":\""+curDay.atEndOfMonth().toString().replace("-", "")+
-				"\"}"); */
+       
         String html = "";
         System.out.println("dayOfWeekNumber:"+dayOfWeekNumber);
         
@@ -112,19 +122,25 @@ public class ScheduleMngController {
 			dayOfWeekNumber2 = dayOfWeekNumber;	
 		}
 		
-		System.out.println("dayOfWeekNumber2:"+dayOfWeekNumber2);
+		//System.out.println("dayOfWeekNumber2:"+dayOfWeekNumber2);
 		
 		html = "<tr>";
-		System.out.println("end:"+end.toString().substring(8,10));
+		//System.out.println("end:"+end.toString());
 		
 		int dayEnd = Integer.parseInt(end.toString().substring(8,10)) + dayOfWeekNumber2;// ) Number(result.endDate.substr(8,2)) + dayOfWeekNumber;
-		System.out.println("dayEnd:"+dayEnd);
+		//System.out.println("dayEnd:"+dayEnd);
 		
 		int trNum = 1;
 		
 		//console.log( result );
 		int beforeMonthDay = Integer.parseInt( curDay.atEndOfMonth().toString().replace("-", "").substring(6,8) ) - dayOfWeekNumber2; //Number(result.beforeDate.substr(6,2)) - dayOfWeekNumber; 
 		int chk = 0;
+		
+		// 일정 카운트 조회
+		ScheduleVO scheduleVO = new ScheduleVO();
+		scheduleVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
+		scheduleVO.setEndDate(end.toString().replaceAll("-", ""));
+		List<ScheduleVO> cntList = scheduleMngService.selectScheduleListCnt(scheduleVO);
 		
 		// 전월, 현재월, 다음월 날짜 그리기
 		for(int i = 1; i <= dayEnd; i++){
@@ -134,13 +150,13 @@ public class ScheduleMngController {
 			
 			//console.log(i, ', '+i%7);
 			if(i <= dayOfWeekNumber2){
-				System.out.println("i:"+i);
+				//System.out.println("i:"+i);
 				html += "<td id='" + curDay.atEndOfMonth().toString().replace("-", "").substring(0,6) + (beforeMonthDay+i)+ "'>" + (beforeMonthDay+i) + "</td>";	// 이전월 날짜 채우기
 				
 			}else{
 				
 				// css 날짜 id값 구하기
-				int disDay = i-dayOfWeekNumber;
+				int disDay = i-dayOfWeekNumber2;
 				String dayCssId = Integer.toString(year);
 				
 				if(Integer.toString(month).length() == 1){
@@ -155,16 +171,51 @@ public class ScheduleMngController {
 					dayCssId += disDay;
 				}
 				
+				String dayStyle = "";
+				String cnt = "";
+				String holidayChk = "N";
+				
+				for(int k=0; k < cntList.size(); k++) {
+					
+					if(cntList.get(k).getsDate().equals(dayCssId)) {
+						System.out.println(cntList.get(k).getHoliDayYn());
+						dayStyle = "style='background:#e6e7ff;'";
+						cnt = cntList.get(k).getCnt();
+						if(cntList.get(k).getHoliDayYn().equals("Y")) {
+							holidayChk = "Y";
+						}
+					}
+				}
+				
 				// 현대월 날짜 그리기
+				String cntTxt = "";
+				if(!cnt.equals("")) {
+					cntTxt = " ("+cnt+")";
+				}
+				
 				if(i % 7 == 0){
-					html += "<td id='"+dayCssId+"'><b style='color:blue;'>" + disDay + "</b></td>";	// 토요일
+					
+					if(holidayChk.equals("Y")) { // 토요일인데 공휴일일 경우
+						html += "<td id='"+dayCssId+"' "+dayStyle+"><b style='color:red;'>" + disDay + "</b>" + cntTxt + "</td>";	// 토요일
+					}else {
+						html += "<td id='"+dayCssId+"' "+dayStyle+"><b style='color:blue;'>" + disDay + "</b>" + cntTxt + "</td>";	// 토요일
+					}
+					
 					html += "</tr><tr>";
 					trNum++;
 					chk = 0;
 				}else if(chk == 1){
-					html += "<td id='"+dayCssId+"'><b style='color:red;'>" + disDay + "</b></td>";	// 일요일
+					
+					html += "<td id='"+dayCssId+"' "+dayStyle+"><b style='color:red;'>" + disDay + "</b>" + cntTxt + "</td>";	// 일요일
+					
 				}else{
-					html += "<td id='"+dayCssId+"'><b>" + disDay + "</b></td>";
+					
+					if(holidayChk.equals("Y")) { // 주중인데 공휴일일 경우
+						html += "<td id='"+dayCssId+"' "+dayStyle+"><b style='color:red;'>" + disDay + "</b>" + cntTxt + "</td>";
+					}else {
+						html += "<td id='"+dayCssId+"' "+dayStyle+"><b>" + disDay + "</b>" + cntTxt + "</td>";	
+					}
+					
 				}
 				
 				//console.log(trNum);
@@ -180,10 +231,11 @@ public class ScheduleMngController {
 		/**/
 		html += "</tr>";
 		
-        response.getWriter().print("{\"startDate\":\""+start+
-				"\", \"endDate\":\""+end+
-				"\", \"dayOfWeekNumber\":\""+dayOfWeekNumber+
-				"\", \"curYear\":\""+year+
+        response.getWriter().print("{"
+        	//	+ "\"startDate\":\""+start+
+			//	"\", \"endDate\":\""+end+
+			//	"\", \"dayOfWeekNumber\":\""+dayOfWeekNumber+
+				  + "\"curYear\":\""+year+
 				"\", \"curMonth\":\""+month+
 				"\", \"nextDate\":\""+nextDate+
 				"\", \"beforeDate\":\""+curDay.atEndOfMonth().toString().replace("-", "")+
@@ -210,6 +262,8 @@ public class ScheduleMngController {
 			resStr += "{\"id\":\""+list.get(i).getId()+
 					"\", \"s_date\":\""+list.get(i).getsDate()+
 					"\", \"title\":\""+list.get(i).getTitle()+
+					"\", \"srtTime\":\""+list.get(i).getSrtTime()+
+					"\", \"endTime\":\""+list.get(i).getEndTime()+
 					"\"}";
 			
 			if(i != (list.size()-1)) {
@@ -233,6 +287,9 @@ public class ScheduleMngController {
 			resStr += "{\"id\":\""+list.get(i).getId()+
 					"\", \"s_date\":\""+list.get(i).getsDate()+
 					"\", \"title\":\""+list.get(i).getTitle()+
+					"\", \"srtTime\":\""+list.get(i).getSrtTime()+
+					"\", \"endTime\":\""+list.get(i).getEndTime()+
+					"\", \"holiDayYn\":\""+list.get(i).getHoliDayYn()+
 					"\"}";
 			
 			if(i != (list.size()-1)) {
@@ -241,7 +298,7 @@ public class ScheduleMngController {
 			
 		}
 		resStr += "]";
-		System.out.println("resStr:"+resStr);
+		//System.out.println("resStr:"+resStr);
 		
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().print(resStr);

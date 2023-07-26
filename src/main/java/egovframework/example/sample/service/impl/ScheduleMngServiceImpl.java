@@ -22,4 +22,8 @@ public class ScheduleMngServiceImpl implements ScheduleMngService {
 	public List<ScheduleVO> selectScheduleList(String sDate) throws Exception{
 		return scheduleMngDAO.selectScheduleList(sDate);
 	}
+	
+	public List<ScheduleVO> selectScheduleListCnt(ScheduleVO scheduleVO) throws Exception {
+		return scheduleMngDAO.selectScheduleListCnt(scheduleVO);
+	}
 }

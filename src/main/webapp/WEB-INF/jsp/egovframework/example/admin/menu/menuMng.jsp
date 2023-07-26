@@ -162,7 +162,10 @@
 															<select name="program_list" id="program_list">
 																<option value="">- 프로그램목록 -</option>
 																<option value="P-00001">
-																	예약하기(P-0001)
+																	예약하기(P-00001)
+																</option>
+																<option value="P-00002">
+																	일정확인(P-00002)
 																</option>
 															</select>
 														</div>

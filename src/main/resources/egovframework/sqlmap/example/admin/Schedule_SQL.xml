@@ -10,9 +10,13 @@
 		INSERT INTO SCHEDULE (
 			 S_DATE
 			,TITLE
+			,SRT_TIME
+			,END_TIME
 		) VALUES (
 			 #sDate#
 			,#title#
+			,#srtTime#
+			,#endTime#
 		)
 	]]>
 	</insert>
@@ -21,7 +25,10 @@
 	<![CDATA[
 		SELECT ID id, 
 			S_DATE sDate, 
-			TITLE title
+			TITLE title,
+			SRT_TIME srtTime,
+			END_TIME endTime,
+			HOLIDAY_YN holiDayYn
 		 FROM SCHEDULE WHERE S_DATE = #sDate#
 	]]>
 	</select>
@@ -29,13 +36,14 @@
 	<select id="scheduleMngDAO.selectScheduleListCnt" parameterClass="scheduleVO" resultClass="scheduleVO">
 	<![CDATA[ 
 		select
-			s_date,
-			count(s_date)
+			s_date sDate,
+			holiday_yn holiDayYn,
+			count(s_date) cnt
 		from
 			schedule
 		where
-			s_date >= '20230701'
-			and s_date <= '20230731'
+			s_date >= #srtDate#
+			and s_date <= #endDate#
 		group by
 			s_date
 	]]>

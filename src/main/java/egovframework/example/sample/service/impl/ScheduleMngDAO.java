@@ -18,4 +18,9 @@ public class ScheduleMngDAO extends EgovAbstractDAO{
 	public List<ScheduleVO> selectScheduleList(String sDate) throws Exception {
 		return (List<ScheduleVO>) list("scheduleMngDAO.selectScheduleList", sDate);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ScheduleVO> selectScheduleListCnt(ScheduleVO scheduleVO) throws Exception {
+		return (List<ScheduleVO>) list("scheduleMngDAO.selectScheduleListCnt", scheduleVO);
+	}
 }

@@ -66,10 +66,10 @@ DROP TABLE example.video_board;
 
 CREATE TABLE `video_board` (
   `VIDEO_ID` varchar(10) NOT NULL,
-  `SAVE_NM` varchar(50) DEFAULT NULL,
+  `SAVE_NM` varchar(100) DEFAULT NULL,
   `TYPE` varchar(10) DEFAULT NULL,
   `SIZE` varchar(10) DEFAULT NULL,
-  `REAL_NM` varchar(50) DEFAULT NULL,
+  `REAL_NM` varchar(100) DEFAULT NULL,
   `SAVE_PATH` varchar(1000) DEFAULT NULL,
   `TITLE` varchar(50) DEFAULT NULL,
   `DESCR` varchar(100) DEFAULT NULL,
@@ -86,3 +86,15 @@ CREATE TABLE `program` (
   `PROGRAM_NM` varchar(50) NOT NULL,
   UNIQUE KEY `program_PROGRAM_ID_IDX` (`PROGRAM_ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='프로그램관리';
+
+DROP TABLE example.schedule;
+
+CREATE TABLE `schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `s_date` varchar(8) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `srt_time` varchar(6) DEFAULT NULL,
+  `end_time` varchar(6) DEFAULT NULL,
+  `holiday_yn` char(1) NOT NULL DEFAULT 'N',
+  UNIQUE KEY `schedule_id_IDX` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='일정관리';

@@ -11,6 +11,72 @@ public class ScheduleVO {
 	/** 제목 */
 	private String title;
 
+	/** 건수 */
+	private String cnt;
+	
+	/** 조회시작일 */
+	private String srtDate;
+	
+	/** 조회종료일 */
+	private String endDate;
+	
+	/** 일정시작시간 */
+	private String srtTime;
+	
+	/** 일정종료시간 */
+	private String endTime;
+	
+	/** 공휴일여부 */
+	private String holiDayYn;
+	
+	public String getHoliDayYn() {
+		return holiDayYn;
+	}
+
+	public void setHoliDayYn(String holiDayYn) {
+		this.holiDayYn = holiDayYn;
+	}
+
+	public String getSrtTime() {
+		return srtTime;
+	}
+
+	public void setSrtTime(String srtTime) {
+		this.srtTime = srtTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getSrtDate() {
+		return srtDate;
+	}
+
+	public void setSrtDate(String srtDate) {
+		this.srtDate = srtDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(String cnt) {
+		this.cnt = cnt;
+	}
+
 	public String getId() {
 		return id;
 	}
