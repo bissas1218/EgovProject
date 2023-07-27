@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.example.sample.service.ScheduleMngService;
 import egovframework.example.sample.service.ScheduleVO;
+import egovframework.program.reserve.service.GolfReservService;
+import egovframework.program.reserve.service.GolfReservVO;
 
 @Controller
 public class GolfReservController {
 
 	@Resource(name="scheduleMngService")
 	private ScheduleMngService scheduleMngService;
+	
+	@Resource(name="golfReservService")
+	private GolfReservService golfReservService;
 	
 	@RequestMapping(value="/golfReservList.do")
 	public String reserMng(Model model) throws Exception {
@@ -104,10 +110,14 @@ public class GolfReservController {
 		int chk = 0;
 		
 		// 일정 카운트 조회
-		ScheduleVO scheduleVO = new ScheduleVO();
-		scheduleVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
-		scheduleVO.setEndDate(end.toString().replaceAll("-", ""));
-		List<ScheduleVO> cntList = scheduleMngService.selectScheduleListCnt(scheduleVO);
+		//ScheduleVO scheduleVO = new ScheduleVO();
+		//scheduleVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
+		//scheduleVO.setEndDate(end.toString().replaceAll("-", ""));
+		
+		GolfReservVO golfReservVO = new GolfReservVO();
+		golfReservVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
+		golfReservVO.setEndDate(end.toString().replaceAll("-", ""));
+		List<GolfReservVO> cntList = golfReservService.selectGolfReservListCnt(golfReservVO); // scheduleMngService.selectScheduleListCnt(scheduleVO);
 		
 		// 전월, 현재월, 다음월 날짜 그리기
 		for(int i = 1; i <= dayEnd; i++){
@@ -141,8 +151,8 @@ public class GolfReservController {
 				
 				for(int k=0; k < cntList.size(); k++) {
 					
-					if(cntList.get(k).getsDate().equals(dayCssId)) {
-						System.out.println(cntList.get(k).getHoliDayYn());
+					if(cntList.get(k).getDate().equals(dayCssId)) {
+					//	System.out.println(cntList.get(k).getHoliDayYn());
 						dayStyle = "style='background:#e6e7ff;'";
 						cnt = cntList.get(k).getCnt();
 						if(cntList.get(k).getHoliDayYn().equals("Y")) {
@@ -206,5 +216,32 @@ public class GolfReservController {
 				"\", \"html\":\""+html+
 				"\"}");
         
+	}
+	
+	@RequestMapping(value="/insertGolfReserv.do", method=RequestMethod.POST)
+	public void insertGolfReserv(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int totalReservCnt = Integer.parseInt( request.getParameter("total_reserv_cnt"));
+		
+		GolfReservVO vo = new GolfReservVO();
+		vo.setDate(request.getParameter("reserv_date"));
+		vo.setCourse(request.getParameter("golf_course"));
+		vo.setPart(request.getParameter("part"));
+		vo.setHoliDayYn(request.getParameter("holiday_yn"));
+		
+		for(int i=1; i<totalReservCnt; i++) {
+			
+			System.out.println(request.getParameter("reserv_date")+" "+request.getParameter("golf_course")+" "+request.getParameter("reservTime_"+i));
+			
+			vo.setTime(request.getParameter("reservTime_"+i));
+			vo.setHole(request.getParameter("hole_"+i));
+			vo.setCaddy(request.getParameter("caddy_"+i));
+			vo.setPerson(request.getParameter("person_"+i));
+			vo.setGreenFee(request.getParameter("green_fee_"+i).replace(",",""));
+			
+			golfReservService.insertGolfReserv(vo);
+		}
+		
+		response.getWriter().print("[{status:success}]");
 	}
 }

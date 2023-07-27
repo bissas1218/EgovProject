@@ -64,7 +64,7 @@
 									<hr class="major" />
 
 									<!-- Elements -->
-										<h2 id="elements">오늘날짜 : <c:out value="${today}"/></h2>
+										<h2 id="elements">오늘날짜 : <c:out value="${today}"/> 선택한날짜 : <font id="selDate"></font></h2>
 										<div class="row gtr-200">
 											<div class="col-6 col-12-medium">
 
@@ -98,36 +98,249 @@
 													</table>
 												</div>
 								
-												<!-- Lists -->
-													<div class="row">
-														<div class="col-6 col-12-small">
-
-															<h4>일정목록</h4>
-															<ul id="schedule_list">
-															</ul>
-
-														</div>
-														
-													</div>
-
-											</div>
-											<div class="col-6 col-12-medium">
-
 												<!-- Form -->
+													<h3>코스설정</h3>
 
 													<form method="post" action="#">
 														<div class="row gtr-uniform">
 														
-															<div class="col-12 col-12-xsmall">
-																동코스 06:00 18홀 4인 120,000
+														<!-- Break -->
+															<div class="col-3 col-12-small">
+																<input type="radio" id="total-hole-num-9" name="total-hole-num" value="9" >
+																<label for="total-hole-num-9">9홀</label>
 															</div>
-															<div class="col-12 col-12-xsmall">
-																동코스 06:00 18홀 4인 120,000
+															<div class="col-3 col-12-small">
+																<input type="radio" id="total-hole-num-18" name="total-hole-num" value="18" checked>
+																<label for="total-hole-num-18">18홀</label>
+															</div>
+															<div class="col-3 col-12-small">
+																<input type="radio" id="total-hole-num-27" name="total-hole-num" value="27" >
+																<label for="total-hole-num-27">27홀</label>
+															</div>
+															<div class="col-3 col-12-small">
+																<input type="radio" id="total-hole-num-36" name="total-hole-num" value="36" >
+																<label for="total-hole-num-36">36홀</label>
+															</div>
+															
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="A-course-nm" id="A-course-nm" value="동코스" placeholder="A코스명" />
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="B-course-nm" id="B-course-nm" value="서코스" placeholder="B코스명" />
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="C-course-nm" id="C-course-nm" value="" placeholder="C코스명" />
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="D-course-nm" id="D-course-nm" value="" placeholder="D코스명" />
+															</div>
+															
+															<!-- 1부시간설정 -->
+															<div class="col-3 col-12-xsmall">
+																1부시간설정
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part1_srt_time" id="part1_srt_time" value="06:00" placeholder="1부시작시간" />
+															</div>
+															<div class="col-1 col-12-xsmall">
+																~
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part1_end_time" id="part1_end_time" value="11:59" placeholder="1부종료시간" />
+															</div>
+															
+															<!-- 2부시간설정 -->
+															<div class="col-3 col-12-xsmall">
+																2부시간설정
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part2_srt_time" id="part2_srt_time" value="12:00" placeholder="2부시작시간" />
+															</div>
+															<div class="col-1 col-12-xsmall">
+																~
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part2_end_time" id="part2_end_time" value="17:59" placeholder="2부종료시간" />
+															</div>
+															
+															<!-- 3부시간설정 -->
+															<div class="col-3 col-12-xsmall">
+																3부시간설정
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part3_srt_time" id="part3_srt_time" value="18:00" placeholder="3부시작시간" />
+															</div>
+															<div class="col-1 col-12-xsmall">
+																~
+															</div>
+															<div class="col-4 col-12-xsmall">
+																<input type="text" name="part3_end_time" id="part3_end_time" value="21:00" placeholder="3부종료시간" />
+															</div>
+															
+															<!-- Break -->
+															<div class="col-12">
+																<ul class="actions">
+																	<li><input type="button" onclick="fn_createReserv();" value="저장하기" class="primary" /></li>
+																	<li><input type="reset" value="Reset" /></li>
+																</ul>
+															</div>
+															
+														</div>
+													</form>
+													
+													<h3>예약설정</h3>		
+													<form method="post" action="#">
+														<div class="row gtr-uniform">
+														
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
+																<label for="golf-course-A">동코스</label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf-course-B" name="golf-course" value="B" >
+																<label for="golf-course-B">서코스</label>
+															</div>
+															
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf-part-1" name="golf-part" value="1" checked>
+																<label for="golf-part-1">1부</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf-part-2" name="golf-part" value="2" >
+																<label for="golf-part-2">2부</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf-part-3" name="golf-part" value="3" >
+																<label for="golf-part-3">3부</label>
+															</div>
+															
+															<!-- 시간간격 -->
+															<div class="col-4 col-12-xsmall">
+																시간간격
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="time-interval" id="time-interval" value="7" placeholder="분입력" />
+															</div>
+															<div class="col-2 col-12-xsmall">
+																분
+															</div>
+															
+															<!-- 홀수 -->
+															<div class="col-4 col-12-xsmall">
+																홀수
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="hole" id="hole" value="18" placeholder="홀수입력" />
+															</div>
+															<div class="col-2 col-12-xsmall">
+																홀
+															</div>
+															
+															<!-- 캐디여부 -->
+															<div class="col-6 col-12-small">
+																<input type="radio" id="caddy-Y" name="caddy" value="Y" checked>
+																<label for="caddy-Y">캐디</label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="caddy-N" name="caddy" value="N" >
+																<label for="caddy-N">노캐디</label>
+															</div>
+															
+															<!-- 라운딩 인원 -->
+															<div class="col-4 col-12-xsmall">
+																인원
+															</div>
+															<div class="col-6">
+																<select name="person" id="person">
+																	<option value="">- 인원수 -</option>
+																	<option value="1">1</option>
+																	<option value="2">2</option>
+																	<option value="3">3</option>
+																	<option value="4" selected>4</option>
+																	<option value="5">5</option>
+																	<option value="6">6</option>
+																</select>
+															</div>
+															<div class="col-2 col-12-xsmall">
+																명
+															</div>
+															
+															<!-- 그린피 -->
+															<div class="col-4 col-12-xsmall">
+																그린피
+															</div>
+															<div class="col-6 col-12-xsmall">
+																<input type="text" name="green_fee" id="green_fee" value="130,000" placeholder="그린피입력" />
+															</div>
+															<div class="col-2 col-12-xsmall">
+																원
+															</div>
+															
+															<!-- 공휴일여부 -->
+															<div class="col-6 col-12-small">
+																<input type="radio" id="holiday_yn-Y" name="holiday_yn" value="Y" >
+																<label for="holiday_yn-Y">공휴일</label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="holiday_yn-N" name="holiday_yn" value="N" checked>
+																<label for="holiday_yn-N">평일</label>
+															</div>
+															
+															<!-- Break -->
+															<div class="col-12">
+																<ul class="actions">
+																	<li><input type="button" onclick="fn_createReserv();" value="예약생성하기" class="primary" /></li>
+																	<li><input type="reset" value="Reset" /></li>
+																</ul>
 															</div>
 															
 														</div>
 													</form>
 
+											</div>
+											<div class="col-6 col-12-medium">
+
+												<form method="post" action="#" name="golfRservFrm" id="golfRservFrm">
+												<h4>2023년7월21일 동코스 1부 신규등록</h4>
+													<div class="table-wrapper">
+														<table class="alt" id="reserv_list">
+															<thead>
+																<tr>
+																	<th style="width:18%">시간</th>
+																	<th style="width:15%">홀수</th>
+																	<th style="width:25%">캐디</th>
+																	<th style="width:12%">인원</th>
+																	<th style="width:30%">그린피</th>
+																</tr>
+															</thead>
+															<tbody>
+																
+															</tbody>
+															<!--  -->
+															<tfoot>
+																<tr>
+																	<td colspan="3">총 <font id="total_reserv_cnt_txt"></font>건의 예약생성</td>
+																	<td></td>
+																</tr>
+															</tfoot>
+														</table>
+													</div>
+
+													<!-- Break -->
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="button" onclick="fn_insertReserv();" value="예약저장하기" class="primary" /></li>
+															<li><input type="reset" value="Reset" /></li>
+														</ul>
+													</div>
+													
+													<input type="hidden" name="total_reserv_cnt" id="total_reserv_cnt" />
+													<input type="hidden" name="reserv_date" id="reserv_date" />
+													<input type="hidden" name="golf_course" id="golf_course" />
+													<input type="hidden" name="holiday_yn" id="holiday_yn" />
+													<input type="hidden" name="part" id="part" />
+												</form>
+															
 											</div>
 										</div>
 
@@ -180,8 +393,9 @@
 		    	
 		    	$("#s_date").val(this.id);
 		    	$("#"+this.id).css("background","gold");
+		    	$("#selDate").text(this.id);
 		    	
-		    	// 일정조회
+		    	/* 일정조회
 		    	$.ajax({
 					type: 'get',
 					url: '/selectScheduleList.do',
@@ -197,6 +411,7 @@
 						console.log('ajax schedule list error!!!');
 					}
 				});
+		    	*/
 		    	
 			}
 			
@@ -221,6 +436,48 @@
 	        	$("#end-min").attr('disabled', false);
 	        }         
 		});
+		
+		// 총홀수 체크값
+		var totalHoleNum = $("input[name='total-hole-num']:checked").val();
+		if(totalHoleNum == 9){
+			$("#B-course-nm").hide();
+			$("#C-course-nm").hide();
+			$("#D-course-nm").hide();
+		}else if(totalHoleNum == 18){
+			$("#C-course-nm").hide();
+			$("#D-course-nm").hide();
+		}else if(totalHoleNum == 27){
+			$("#D-course-nm").hide();
+		}else if(totalHoleNum == 36){
+			
+		}
+		
+		// 총홀수 변경
+		$("input[name='total-hole-num']:radio").change(function () {
+			console.log(this.value);
+			
+			$("#A-course-nm").hide();
+			$("#B-course-nm").hide();
+			$("#C-course-nm").hide();
+			$("#D-course-nm").hide();
+			
+			if(this.value == 9){
+				$("#A-course-nm").show();
+			}else if(this.value == 18){
+				$("#A-course-nm").show();
+				$("#B-course-nm").show();
+			}else if(this.value == 27){
+				$("#A-course-nm").show();
+				$("#B-course-nm").show();
+				$("#C-course-nm").show();
+			}else if(this.value == 36){
+				$("#A-course-nm").show();
+				$("#B-course-nm").show();
+				$("#C-course-nm").show();
+				$("#D-course-nm").show();
+			}
+		});
+		
 	});
 
 	// 전월 달력이동
@@ -353,6 +610,129 @@
     	
     	backupSdate = '';
     	backupColor = '';
+	}
+	
+	function fn_createReserv(){
+		// part1_end_time
+		let date = new Date(2023, 7, 27);
+		let hour = 6;
+		//console.log($("input[name='golf-part']:checked").val());
+		var golfPart = $("input[name='golf-part']:checked").val();
+		var part1_srt = $("#part1_srt_time").val();
+		var part1_end = $("#part1_end_time").val();
+		var part2_srt = $("#part2_srt_time").val();
+		var part2_end = $("#part2_end_time").val();
+		var part3_srt = $("#part3_srt_time").val();
+		var part3_end = $("#part3_end_time").val();
+		
+		if( golfPart == '1'){
+			date.setHours(part1_srt.substr(0,2));
+			date.setMinutes(part1_srt.substr(3,2));
+		}else if( golfPart == '2'){
+			date.setHours(part2_srt.substr(0,2));
+			date.setMinutes(part2_srt.substr(3,2));
+		}else if( golfPart == '3'){
+			date.setHours(part3_srt.substr(0,2));
+			date.setMinutes(part3_srt.substr(3,2));
+		}
+		console.log('기준일자 : ' + date + '<br>');
+		
+		$("#reserv_list tbody tr").remove();
+		
+		let html = "";
+		let num = 1;
+		for(var i=0; i<1000; i++){
+			
+			//console.log('7분 후 : ' + date + ', 시간'+date.getHours()+', 분'+date.getMinutes()+', '+Number(part1_end.substr(0,2))+',' +Number(part1_end.substr(3,2)));
+			//if(date.getHours() >= Number(part1_end.substr(0,2)) && date.getMinutes() > Number(part1_end.substr(3,2))){
+			//	break;
+			//}
+			//console.log(new Date(2023, 7, 23, Number(part1_end.substr(0,2)), Number(part1_end.substr(3,2))));
+			let chkHour, chkMin;
+			if( golfPart == '1'){
+				chkHour = Number(part1_end.substr(0,2));
+				chkMin = Number(part1_end.substr(3,2));
+			}else if(golfPart == '2'){
+				chkHour = Number(part2_end.substr(0,2));
+				chkMin = Number(part2_end.substr(3,2));
+			}else if(golfPart == '3'){
+				chkHour = Number(part3_end.substr(0,2));
+				chkMin = Number(part3_end.substr(3,2));
+			}
+			
+			if(date > new Date(2023, 7, 27, chkHour, chkMin)){
+				break;
+			}
+			
+			let hourTxt = date.getHours();
+			if(String(date.getHours()).length == 1){
+				hourTxt = '0' + date.getHours();
+			}
+			
+			let minTxt = date.getMinutes();
+			if(String(date.getMinutes()).length == 1){
+				minTxt = '0' + date.getMinutes();
+			}
+			
+			var caddy_yn = $("input[name='caddy']:checked").val();
+			let caddy_y = '';
+			let caddy_n = '';
+			if(caddy_yn == 'Y'){
+				caddy_y = 'selected';
+			}else if(caddy_yn == 'N'){
+				caddy_n = 'selected';
+			}
+			
+			html += "<tr>";
+			html += "<td><input type='text' name='reservTime_"+num+"' id='reservTime_"+num+"' value='"+hourTxt+":"+minTxt+"'/><br/></td>"+
+				    "<td><input type='text' name='hole_"+num+"' id='hole_"+num+"' value='"+$("#hole").val()+"' /></td>"+
+				    "<td><select name='caddy_"+num+"' id='caddy_"+num+"'>"+
+				    	"<option value='Y' "+caddy_y+">캐디</option><option value='N' "+caddy_n+">노캐디</option>"+
+				    	"</select></td>"+
+				    "<td><input type='text' name='person_"+num+"' id='person_"+num+"' value='"+$("#person").val()+"' /></td>"+
+				    "<td><input type='text' name='green_fee_"+num+"' id='green_fee_"+num+"' value='"+$("#green_fee").val()+"'/></td>";
+				    
+			html += "</tr>";	
+			
+			date.setMinutes(date.getMinutes() + Number($("#time-interval").val()));
+			
+			num++;
+		}
+		
+		$("#total_reserv_cnt_txt").text(num);
+		$("#total_reserv_cnt").val(num);
+		
+		$("#reserv_date").val($("#selDate").text()); // 예약일 저장
+		$("#golf_course").val( $("input[name='golf-course']:checked").val() ); // 코스저장
+		$("#holiday_yn").val( $("input[name='holiday_yn']:checked").val() ); // 공휴일여부
+		$("#part").val( $("input[name='golf-part']:checked").val() ); // 부저장
+		
+		$("#reserv_list tbody").append(html);
+	}
+	
+	function fn_insertReserv(){
+	
+		
+		var frmData = $("#golfRservFrm").serialize();
+		//console.log(frmData);
+		
+		$.ajax({
+            cache : false,
+            url : "/insertGolfReserv.do", // 요기에
+            type : 'POST', 
+            data : frmData, 
+	        success : function(data) {
+	            //var jsonObj = JSON.parse(data);
+	        	$("#reserv_list tbody tr").remove();
+	        	
+	        	// 선택월 달력 새로고침
+				fn_selectGolfReservMonth($("#txtYear").text(), $("#txtMonth").text());
+	        	
+	        }, // success 
+	        error : function(xhr, status) {
+	            alert(xhr + " : " + status);
+	        }
+		});
 	}
 	
 </script>

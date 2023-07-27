@@ -9,6 +9,7 @@
 	<sqlMap resource="egovframework/sqlmap/example/admin/Contents_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/example/admin/Board_SQL.xml"/>
 	<sqlMap resource="egovframework/sqlmap/example/admin/Schedule_SQL.xml"/>
+	<sqlMap resource="egovframework/sqlmap/example/admin/GolfReserv_SQL.xml"/>
 	
 	<!-- user -->
 	<sqlMap resource="egovframework/sqlmap/example/user/User_Main_SQL.xml" />

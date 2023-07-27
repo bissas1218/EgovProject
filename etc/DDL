@@ -99,6 +99,19 @@ CREATE TABLE `schedule` (
   UNIQUE KEY `schedule_id_IDX` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='일정관리';
 
+DROP TABLE example.golf_reserv;
+
+CREATE TABLE `golf_reserv` (
+  `date` varchar(8) DEFAULT NULL,
+  `course` varchar(1) DEFAULT NULL,
+  `time` varchar(5) DEFAULT NULL,
+  `hole` varchar(2) DEFAULT NULL,
+  `caddy` varchar(1) DEFAULT NULL,
+  `person` int(11) DEFAULT NULL,
+  `green_fee` int(11) DEFAULT NULL,
+  `part` varchar(1) DEFAULT NULL,
+  `holiday_yn` varchar(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 CREATE EVENT TEST_EVENT
 ON SCHEDULE EVERY 1 day
