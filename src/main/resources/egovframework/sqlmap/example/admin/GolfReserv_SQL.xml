@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="GolfReserv">
+
+	<typeAlias alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="golfReservVO" type="egovframework.program.reserve.service.GolfReservVO"/>
+	
+	<select id="golfReservDAO.selectGolfReservListCnt" parameterClass="golfReservVO" resultClass="golfReservVO">
+	<![CDATA[
+		select
+			date,
+			holiday_yn holiDayYn,
+			count(date) cnt
+		from
+			golf_reserv
+		where
+			date >= #srtDate#
+			and date <= #endDate#
+		group by
+			date
+	]]>
+	</select>
+	
+	<insert id="golfReservDAO.insertGolfReserv" parameterClass="golfReservVO">
+	<![CDATA[
+		INSERT INTO GOLF_RESERV (
+			 DATE
+			,COURSE
+			,TIME
+			,HOLE
+			,CADDY
+			,PERSON
+			,GREEN_FEE
+			,PART
+			,HOLIDAY_YN
+		) VALUES (
+			 #date#
+			,#course#
+			,#time#
+			,#hole#
+			,#caddy#
+			,#person#
+			,#greenFee#
+			,#part#
+			,#holiDayYn#
+		)
+	]]>
+	</insert>
+	
+</sqlMap>	
