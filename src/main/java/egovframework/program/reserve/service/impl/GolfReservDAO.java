@@ -18,4 +18,9 @@ public class GolfReservDAO extends EgovAbstractDAO {
 	public void insertGolfReserv(GolfReservVO vo) throws Exception{
 		insert("golfReservDAO.insertGolfReserv", vo);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GolfReservVO> selectGolfReservList(GolfReservVO vo) throws Exception {
+		return (List<GolfReservVO>) list("golfReservDAO.selectGolfReservList", vo);
+	}
 }

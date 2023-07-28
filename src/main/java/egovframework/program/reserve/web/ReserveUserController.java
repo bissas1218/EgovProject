@@ -1,4 +1,4 @@
-package egovframework.program.reserve;
+package egovframework.program.reserve.web;
 
 import java.io.IOException;
 import java.text.DateFormat;

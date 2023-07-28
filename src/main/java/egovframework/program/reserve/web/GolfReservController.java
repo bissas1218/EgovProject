@@ -1,4 +1,4 @@
-package egovframework.program.reserve;
+package egovframework.program.reserve.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -206,9 +206,6 @@ public class GolfReservController {
 		html += "</tr>";
 		
         response.getWriter().print("{"
-        	//	+ "\"startDate\":\""+start+
-			//	"\", \"endDate\":\""+end+
-			//	"\", \"dayOfWeekNumber\":\""+dayOfWeekNumber+
 				  + "\"curYear\":\""+year+
 				"\", \"curMonth\":\""+month+
 				"\", \"nextDate\":\""+nextDate+
@@ -228,10 +225,11 @@ public class GolfReservController {
 		vo.setCourse(request.getParameter("golf_course"));
 		vo.setPart(request.getParameter("part"));
 		vo.setHoliDayYn(request.getParameter("holiday_yn"));
+		vo.setMemberType(request.getParameter("member_type"));
 		
 		for(int i=1; i<totalReservCnt; i++) {
 			
-			System.out.println(request.getParameter("reserv_date")+" "+request.getParameter("golf_course")+" "+request.getParameter("reservTime_"+i));
+		//	System.out.println(request.getParameter("reserv_date")+" "+request.getParameter("golf_course")+" "+request.getParameter("reservTime_"+i));
 			
 			vo.setTime(request.getParameter("reservTime_"+i));
 			vo.setHole(request.getParameter("hole_"+i));
@@ -243,5 +241,79 @@ public class GolfReservController {
 		}
 		
 		response.getWriter().print("[{status:success}]");
+	}
+	
+	@RequestMapping(value="/selectGolfReservList.do", method=RequestMethod.GET)
+	public void selectGolfReservList(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
+		
+		System.out.println("date:"+golfReservVO.getDate());
+		
+		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
+		String html = "";
+		for(int i=0; i<list.size(); i++) {
+			//System.out.println(list.get(i).getTime());
+			String caddy_y = "";
+			String caddy_n = "";
+			if(list.get(i).getCaddy().equals("Y")) {
+				caddy_y = "selected";
+			}else {
+				caddy_n = "selected";
+			}
+			html += "<tr>";
+			html += "<td><input type='text' name='reservTime_"+(i+1)+"' id='reservTime_"+(i+1)+"' value='"+list.get(i).getTime()+"'/></td>"+
+				    "<td><input type='text' name='hole_"+(i+1)+"' id='hole_"+(i+1)+"' value='"+list.get(i).getHole()+"' /></td>"+
+				    "<td><select name='caddy_"+(i+1)+"' id='caddy_"+(i+1)+"'>"+
+				    	"<option value='Y' "+caddy_y+">캐디</option><option value='N' "+caddy_n+">노캐디</option>"+
+				    	"</select></td>"+
+				    "<td><input type='text' name='person_"+(i+1)+"' id='person_"+(i+1)+"' value='"+list.get(i).getPerson()+"' /></td>"+
+				    "<td><input type='text' name='green_fee_"+(i+1)+"' id='green_fee_"+(i+1)+"' value='"+list.get(i).getGreenFee()+"'/></td>";
+				    
+			html += "</tr>";
+		}
+		
+		response.setCharacterEncoding("utf-8");
+		
+		response.getWriter().print("{"+
+				"\"html\":\""+html+
+				"\"}");
+	}
+	
+	@RequestMapping(value="/selectUserGolfReservList.do", method=RequestMethod.GET)
+	public void selectUserGolfReservList(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
+		
+		System.out.println("date:"+golfReservVO.getDate());
+		
+		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
+		String html = "";
+		for(int i=0; i<list.size(); i++) {
+			//System.out.println(list.get(i).getTime());
+			String caddy_yn = "";
+			if(list.get(i).getCaddy().equals("Y")) {
+				caddy_yn = "캐디";
+			}else {
+				caddy_yn = "노캐디";
+			}
+			html += "<tr>";
+			html += "<td>"+list.get(i).getCourse()+"</td>"+
+					"<td>"+list.get(i).getTime()+"</td>"+
+				    "<td>"+list.get(i).getHole()+"</td>"+
+				    "<td>"+caddy_yn+"</td>"+
+				    "<td>"+list.get(i).getPerson()+"</td>"+
+				    "<td>"+list.get(i).getGreenFee()+"</td>"+
+				    "<td><a href=\'javascript:fn_user_reserv(\""+list.get(i).getTime()+"\");\'>예약</a></td>"
+				    ;
+				    
+			html += "</tr>";
+		}
+		
+		response.setContentType("text/html; charset=utf-8"); // 응답하는 컨텐츠 타입 선택
+		response.setCharacterEncoding("utf-8");
+		
+		System.out.println(html);
+		/*
+		response.getWriter().print("{"+
+				"\"html\":\""+html+
+				"\"}");*/
+		response.getWriter().print(html);
 	}
 }

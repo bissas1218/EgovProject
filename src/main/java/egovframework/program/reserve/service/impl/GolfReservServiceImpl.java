@@ -22,4 +22,8 @@ public class GolfReservServiceImpl implements GolfReservService {
 	public void insertGolfReserv(GolfReservVO vo) throws Exception{
 		golfReservDAO.insertGolfReserv(vo);
 	}
+	
+	public List<GolfReservVO> selectGolfReservList(GolfReservVO vo) throws Exception {
+		return golfReservDAO.selectGolfReservList(vo);
+	}
 }

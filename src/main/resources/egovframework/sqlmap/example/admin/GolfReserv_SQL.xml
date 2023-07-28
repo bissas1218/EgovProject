@@ -34,6 +34,7 @@
 			,GREEN_FEE
 			,PART
 			,HOLIDAY_YN
+			,MEMBER_TYPE
 		) VALUES (
 			 #date#
 			,#course#
@@ -44,8 +45,26 @@
 			,#greenFee#
 			,#part#
 			,#holiDayYn#
+			,#memberType#
 		)
 	]]>
 	</insert>
+	
+	<select id="golfReservDAO.selectGolfReservList" parameterClass="golfReservVO" resultClass="golfReservVO">
+		SELECT   DATE date
+				,COURSE course
+				,TIME time
+				,HOLE hole
+				,CADDY caddy
+				,PERSON person
+				,GREEN_FEE greenFee
+				,PART part
+				,HOLIDAY_YN holidayYn
+				,MEMBER_TYPE memberType
+		FROM GOLF_RESERV WHERE DATE = #date#
+		<isNotEqual prepend="AND" property="part" compareValue="all">
+			PART = #part#
+		</isNotEqual>
+	</select>
 	
 </sqlMap>	

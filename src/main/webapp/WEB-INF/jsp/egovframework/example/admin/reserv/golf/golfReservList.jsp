@@ -286,6 +286,20 @@
 																<label for="holiday_yn-N">평일</label>
 															</div>
 															
+															<!-- 회원종류 -->
+															<div class="col-4 col-12-small">
+																<input type="radio" id="member_type_non" name="member_type" value="A" >
+																<label for="member_type_non">비회원</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="member_type_ass" name="member_type" value="B" checked>
+																<label for="member_type_ass">준회원</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="member_type_full" name="member_type" value="C" checked>
+																<label for="member_type_full">정회원</label>
+															</div>
+															
 															<!-- Break -->
 															<div class="col-12">
 																<ul class="actions">
@@ -339,6 +353,7 @@
 													<input type="hidden" name="golf_course" id="golf_course" />
 													<input type="hidden" name="holiday_yn" id="holiday_yn" />
 													<input type="hidden" name="part" id="part" />
+													<input type="hidden" name="member_type" id="member_type" />
 												</form>
 															
 											</div>
@@ -391,27 +406,35 @@
 		    	backupSdate = this.id;
 		    	backupColor = $("#"+this.id).css("background-color");
 		    	
-		    	$("#s_date").val(this.id);
+		    	$("#reserv_date").val(this.id);
 		    	$("#"+this.id).css("background","gold");
 		    	$("#selDate").text(this.id);
 		    	
-		    	/* 일정조회
+		    	/* 예약목록조회 */
 		    	$.ajax({
 					type: 'get',
-					url: '/selectScheduleList.do',
+					url: '/selectGolfReservList.do',
+					contentType: 'application/json; charset=utf-8',
 					data: {
-						sDate:$("#s_date").val()
+						date:$("#reserv_date").val(),
+						part:'all'
 					},
 					dataType: 'json',
 					success: function(result){
+						$("#reserv_list tbody tr").remove();
+						//console.log(result.html);
+						//fn_schedule_list(result);
+						if(result.html == ''){
+							$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");
+						}else{
+							$("#reserv_list tbody").append(result.html);
+						}
 						
-						fn_schedule_list(result);
 					},
 					error:function(){
-						console.log('ajax schedule list error!!!');
+						console.log('ajax golf reserv list error!!!');
 					}
 				});
-		    	*/
 		    	
 			}
 			
@@ -454,7 +477,7 @@
 		
 		// 총홀수 변경
 		$("input[name='total-hole-num']:radio").change(function () {
-			console.log(this.value);
+			//console.log(this.value);
 			
 			$("#A-course-nm").hide();
 			$("#B-course-nm").hide();
@@ -522,73 +545,6 @@
 	}
 	
 
-	function fn_saveSchedule(){
-		//console.log(selDate);
-		if( $("#s_date").val() == '' ){
-			alert('일정을 저장할 날짜를 선택하세요!');
-		}else if( $("#title").val() == '' ){
-			alert('일정제목을 입력하세요!');
-			$("#title").focus();
-		}else{
-			
-			var srtTime = '';
-			var endTime = '';
-			
-			if( $("input[name='srt-time']:checked").val() == 'all'){
-				srtTime = 'all';	
-			}else{
-				srtTime = $("input[name='srt-time']:checked").val() + $("#srt-hour").val() + $("#srt-min").val();
-				endTime = $("input[name='end-time']:checked").val() + $("#end-hour").val() + $("#end-min").val();
-			}
-			
-			$.ajax({
-				type: 'post',
-				url: '/updateSchedule.do',
-				data: {
-					sDate:$("#s_date").val(), 
-					title:$("#title").val(),
-					srtTime:srtTime,
-					endTime:endTime
-				},
-				dataType: 'json',
-				success: function(result){
-					
-					fn_schedule_list(result);
-					
-					// 선택월 달력 새로고침
-					fn_selectGolfReservMonth($("#txtYear").text(), $("#txtMonth").text());
-					
-					fn_reset();
-				},
-				error:function(){
-					console.log('ajax schedule insert error!!!');
-				}
-			});
-		}
-	}
-	
-	function fn_schedule_list(result){
-//		console.log(result);
-		$("#schedule_list").children().remove();
-		for(var i=0; i<result.length; i++){
-		
-			let txtTitle = '';
-			if(result[i].srtTime == 'all'){
-				txtTitle = '(하루종일)';
-			}else{
-				txtTitle = '('+result[i].srtTime.substr(0,4)+':'+result[i].srtTime.substr(4,2)+"~"+result[i].endTime.substr(0,4)+':'+result[i].endTime.substr(4,2)+')';
-			}
-			
-			if(result[i].holiDayYn == 'Y'){
-				$("#schedule_list").append("<li style='color:red;'>"+result[i].title+" "+txtTitle+"</li>");
-			}else{
-				$("#schedule_list").append("<li>"+result[i].title+" "+txtTitle+"</li>");
-			}
-			
-		}
-
-	}
-	
 	function fn_reset(){
 		$("#s_date").val('');
 		$("#title").val('');
@@ -706,6 +662,7 @@
 		$("#golf_course").val( $("input[name='golf-course']:checked").val() ); // 코스저장
 		$("#holiday_yn").val( $("input[name='holiday_yn']:checked").val() ); // 공휴일여부
 		$("#part").val( $("input[name='golf-part']:checked").val() ); // 부저장
+		$("#member_type").val( $("input[name='member_type']:checked").val() ); // 회원종류
 		
 		$("#reserv_list tbody").append(html);
 	}

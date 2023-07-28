@@ -7,4 +7,6 @@ public interface GolfReservService {
 	List<GolfReservVO> selectGolfReservListCnt(GolfReservVO vo) throws Exception;
 	
 	void insertGolfReserv(GolfReservVO vo) throws Exception;
+	
+	List<GolfReservVO> selectGolfReservList(GolfReservVO vo) throws Exception;
 }

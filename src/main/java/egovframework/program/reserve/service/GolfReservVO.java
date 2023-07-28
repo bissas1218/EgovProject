@@ -38,6 +38,17 @@ public class GolfReservVO {
 	/** 종료일 */
 	private String endDate;
 	
+	/** 회원종류 */
+	private String memberType;
+	
+	public String getMemberType() {
+		return memberType;
+	}
+
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
+	}
+
 	public String getSrtDate() {
 		return srtDate;
 	}
