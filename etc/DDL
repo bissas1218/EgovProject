@@ -99,6 +99,7 @@ CREATE TABLE `schedule` (
   UNIQUE KEY `schedule_id_IDX` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='일정관리';
 
+-----------------------------------------------------------------------------------------------------
 DROP TABLE example.golf_reserv;
 
 CREATE TABLE `golf_reserv` (
@@ -114,7 +115,29 @@ CREATE TABLE `golf_reserv` (
   `member_type` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
-------- event ----------
+------------------------------------------------------------------------------------------------------
+DROP TABLE example.golf_setting;
+
+CREATE TABLE `golf_setting` (
+  `hole_num` int(11) DEFAULT NULL,
+  `a_course_nm` varchar(30) DEFAULT NULL,
+  `b_course_nm` varchar(30) DEFAULT NULL,
+  `c_course_nm` varchar(30) DEFAULT NULL,
+  `d_course_nm` varchar(30) DEFAULT NULL,
+  `part1_srt_time` varchar(5) DEFAULT NULL,
+  `part1_end_time` varchar(5) DEFAULT NULL,
+  `part2_srt_time` varchar(5) DEFAULT NULL,
+  `part2_end_time` varchar(5) DEFAULT NULL,
+  `part3_srt_time` varchar(5) DEFAULT NULL,
+  `part3_end_time` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='골프장 환경설정';
+
+INSERT INTO example.golf_setting
+(hole_num, a_course_nm, b_course_nm, c_course_nm, d_course_nm, part1_srt_time, part1_end_time, part2_srt_time, part2_end_time, part3_srt_time, part3_end_time)
+VALUES(18, '동코스', '서코스', '', '', '06:00', '11:59', '12:00', '17:59', '18:00', '21:00');
+
+
+------- event ---------------------------------------------------------------------------------------------
 CREATE TABLE `test_table` (
   `TEST1` varchar(100) DEFAULT NULL,
   `TEST2` datetime DEFAULT NULL

@@ -5,6 +5,7 @@
 
 	<typeAlias alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
 	<typeAlias  alias="golfReservVO" type="egovframework.program.reserve.service.GolfReservVO"/>
+	<typeAlias  alias="golfSettingVO" type="egovframework.program.reserve.service.GolfSettingVO"/>
 	
 	<select id="golfReservDAO.selectGolfReservListCnt" parameterClass="golfReservVO" resultClass="golfReservVO">
 	<![CDATA[
@@ -53,6 +54,11 @@
 	<select id="golfReservDAO.selectGolfReservList" parameterClass="golfReservVO" resultClass="golfReservVO">
 		SELECT   DATE date
 				,COURSE course
+				,IF(COURSE='A', (SELECT a_course_nm FROM GOLF_SETTING), 
+					IF(COURSE='B', (SELECT b_course_nm FROM GOLF_SETTING), 
+						IF(COURSE='C', (SELECT c_course_nm FROM GOLF_SETTING), 
+							IF(COURSE='D', (SELECT d_course_nm FROM GOLF_SETTING),NULL
+							)))) courseNm
 				,TIME time
 				,HOLE hole
 				,CADDY caddy
@@ -61,10 +67,50 @@
 				,PART part
 				,HOLIDAY_YN holidayYn
 				,MEMBER_TYPE memberType
-		FROM GOLF_RESERV WHERE DATE = #date#
+		FROM GOLF_RESERV 
+		WHERE DATE = #date#
 		<isNotEqual prepend="AND" property="part" compareValue="all">
 			PART = #part#
 		</isNotEqual>
+		<isNotEqual prepend="AND" property="course" compareValue="all">
+			COURSE = #course#
+		</isNotEqual>
 	</select>
 	
+	<update id="golfReservDAO.updateGolfSetting" parameterClass="golfSettingVO">
+		<![CDATA[
+		UPDATE GOLF_SETTING SET 
+			 hole_num = #holeNum# 
+			,a_course_nm = #aCourseNm#
+			,b_course_nm = #bCourseNm#
+			,c_course_nm = #cCourseNm#
+			,d_course_nm = #dCourseNm#
+			,part1_srt_time = #part1SrtTime#
+			,part1_end_time = #part1EndTime#
+			,part2_srt_time = #part2SrtTime#
+			,part2_end_time = #part2EndTime#
+			,part3_srt_time = #part3SrtTime#
+			,part3_end_time = #part3EndTime#
+		]]>
+	</update>
+	
+	<select id="golfReservDAO.selectGolfSetting" resultClass="golfSettingVO">
+	<![CDATA[
+		SELECT 
+			 hole_num holeNum
+			,a_course_nm aCourseNm
+			,b_course_nm bCourseNm
+			,c_course_nm cCourseNm
+			,d_course_nm dCourseNm
+			,part1_srt_time part1SrtTime
+			,part1_end_time part1EndTime
+			,part2_srt_time part2SrtTime
+			,part2_end_time part2EndTime
+			,part3_srt_time part3SrtTime
+			,part3_end_time part3EndTime
+		FROM GOLF_SETTING
+	]]>
+	</select>
+	
+
 </sqlMap>	

@@ -77,7 +77,7 @@
 												<!-- Table -->
 													<h3>Table</h3>
 
-													<h4>오늘날짜 : <c:out value="${today}"/> 선택한날짜 : <font id="selDate"></font></h4>
+													<h4>오늘날짜 : <a href="javascript:fn_selectGolfReservMonth('${year}', '${month}');"><c:out value="${today}"/></a> 선택한날짜 : <font id="selDate"></font></h4>
 													<div class="table-wrapper" id="carendarDiv">
 														<table id="carendarTable">
 															<thead>
@@ -112,7 +112,21 @@
 													<h3>Form</h3>
 
 													<form method="post" action="#">
-														<div class="row gtr-uniform">
+														<div class="row gtr-uniform" id="part_choice">
+															
+															<!-- Break -->
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
+																<label for="golf_course-all">전체</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-A" name="golf_course" value="A">
+																<label for="golf_course-A">A코스</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-B" name="golf_course" value="B">
+																<label for="golf_course-B">B코스</label>
+															</div>
 															
 															<!-- Break -->
 															<div class="col-3 col-12-small">
@@ -144,7 +158,7 @@
 												<!-- Table -->
 													<h3>Table</h3>
 
-													<h4>2023년7월21일 동코스 1부</h4>
+													<h4><font id="cur_reserv_date_txt"></font></h4>
 													<div class="table-wrapper">
 														<table id="reserv_list">
 															<thead>
@@ -216,6 +230,12 @@
 			// 입력된 월이 현재월이 아닐경우 입력월로 이동
 			if($("#txtYear").text()+$("#txtMonth").text() != this.id.substr(0,4)+''+Number(this.id.substr(4,2))){
 				fn_selectGolfReservMonth(this.id.substr(0,4), Number(this.id.substr(4,2)));
+				$("#reserv_date").val('');
+				// 파트선택 불가능
+	    		$("input[name='golf_part']:radio").attr("disabled", true);
+	    		$("input[name='golf_course']:radio").attr("disabled", true);
+	    		backupColor = '';
+	    		
 				return false;
 			}else{
 				
@@ -235,18 +255,45 @@
 		    	
 		    	fn_golfReservList();
 		    	
+		    	console.log($("#"+this.id).text());
+		    	
+		    	if( $("#"+this.id).text().indexOf('(') != -1 ){
+		    		/*
+		    		console.log( $("#"+this.id).text().indexOf('(') + ', ' + $("#"+this.id).text().indexOf(')') );	
+		    		console.log(
+		    				$("#"+this.id).text().substr( 
+		    						$("#"+this.id).text().indexOf('('), 
+		    						$("#"+this.id).text().indexOf(')') 
+		    						)
+		    						); */
+		    		$("input[name='golf_part']:radio").attr("disabled", false);
+		    						
+		    	}else{
+		    		// 파트선택 불가능
+		    		$("input[name='golf_part']:radio").attr("disabled", true);
+		    		$("input[name='golf_course']:radio").attr("disabled", true);
+		    	}
+		    	
 			}
 		});
 		
 		// 파트 변경
 		$("input[name='golf_part']:radio").change(function () {
-			//console.log(this.value);
-			//fn_selectGolfReservMonth($("#txtYear").text(), $("#txtMonth").text());
 			fn_golfReservList();
 		});
 		
+		// 코스 변경
+		$("input[name='golf_course']:radio").change(function () {
+			fn_golfReservList();
+		});
+		
+		// 파트선택 불가능
+		$("input[name='golf_part']:radio").attr("disabled", true);
+		$("input[name='golf_course']:radio").attr("disabled", true);
+		
 	});
 
+	// 예약목록 조회하기
 	function fn_golfReservList(){
 		
 		/* 예약목록조회 */
@@ -256,7 +303,8 @@
 			contentType: 'application/json; charset=utf-8',
 			data: {
 				date:$("#reserv_date").val(),
-				part:$("input[name='golf_part']:checked").val()
+				part:$("input[name='golf_part']:checked").val(),
+				course:$("input[name='golf_course']:checked").val()
 			},
 			dataType: 'text',
 			success: function(result){
@@ -266,8 +314,17 @@
 				//fn_schedule_list(result);
 				if(result == ''){
 					$("#reserv_list tbody").append("<tr><td colspan='7'>등록된 예약이 없습니다.</td></tr>");
+					$("#cur_reserv_date_txt").text('');
 				}else{
+					
 					$("#reserv_list tbody").append(result);
+					
+					$("input[name='golf_part']:radio").attr("disabled", false);
+					$("input[name='golf_course']:radio").attr("disabled", false);
+					
+					$("#cur_reserv_date_txt").text($("#reserv_date").val().substr(0,4)+'년'+
+							$("#reserv_date").val().substr(4,2)+'월'+
+							$("#reserv_date").val().substr(6,2)+'일 동코스 2부');
 				}
 				
 			},
@@ -289,6 +346,10 @@
 	
 	// 달력조회
 	function fn_selectGolfReservMonth(year, month){
+		
+		$("#cur_reserv_date_txt").text('');
+		$("#selDate").text('');
+		
 		//console.log(month);
 		$.ajax({
 			type: 'get',
@@ -325,6 +386,7 @@
 	function fn_reset(){
 		$("#reserv_list tbody tr").remove();
 		$("input:radio[name='golf_part']:input[value='all']").prop('checked',true);
+		$("input:radio[name='golf_course']:input[value='all']").prop('checked',true);
 	//	$("#txtYear").text('');
 	}
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.program.reserve.service.GolfReservService;
 import egovframework.program.reserve.service.GolfReservVO;
+import egovframework.program.reserve.service.GolfSettingVO;
 
 @Service("golfReservService")
 public class GolfReservServiceImpl implements GolfReservService {
@@ -25,5 +26,13 @@ public class GolfReservServiceImpl implements GolfReservService {
 	
 	public List<GolfReservVO> selectGolfReservList(GolfReservVO vo) throws Exception {
 		return golfReservDAO.selectGolfReservList(vo);
+	}
+	
+	public int updateGolfSetting(GolfSettingVO vo) throws Exception{
+		return golfReservDAO.updateGolfSetting(vo);
+	}
+	
+	public GolfSettingVO selectGolfSetting() throws Exception{
+		return golfReservDAO.selectGolfSetting();
 	}
 }

@@ -8,6 +8,9 @@ public class GolfReservVO {
 	/** 골프코스 */
 	private String course;
 	
+	/** 골프코스명 */
+	private String courseNm;
+	
 	/** 예약시간 */
 	private String time;
 
@@ -41,6 +44,14 @@ public class GolfReservVO {
 	/** 회원종류 */
 	private String memberType;
 	
+	public String getCourseNm() {
+		return courseNm;
+	}
+
+	public void setCourseNm(String courseNm) {
+		this.courseNm = courseNm;
+	}
+
 	public String getMemberType() {
 		return memberType;
 	}

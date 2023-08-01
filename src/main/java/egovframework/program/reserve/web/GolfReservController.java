@@ -22,6 +22,7 @@ import egovframework.example.sample.service.ScheduleMngService;
 import egovframework.example.sample.service.ScheduleVO;
 import egovframework.program.reserve.service.GolfReservService;
 import egovframework.program.reserve.service.GolfReservVO;
+import egovframework.program.reserve.service.GolfSettingVO;
 
 @Controller
 public class GolfReservController {
@@ -46,6 +47,10 @@ public class GolfReservController {
         //System.out.println(df.format(cal.getTime()));
         
 		model.addAttribute("today", df.format(cal.getTime()));
+		
+		/* 골프설정값 조회 */
+		GolfSettingVO golfSettingVO = golfReservService.selectGolfSetting();
+		model.addAttribute("golfSetting", golfSettingVO);
 		
 		return "admin/reserv/golf/golfReservList";
 	}
@@ -281,7 +286,7 @@ public class GolfReservController {
 	@RequestMapping(value="/selectUserGolfReservList.do", method=RequestMethod.GET)
 	public void selectUserGolfReservList(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
 		
-		System.out.println("date:"+golfReservVO.getDate());
+		//System.out.println("date:"+golfReservVO.getDate());
 		
 		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
 		String html = "";
@@ -294,7 +299,7 @@ public class GolfReservController {
 				caddy_yn = "노캐디";
 			}
 			html += "<tr>";
-			html += "<td>"+list.get(i).getCourse()+"</td>"+
+			html += "<td>"+list.get(i).getCourseNm()+"</td>"+
 					"<td>"+list.get(i).getTime()+"</td>"+
 				    "<td>"+list.get(i).getHole()+"</td>"+
 				    "<td>"+caddy_yn+"</td>"+
@@ -316,4 +321,25 @@ public class GolfReservController {
 				"\"}");*/
 		response.getWriter().print(html);
 	}
+	
+	@RequestMapping(value="/golfSettingSave.do", method=RequestMethod.POST)
+	public void golfSettingSave(GolfSettingVO golfSettingVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		//System.out.println(golfSettingVO);
+		
+		int result = golfReservService.updateGolfSetting(golfSettingVO);
+		//System.out.println(result);
+		String txt = "";
+		if(result == 1) {
+			txt = "설정값이 저장되었습니다!";
+		}else {
+			txt = "설정값 저장중 에러가 발생하였습니다!";
+		}
+		response.setContentType("text/html; charset=utf-8"); // 응답하는 컨텐츠 타입 선택
+		response.setCharacterEncoding("utf-8");
+		response.getWriter().print("<html><script>alert('"+txt+"');window.location.href='/golfReservList.do';</script></html>");
+		
+		//return "redirect:/golfReservList.do";
+	}
+	
 }

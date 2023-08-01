@@ -9,4 +9,8 @@ public interface GolfReservService {
 	void insertGolfReserv(GolfReservVO vo) throws Exception;
 	
 	List<GolfReservVO> selectGolfReservList(GolfReservVO vo) throws Exception;
+	
+	int updateGolfSetting(GolfSettingVO vo) throws Exception;
+	
+	GolfSettingVO selectGolfSetting() throws Exception;
 }
