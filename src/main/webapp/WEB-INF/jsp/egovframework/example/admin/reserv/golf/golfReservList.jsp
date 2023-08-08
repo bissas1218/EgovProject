@@ -16,6 +16,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="admin/css/main.css" />
 		
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 		<style type="text/css">
 		 #carendarDiv table {
 		    
@@ -97,270 +101,307 @@
 														</tfoot>
 													</table>
 												</div>
-								
-													<h3>코스설정</h3>
-
-													<form name="golf_setting_frm" id="golf_setting_frm" action="/golfSettingSave.do" method="post">
-													<div class="row gtr-uniform">
-													
-													<!-- Break -->
-														<div class="col-3 col-12-small">
-															<input type="radio" id="holeNum-9" name="holeNum" value="9" >
-															<label for="holeNum-9">9홀</label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="holeNum-18" name="holeNum" value="18">
-															<label for="holeNum-18">18홀</label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="holeNum-27" name="holeNum" value="27" >
-															<label for="holeNum-27">27홀</label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="holeNum-36" name="holeNum" value="36" >
-															<label for="holeNum-36">36홀</label>
-														</div>
-														
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="aCourseNm" id="aCourseNm" value="<c:out value="${golfSetting.aCourseNm}"/>" placeholder="코스명" />
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="bCourseNm" id="bCourseNm" value="<c:out value="${golfSetting.bCourseNm}"/>" placeholder="코스명" />
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="cCourseNm" id="cCourseNm" value="<c:out value="${golfSetting.cCourseNm}"/>" placeholder="코스명" />
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="dCourseNm" id="dCourseNm" value="<c:out value="${golfSetting.dCourseNm}"/>" placeholder="코스명" />
-														</div>
-														
-														<!-- 1부시간설정 -->
-														<div class="col-3 col-12-xsmall">
-															1부시간설정
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part1SrtTime" id="part1SrtTime" value="<c:out value="${golfSetting.part1SrtTime}"/>" placeholder="1부시작시간" 
-																maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														<div class="col-1 col-12-xsmall">
-															~
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part1EndTime" id="part1EndTime" value="<c:out value="${golfSetting.part1EndTime}"/>" placeholder="1부종료시간" 
-																maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														
-														<!-- 2부시간설정 -->
-														<div class="col-3 col-12-xsmall">
-															2부시간설정
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part2SrtTime" id="part2SrtTime" value="<c:out value="${golfSetting.part2SrtTime}"/>" placeholder="2부시작시간" 
-															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														<div class="col-1 col-12-xsmall">
-															~
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part2EndTime" id="part2EndTime" value="<c:out value="${golfSetting.part2EndTime}"/>" placeholder="2부종료시간" 
-															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														
-														<!-- 3부시간설정 -->
-														<div class="col-3 col-12-xsmall">
-															3부시간설정
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part3SrtTime" id="part3SrtTime" value="<c:out value="${golfSetting.part3SrtTime}"/>" placeholder="3부시작시간" 
-															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														<div class="col-1 col-12-xsmall">
-															~
-														</div>
-														<div class="col-4 col-12-xsmall">
-															<input type="text" name="part3EndTime" id="part3EndTime" value="<c:out value="${golfSetting.part3EndTime}"/>" placeholder="3부종료시간" 
-															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
-														</div>
-														
-														<!-- Break -->
-														<div class="col-12">
-															<ul class="actions">
-																<li><input type="button" onclick="fn_golfSettingSave();" value="저장하기" class="primary" /></li>
-																<li><input type="reset" value="Reset" /></li>
-															</ul>
-														</div>
-														
-													</div>
-													</form>
-													
-													<h3>예약설정</h3>		
-													<div class="row gtr-uniform">
-													
-													<!--  course nm -->
-													<c:if test="${golfSetting.holeNum eq 9 }">
-														<div class="col-12 col-12-small">
-															<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
-															<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
-														</div>
-													</c:if>
-													<c:if test="${golfSetting.holeNum eq 18 }">
-														<div class="col-6 col-12-small">
-															<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
-															<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
-														</div>
-														<div class="col-6 col-12-small">
-															<input type="radio" id="golf-course-B" name="golf-course" value="B" >
-															<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
-														</div>
-													</c:if>
-													<c:if test="${golfSetting.holeNum eq 27 }">
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
-															<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-course-B" name="golf-course" value="B" >
-															<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-course-C" name="golf-course" value="C" >
-															<label for="golf-course-C"><c:out value="${golfSetting.cCourseNm }"/></label>
-														</div>
-													</c:if>
-													<c:if test="${golfSetting.holeNum eq 36 }">
-														<div class="col-3 col-12-small">
-															<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
-															<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="golf-course-B" name="golf-course" value="B" >
-															<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="golf-course-C" name="golf-course" value="C" >
-															<label for="golf-course-C"><c:out value="${golfSetting.cCourseNm }"/></label>
-														</div>
-														<div class="col-3 col-12-small">
-															<input type="radio" id="golf-course-D" name="golf-course" value="D" >
-															<label for="golf-course-D"><c:out value="${golfSetting.dCourseNm }"/></label>
-														</div>
-													</c:if>
-													
-														<!-- part -->
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-part-1" name="golf-part" value="1" checked>
-															<label for="golf-part-1">1부</label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-part-2" name="golf-part" value="2" >
-															<label for="golf-part-2">2부</label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="golf-part-3" name="golf-part" value="3" >
-															<label for="golf-part-3">3부</label>
-														</div>
-														
-														<!-- 시간간격 -->
-														<div class="col-4 col-12-xsmall">
-															시간간격
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="time-interval" id="time-interval" value="7" placeholder="분입력" />
-														</div>
-														<div class="col-2 col-12-xsmall">
-															분
-														</div>
-														
-														<!-- 홀수 -->
-														<div class="col-4 col-12-xsmall">
-															홀수
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="hole" id="hole" value="18" placeholder="홀수입력" />
-														</div>
-														<div class="col-2 col-12-xsmall">
-															홀
-														</div>
-														
-														<!-- 캐디여부 -->
-														<div class="col-6 col-12-small">
-															<input type="radio" id="caddy-Y" name="caddy" value="Y" checked>
-															<label for="caddy-Y">캐디</label>
-														</div>
-														<div class="col-6 col-12-small">
-															<input type="radio" id="caddy-N" name="caddy" value="N" >
-															<label for="caddy-N">노캐디</label>
-														</div>
-														
-														<!-- 라운딩 인원 -->
-														<div class="col-4 col-12-xsmall">
-															인원
-														</div>
-														<div class="col-6">
-															<select name="person" id="person">
-																<option value="">- 인원수 -</option>
-																<option value="1">1</option>
-																<option value="2">2</option>
-																<option value="3">3</option>
-																<option value="4" selected>4</option>
-																<option value="5">5</option>
-																<option value="6">6</option>
-															</select>
-														</div>
-														<div class="col-2 col-12-xsmall">
-															명
-														</div>
-														
-														<!-- 그린피 -->
-														<div class="col-4 col-12-xsmall">
-															그린피
-														</div>
-														<div class="col-6 col-12-xsmall">
-															<input type="text" name="green_fee" id="green_fee" value="130,000" placeholder="그린피입력" />
-														</div>
-														<div class="col-2 col-12-xsmall">
-															원
-														</div>
-														
-														<!-- 공휴일여부 -->
-														<div class="col-6 col-12-small">
-															<input type="radio" id="holiday_yn-Y" name="holiday_yn" value="Y" >
-															<label for="holiday_yn-Y">공휴일</label>
-														</div>
-														<div class="col-6 col-12-small">
-															<input type="radio" id="holiday_yn-N" name="holiday_yn" value="N" checked>
-															<label for="holiday_yn-N">평일</label>
-														</div>
-														
-														<!-- 회원종류 -->
-														<div class="col-4 col-12-small">
-															<input type="radio" id="member_type_non" name="member_type" value="A" >
-															<label for="member_type_non">비회원</label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="member_type_ass" name="member_type" value="B" checked>
-															<label for="member_type_ass">준회원</label>
-														</div>
-														<div class="col-4 col-12-small">
-															<input type="radio" id="member_type_full" name="member_type" value="C" checked>
-															<label for="member_type_full">정회원</label>
-														</div>
-														
-														<!-- Break -->
-														<div class="col-12">
-															<ul class="actions">
-																<li><input type="button" onclick="fn_createReserv();" value="예약생성하기" class="primary" /></li>
-																<li><input type="reset" value="Reset" /></li>
-															</ul>
-														</div>
-														
-													</div>
 
 											</div>
+											
 											<div class="col-6 col-12-medium">
 
+												<h3>코스설정</h3>
+
+												<form name="golf_setting_frm" id="golf_setting_frm" action="/golfSettingSave.do" method="post">
+												<div class="row gtr-uniform">
+												
+												<!-- Break -->
+													<div class="col-3 col-12-small">
+														<input type="radio" id="holeNum-9" name="holeNum" value="9" >
+														<label for="holeNum-9">9홀</label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="holeNum-18" name="holeNum" value="18">
+														<label for="holeNum-18">18홀</label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="holeNum-27" name="holeNum" value="27" >
+														<label for="holeNum-27">27홀</label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="holeNum-36" name="holeNum" value="36" >
+														<label for="holeNum-36">36홀</label>
+													</div>
+													
+													<div class="col-6 col-12-xsmall">
+														<input type="text" name="aCourseNm" id="aCourseNm" value="<c:out value="${golfSetting.aCourseNm}"/>" placeholder="코스명" />
+													</div>
+													<div class="col-6 col-12-xsmall">
+														<input type="text" name="bCourseNm" id="bCourseNm" value="<c:out value="${golfSetting.bCourseNm}"/>" placeholder="코스명" />
+													</div>
+													<div class="col-6 col-12-xsmall">
+														<input type="text" name="cCourseNm" id="cCourseNm" value="<c:out value="${golfSetting.cCourseNm}"/>" placeholder="코스명" />
+													</div>
+													<div class="col-6 col-12-xsmall">
+														<input type="text" name="dCourseNm" id="dCourseNm" value="<c:out value="${golfSetting.dCourseNm}"/>" placeholder="코스명" />
+													</div>
+													
+													<!-- 1부시간설정 -->
+													<div class="col-3 col-12-xsmall">
+														1부시간설정
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part1SrtTime" id="part1SrtTime" value="<c:out value="${golfSetting.part1SrtTime}"/>" placeholder="1부시작시간" 
+															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														~
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part1EndTime" id="part1EndTime" value="<c:out value="${golfSetting.part1EndTime}"/>" placeholder="1부종료시간" 
+															maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													
+													<!-- 2부시간설정 -->
+													<div class="col-3 col-12-xsmall">
+														2부시간설정
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part2SrtTime" id="part2SrtTime" value="<c:out value="${golfSetting.part2SrtTime}"/>" placeholder="2부시작시간" 
+														maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														~
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part2EndTime" id="part2EndTime" value="<c:out value="${golfSetting.part2EndTime}"/>" placeholder="2부종료시간" 
+														maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													
+													<!-- 3부시간설정 -->
+													<div class="col-3 col-12-xsmall">
+														3부시간설정
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part3SrtTime" id="part3SrtTime" value="<c:out value="${golfSetting.part3SrtTime}"/>" placeholder="3부시작시간" 
+														maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														~
+													</div>
+													<div class="col-4 col-12-xsmall">
+														<input type="text" name="part3EndTime" id="part3EndTime" value="<c:out value="${golfSetting.part3EndTime}"/>" placeholder="3부종료시간" 
+														maxlength="5" oninput="this.value = this.value.replace(/[^0-9:]/g, '').replace(/(\..*)\./g, '$1');" />
+													</div>
+													
+													<!-- Break -->
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="button" onclick="fn_golfSettingSave();" value="저장하기" class="primary" /></li>
+															<li><input type="reset" value="Reset" /></li>
+														</ul>
+													</div>
+													
+												</div>
+												</form>
+												
+											</div>
+										</div>
+										
+										<hr class="major" />
+										
+										<!--  예약 생성 및 관리  -->
+										<div class="row gtr-200">
+											<div class="col-12 col-12-medium">
+											
+												<!-- ---------------------------------예약설정---------------------------------------------------------- -->
+												<h3>예약설정</h3>		
+												<div class="row gtr-uniform">
+												
+												<!--  course nm -->
+												<c:if test="${golfSetting.holeNum eq 9 }">
+													<div class="col-12 col-12-small">
+														<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
+														<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
+													</div>
+												</c:if>
+												<c:if test="${golfSetting.holeNum eq 18 }">
+													<div class="col-6 col-12-small">
+														<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
+														<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
+													</div>
+													<div class="col-6 col-12-small">
+														<input type="radio" id="golf-course-B" name="golf-course" value="B" >
+														<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
+													</div>
+												</c:if>
+												<c:if test="${golfSetting.holeNum eq 27 }">
+													<div class="col-4 col-12-small">
+														<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
+														<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
+													</div>
+													<div class="col-4 col-12-small">
+														<input type="radio" id="golf-course-B" name="golf-course" value="B" >
+														<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
+													</div>
+													<div class="col-4 col-12-small">
+														<input type="radio" id="golf-course-C" name="golf-course" value="C" >
+														<label for="golf-course-C"><c:out value="${golfSetting.cCourseNm }"/></label>
+													</div>
+												</c:if>
+												<c:if test="${golfSetting.holeNum eq 36 }">
+													<div class="col-3 col-12-small">
+														<input type="radio" id="golf-course-A" name="golf-course" value="A" checked>
+														<label for="golf-course-A"><c:out value="${golfSetting.aCourseNm }"/></label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="golf-course-B" name="golf-course" value="B" >
+														<label for="golf-course-B"><c:out value="${golfSetting.bCourseNm }"/></label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="golf-course-C" name="golf-course" value="C" >
+														<label for="golf-course-C"><c:out value="${golfSetting.cCourseNm }"/></label>
+													</div>
+													<div class="col-3 col-12-small">
+														<input type="radio" id="golf-course-D" name="golf-course" value="D" >
+														<label for="golf-course-D"><c:out value="${golfSetting.dCourseNm }"/></label>
+													</div>
+												</c:if>
+												
+													<!-- part -->
+													<div class="col-2 col-12-small">
+														<input type="radio" id="golf-part-1" name="golf-part" value="1" checked>
+														<label for="golf-part-1">1부</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="golf-part-2" name="golf-part" value="2" >
+														<label for="golf-part-2">2부</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="golf-part-3" name="golf-part" value="3" >
+														<label for="golf-part-3">3부</label>
+													</div>
+													
+													<!-- 시간간격 -->
+													<div class="col-2 col-12-xsmall">
+														시간간격
+													</div>
+													<div class="col-3 col-12-xsmall">
+														<input type="text" name="time-interval" id="time-interval" value="7" placeholder="분입력" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														분
+													</div>
+													
+													<!-- 홀수 -->
+													<div class="col-2 col-12-xsmall">
+														홀수
+													</div>
+													<div class="col-3 col-12-xsmall">
+														<input type="text" name="hole" id="hole" value="18" placeholder="홀수입력" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														홀
+													</div>
+													
+													<!-- 캐디여부 -->
+													<div class="col-2 col-12-small">
+														<input type="radio" id="caddy-Y" name="caddy" value="Y" checked>
+														<label for="caddy-Y">캐디</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="caddy-N" name="caddy" value="N" >
+														<label for="caddy-N">노캐디</label>
+													</div>
+													<div class="col-2 col-12-small"></div>
+													
+													<!-- 라운딩 인원 -->
+													<div class="col-2 col-12-xsmall">
+														인원
+													</div>
+													<div class="col-3">
+														<select name="person" id="person">
+															<option value="">- 인원수 -</option>
+															<option value="1">1</option>
+															<option value="2">2</option>
+															<option value="3">3</option>
+															<option value="4" selected>4</option>
+															<option value="5">5</option>
+															<option value="6">6</option>
+														</select>
+													</div>
+													<div class="col-1 col-12-xsmall">
+														명
+													</div>
+													
+													<!-- 그린피 -->
+													<div class="col-2 col-12-xsmall">
+														그린피
+													</div>
+													<div class="col-3 col-12-xsmall">
+														<input type="text" name="green_fee" id="green_fee" value="130,000" placeholder="그린피입력" />
+													</div>
+													<div class="col-1 col-12-xsmall">
+														원
+													</div>
+													
+													<!-- 공휴일여부 -->
+													<div class="col-2 col-12-small">
+														<input type="radio" id="holiday_yn-Y" name="holiday_yn" value="Y" >
+														<label for="holiday_yn-Y">공휴일</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="holiday_yn-N" name="holiday_yn" value="N" checked>
+														<label for="holiday_yn-N">평일</label>
+													</div>
+													<div class="col-2 col-12-small"></div>
+													
+													<!-- 회원종류 -->
+													<div class="col-2 col-12-small">
+														<input type="radio" id="member_type_non" name="member_type" value="1" >
+														<label for="member_type_non">비회원</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="member_type_ass" name="member_type" value="2" checked>
+														<label for="member_type_ass">준회원</label>
+													</div>
+													<div class="col-2 col-12-small">
+														<input type="radio" id="member_type_full" name="member_type" value="3" checked>
+														<label for="member_type_full">정회원</label>
+													</div>
+													
+													<!-- Break -->
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="button" onclick="fn_createReserv();" value="예약생성하기" class="primary" /></li>
+															<li><input type="reset" value="Reset" /></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<hr class="major" />
+											
+										<div class="row gtr-200">
+											<div class="col-12 col-12-medium">
+												
+												<!-- -------------------------예약생성불러오기------------------------------------------------------------ -->
 												<form method="post" action="#" name="golfRservFrm" id="golfRservFrm">
-												<h4>2023년7월21일 동코스 1부 신규등록</h4>
+											
+												<h3>예약생성불려오기</h3>		
+												<div class="row gtr-uniform">
+													
+													<div class="col-6 col-12-small">
+														<input type="text" id="bring_reserv_date" name="bring_reserv_date" value="">
+													</div>
+													<div class="col-6 col-12-small">
+														<input type="button" onclick="fn_bring_reserv();" value="불러오기">
+													</div>
+													
+												</div>
+											
+												<br/>
+												
+												<h3>예약목록</h3>
+												<h4><font id="cur_reserv_date_txt"></font></h4>
+												
 													<div class="table-wrapper">
 														<table class="alt" id="reserv_list">
 															<thead>
@@ -375,13 +416,14 @@
 															<tbody>
 																
 															</tbody>
-															<!--  -->
+															<!--  
 															<tfoot>
 																<tr>
 																	<td colspan="3">총 <font id="total_reserv_cnt_txt"></font>건의 예약생성</td>
 																	<td></td>
 																</tr>
 															</tfoot>
+															-->
 														</table>
 													</div>
 
@@ -400,10 +442,10 @@
 													<input type="hidden" name="part" id="part" />
 													<input type="hidden" name="member_type" id="member_type" />
 												</form>
-															
+												
 											</div>
 										</div>
-
+										
 								</section>
 
 						</div>
@@ -416,8 +458,8 @@
 
 			</div>
 
-		<!-- Scripts -->
-			<script src="admin/js/jquery.min.js"></script>
+		<!-- Scripts
+			<script src="admin/js/jquery.min.js"></script> -->
 			<script src="admin/js/browser.min.js"></script>
 			<script src="admin/js/breakpoints.min.js"></script>
 			<script src="admin/js/util.js"></script>
@@ -472,9 +514,16 @@
 						//fn_schedule_list(result);
 						if(result.html == ''){
 							$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");
+							$("#cur_reserv_date_txt").text('');
 						}else{
 							$("#reserv_list tbody").append(result.html);
 						}
+						
+						
+						$("#cur_reserv_date_txt").text($("#reserv_date").val().substr(0,4)+'년'+
+								$("#reserv_date").val().substr(4,2)+'월'+
+								$("#reserv_date").val().substr(6,2)+'일');
+						
 						
 					},
 					error:function(){
@@ -571,6 +620,24 @@
 			$("#dCourseNm").show();
 		}
 		
+		$("#bring_reserv_date").datepicker({
+			dateFormat: 'yy-mm-dd' // 달력 날짜 형태
+			,showOtherMonths: true // 빈 공간에 현재월의 앞뒤월의 날짜를 표시
+			,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+         //   ,changeYear: true //option값 년 선택 가능
+         //   ,changeMonth: true //option값  월 선택 가능                
+         //   ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+         //   ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+         //   ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+            ,buttonText: "선택" //버튼 호버 텍스트              
+            ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+            ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+         //   ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+         //   ,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후) 
+		});
 	});
 
 	// 전월 달력이동
@@ -639,6 +706,12 @@
 	}
 	
 	function fn_createReserv(){
+		
+		if( $("#reserv_date").val() == '' ){
+			alert('예약을 생성할 날짜를 선택해주세요!');
+			return;
+		}
+		
 		// part1EndTime
 		let date = new Date(2023, 7, 27);
 		let hour = 6;
@@ -710,13 +783,13 @@
 			}
 			
 			html += "<tr>";
-			html += "<td><input type='text' name='reservTime_"+num+"' id='reservTime_"+num+"' value='"+hourTxt+":"+minTxt+"'/><br/></td>"+
-				    "<td><input type='text' name='hole_"+num+"' id='hole_"+num+"' value='"+$("#hole").val()+"' /></td>"+
-				    "<td><select name='caddy_"+num+"' id='caddy_"+num+"'>"+
+			html += "<td style='background-color:#fffea6;'><input type='text' name='reservTime_"+num+"' id='reservTime_"+num+"' value='"+hourTxt+":"+minTxt+"'/></td>"+
+				    "<td style='background-color:#fffea6;'><input type='text' name='hole_"+num+"' id='hole_"+num+"' value='"+$("#hole").val()+"' /></td>"+
+				    "<td style='background-color:#fffea6;'><select name='caddy_"+num+"' id='caddy_"+num+"'>"+
 				    	"<option value='Y' "+caddy_y+">캐디</option><option value='N' "+caddy_n+">노캐디</option>"+
 				    	"</select></td>"+
-				    "<td><input type='text' name='person_"+num+"' id='person_"+num+"' value='"+$("#person").val()+"' /></td>"+
-				    "<td><input type='text' name='green_fee_"+num+"' id='green_fee_"+num+"' value='"+$("#green_fee").val()+"'/></td>";
+				    "<td style='background-color:#fffea6;'><input type='text' name='person_"+num+"' id='person_"+num+"' value='"+$("#person").val()+"' /></td>"+
+				    "<td style='background-color:#fffea6;'><input type='text' name='green_fee_"+num+"' id='green_fee_"+num+"' value='"+$("#green_fee").val()+"'/></td>";
 				    
 			html += "</tr>";	
 			
@@ -735,6 +808,8 @@
 		$("#member_type").val( $("input[name='member_type']:checked").val() ); // 회원종류
 		
 		$("#reserv_list tbody").append(html);
+		
+		$("#cur_reserv_date_txt").text('총 '+num+'건의 예약생성');
 	}
 	
 	function fn_insertReserv(){
@@ -860,6 +935,94 @@
 		$("#golf_setting_frm").submit();
 	}
 	
+	/* 예약생성 불러오기 */
+	function fn_bring_reserv(){
+		
+		if($("#bring_reserv_date").val() == ''){
+			alert('불러올 예약된 날짜를 선택해주세요!');
+			return;
+		}
+		
+		if( $("#reserv_date").val() == '' ){
+			alert('예약을 생성할 날짜를 선택해주세요!');
+			return;
+		}
+		
+		//console.log($("#bring_reserv_date").val().replaceAll('-',''), $("#reserv_date").val());
+		
+		/* 예약목록조회 */
+    	$.ajax({
+			type: 'get',
+			url: '/selectCreateGolfReservList2.do',
+			contentType: 'application/json; charset=utf-8',
+			data: {
+				date:$("#bring_reserv_date").val().replaceAll('-',''),
+				part:'all',
+				course:'all'
+			},
+			dataType: 'json',
+			success: function(result){
+				$("#reserv_list tbody tr").remove();
+				console.log(result);
+				//fn_schedule_list(result);
+				if(result == ''){
+					$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");
+					$("#cur_reserv_date_txt").text('');
+				}else{
+					
+					let html = '';
+					for(var i=0; i<result.length; i++){
+						console.log(result[i].time);
+						let caddy_y = '';
+						let caddy_n = '';
+						if(result[i].caddy == 'Y'){
+							caddy_y = "selected";
+						}else{
+							caddy_n = "selected";
+						}
+						html += '<tr>' +
+									'<td style="background-color:#fffea6;"><input type="text" name="reservTime_'+(i+1)+'" id="reservTime_'+(i+1)+'" value="'+result[i].time+'"/></td>' +
+									'<td style="background-color:#fffea6;"><input type="text" name="hole_'+(i+1)+'" id="hole_'+(i+1)+'" value="'+result[i].hole+'"/></td>' +
+									'<td style="background-color:#fffea6;"><select name="caddy_'+(i+1)+'" id="caddy_'+(i+1)+'">' +
+										'<option value="Y" '+caddy_y+'>캐디</option><option value="N" '+caddy_n+'>노캐디</option>'+
+										'</select></td>' +
+									'<td style="background-color:#fffea6;"><input type="text" name="person_'+(i+1)+'" id="person_'+(i+1)+'" value="'+result[i].person+'"/></td>' +
+									'<td style="background-color:#fffea6;"><input type="text" name="green_fee_'+(i+1)+'" id="green_fee_'+(i+1)+'" value="'+result[i].greenFee+'"/></td>' +
+									'<input type="hidden" name="golf_course_'+(i+1)+'" id="golf_course_'+(i+1)+'" value="'+result[i].course+'" />'+
+									'<input type="hidden" name="part_'+(i+1)+'" id="part_'+(i+1)+'" value="'+result[i].part+'" />'+
+									'<input type="hidden" name="member_type_'+(i+1)+'" id="member_type_'+(i+1)+'" value="'+result[i].part+'" />'+
+								'</tr>';
+					}
+				//	$("#total_reserv_cnt_txt").text(num);
+					$("#total_reserv_cnt").val(result.length+1);
+					
+					$("#reserv_date").val($("#selDate").text()); // 예약일 저장
+					$("#golf_course").val( 'Non' ); // 코스저장
+					$("#holiday_yn").val( "N" ); // 공휴일여부
+					$("#part").val( "Non" ); // 부저장
+					$("#member_type").val( "Non" ); // 회원종류
+					
+				//	console.log($("#selDate").text());
+					
+					$("#reserv_list tbody").append(html);
+					
+					//$("#cur_reserv_date_txt").text('총 '+num+'건의 예약생성');
+				}
+				
+				
+				$("#cur_reserv_date_txt").text(
+						//$("#reserv_date").val().substr(0,4)+'년'+
+						//$("#reserv_date").val().substr(4,2)+'월'+
+						//$("#reserv_date").val().substr(6,2)+'일'+
+						'총 '+result.length+'건의 예약 불러옴');
+				
+				
+			},
+			error:function(){
+				console.log('ajax golf reserv list error!!!');
+			}
+		});
+	}
 	
 	
 </script>

@@ -115,18 +115,73 @@
 														<div class="row gtr-uniform" id="part_choice">
 															
 															<!-- Break -->
+															<c:if test="${golfSetting.holeNum eq '9'}">
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
+																<label for="golf_course-all">전체</label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf_course-A" name="golf_course" value="A">
+																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
+															</div>
+															</c:if>
+															
+															<c:if test="${golfSetting.holeNum eq '18'}">
 															<div class="col-4 col-12-small">
 																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
 																<label for="golf_course-all">전체</label>
 															</div>
 															<div class="col-4 col-12-small">
 																<input type="radio" id="golf_course-A" name="golf_course" value="A">
-																<label for="golf_course-A">A코스</label>
+																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
 															</div>
 															<div class="col-4 col-12-small">
 																<input type="radio" id="golf_course-B" name="golf_course" value="B">
-																<label for="golf_course-B">B코스</label>
+																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
 															</div>
+															</c:if>
+															
+															<c:if test="${golfSetting.holeNum eq '27'}">
+															<div class="col-3 col-12-small">
+																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
+																<label for="golf_course-all">전체</label>
+															</div>
+															<div class="col-3 col-12-small">
+																<input type="radio" id="golf_course-A" name="golf_course" value="A">
+																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
+															</div>
+															<div class="col-3 col-12-small">
+																<input type="radio" id="golf_course-B" name="golf_course" value="B">
+																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
+															</div>
+															<div class="col-3 col-12-small">
+																<input type="radio" id="golf_course-C" name="golf_course" value="C">
+																<label for="golf_course-C"><c:out value="${golfSetting.cCourseNm}"/></label>
+															</div>
+															</c:if>
+															
+															<c:if test="${golfSetting.holeNum eq '36'}">
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
+																<label for="golf_course-all">전체</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-A" name="golf_course" value="A">
+																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="radio" id="golf_course-B" name="golf_course" value="B">
+																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf_course-C" name="golf_course" value="C">
+																<label for="golf_course-C"><c:out value="${golfSetting.cCourseNm}"/></label>
+															</div>
+															<div class="col-6 col-12-small">
+																<input type="radio" id="golf_course-D" name="golf_course" value="D">
+																<label for="golf_course-D"><c:out value="${golfSetting.dCourseNm}"/></label>
+															</div>
+															</c:if>
 															
 															<!-- Break -->
 															<div class="col-3 col-12-small">
@@ -296,6 +351,9 @@
 	// 예약목록 조회하기
 	function fn_golfReservList(){
 		
+		let course = $("input[name='golf_course']:checked").val();
+		let part = $("input[name='golf_part']:checked").val();
+		
 		/* 예약목록조회 */
     	$.ajax({
 			type: 'get',
@@ -303,8 +361,8 @@
 			contentType: 'application/json; charset=utf-8',
 			data: {
 				date:$("#reserv_date").val(),
-				part:$("input[name='golf_part']:checked").val(),
-				course:$("input[name='golf_course']:checked").val()
+				part:part,
+				course:course
 			},
 			dataType: 'text',
 			success: function(result){
@@ -322,9 +380,27 @@
 					$("input[name='golf_part']:radio").attr("disabled", false);
 					$("input[name='golf_course']:radio").attr("disabled", false);
 					
+					let courseTxt = '';
+					if( course == 'all' ){
+						courseTxt = '전체';
+					}else if(course == 'A'){
+						courseTxt = '${golfSetting.aCourseNm}';
+					}else if(course == 'B'){
+						courseTxt = '${golfSetting.bCourseNm}';
+					}else if(course == 'C'){
+						courseTxt = '${golfSetting.cCourseNm}';
+					}else if(course == 'D'){
+						courseTxt = '${golfSetting.dCourseNm}';
+					}
+					
+					let partTxt = '';
+					if(part != 'all'){
+						partTxt = part + '부';
+					}
+					
 					$("#cur_reserv_date_txt").text($("#reserv_date").val().substr(0,4)+'년'+
 							$("#reserv_date").val().substr(4,2)+'월'+
-							$("#reserv_date").val().substr(6,2)+'일 동코스 2부');
+							$("#reserv_date").val().substr(6,2)+'일 '+courseTxt+' '+partTxt);
 				}
 				
 			},
