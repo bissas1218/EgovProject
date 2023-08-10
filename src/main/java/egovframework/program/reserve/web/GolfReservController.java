@@ -281,14 +281,23 @@ public class GolfReservController {
 			}else {
 				caddy_n = "selected";
 			}
+			String holidayTxt = "평일";
+			if(list.get(i).getHoliDayYn().equals("Y")) {
+				holidayTxt = "휴일";
+			}
 			html += "<tr>";
-			html += "<td style='background-color:#8eff8e;'><input type='text' name='reservTime_"+(i+1)+"' id='reservTime_"+(i+1)+"' value='"+list.get(i).getTime()+"'/></td>"+
+			html += "<td style='background-color:#8eff8e;'>"+list.get(i).getCourseNm()+"</td>"+
+					"<td style='background-color:#8eff8e;'>"+list.get(i).getPart()+"부</td>"+
+					"<td style='background-color:#8eff8e;'>미예약</td>"+
+					"<td style='background-color:#8eff8e;'><input type='text' name='reservTime_"+(i+1)+"' id='reservTime_"+(i+1)+"' value='"+list.get(i).getTime()+"'/></td>"+
 				    "<td style='background-color:#8eff8e;'><input type='text' name='hole_"+(i+1)+"' id='hole_"+(i+1)+"' value='"+list.get(i).getHole()+"' /></td>"+
 				    "<td style='background-color:#8eff8e;'><select name='caddy_"+(i+1)+"' id='caddy_"+(i+1)+"'>"+
 				    	"<option value='Y' "+caddy_y+">캐디</option><option value='N' "+caddy_n+">노캐디</option>"+
 				    	"</select></td>"+
 				    "<td style='background-color:#8eff8e;'><input type='text' name='person_"+(i+1)+"' id='person_"+(i+1)+"' value='"+list.get(i).getPerson()+"' /></td>"+
-				    "<td style='background-color:#8eff8e;'><input type='text' name='green_fee_"+(i+1)+"' id='green_fee_"+(i+1)+"' value='"+list.get(i).getGreenFee()+"'/></td>";
+				    "<td style='background-color:#8eff8e;'><input type='text' name='green_fee_"+(i+1)+"' id='green_fee_"+(i+1)+"' value='"+list.get(i).getGreenFee()+"'/></td>"+
+				    "<td style='background-color:#8eff8e;'>"+holidayTxt+"</td>"+
+				    "<td style='background-color:#8eff8e;'><input type='button' value='수정' class='button primary small'/> <a href='' class='button primary small'>삭제</a></td>";
 				    
 			html += "</tr>";
 		}

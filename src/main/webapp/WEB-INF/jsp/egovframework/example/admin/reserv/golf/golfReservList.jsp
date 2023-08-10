@@ -406,11 +406,16 @@
 														<table class="alt" id="reserv_list">
 															<thead>
 																<tr>
-																	<th style="width:18%">시간</th>
-																	<th style="width:15%">홀수</th>
-																	<th style="width:25%">캐디</th>
-																	<th style="width:12%">인원</th>
-																	<th style="width:30%">그린피</th>
+																	<th style="width:14%">코스명</th>
+																	<th style="width:6%">파트</th>
+																	<th style="width:9%">예약여부</th>
+																	<th style="width:9%">시간</th>
+																	<th style="width:9%">홀수</th>
+																	<th style="width:11%">캐디</th>
+																	<th style="width:9%">인원</th>
+																	<th style="width:12%">그린피</th>
+																	<th style="width:7%">휴일여부</th>
+																	<th style="width:14%">관리</th>
 																</tr>
 															</thead>
 															<tbody>
