@@ -32,4 +32,16 @@ public class GolfReservDAO extends EgovAbstractDAO {
 	public GolfSettingVO selectGolfSetting() throws Exception{
 		return (GolfSettingVO) select("golfReservDAO.selectGolfSetting");
 	}
+	
+	public int updateGolfReserv(GolfReservVO golfReservVO) throws Exception{
+		return update("golfReservDAO.updateGolfReserv", golfReservVO);
+	}
+	
+	public int selectGolfReservTime(GolfReservVO golfReservVO) throws Exception{
+		return (int) select("golfReservDAO.selectGolfReservTime", golfReservVO);
+	}
+	
+	public int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception{
+		return (int) delete("golfReservDAO.deleteGolfReserv", golfReservVO);
+	}
 }

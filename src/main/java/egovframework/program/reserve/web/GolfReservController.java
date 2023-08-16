@@ -270,43 +270,40 @@ public class GolfReservController {
 		
 		System.out.println("date:"+golfReservVO.getDate());
 		
-		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
-		String html = "";
-		for(int i=0; i<list.size(); i++) {
-			//System.out.println(list.get(i).getTime());
-			String caddy_y = "";
-			String caddy_n = "";
-			if(list.get(i).getCaddy().equals("Y")) {
-				caddy_y = "selected";
-			}else {
-				caddy_n = "selected";
-			}
-			String holidayTxt = "평일";
-			if(list.get(i).getHoliDayYn().equals("Y")) {
-				holidayTxt = "휴일";
-			}
-			html += "<tr>";
-			html += "<td style='background-color:#8eff8e;'>"+list.get(i).getCourseNm()+"</td>"+
-					"<td style='background-color:#8eff8e;'>"+list.get(i).getPart()+"부</td>"+
-					"<td style='background-color:#8eff8e;'>미예약</td>"+
-					"<td style='background-color:#8eff8e;'><input type='text' name='reservTime_"+(i+1)+"' id='reservTime_"+(i+1)+"' value='"+list.get(i).getTime()+"'/></td>"+
-				    "<td style='background-color:#8eff8e;'><input type='text' name='hole_"+(i+1)+"' id='hole_"+(i+1)+"' value='"+list.get(i).getHole()+"' /></td>"+
-				    "<td style='background-color:#8eff8e;'><select name='caddy_"+(i+1)+"' id='caddy_"+(i+1)+"'>"+
-				    	"<option value='Y' "+caddy_y+">캐디</option><option value='N' "+caddy_n+">노캐디</option>"+
-				    	"</select></td>"+
-				    "<td style='background-color:#8eff8e;'><input type='text' name='person_"+(i+1)+"' id='person_"+(i+1)+"' value='"+list.get(i).getPerson()+"' /></td>"+
-				    "<td style='background-color:#8eff8e;'><input type='text' name='green_fee_"+(i+1)+"' id='green_fee_"+(i+1)+"' value='"+list.get(i).getGreenFee()+"'/></td>"+
-				    "<td style='background-color:#8eff8e;'>"+holidayTxt+"</td>"+
-				    "<td style='background-color:#8eff8e;'><input type='button' value='수정' class='button primary small'/> <a href='' class='button primary small'>삭제</a></td>";
-				    
-			html += "</tr>";
-		}
-		
 		response.setCharacterEncoding("utf-8");
 		
-		response.getWriter().print("{"+
-				"\"html\":\""+html+
-				"\"}");
+		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
+		String reservArr = "[";
+		for(int i=0; i<list.size(); i++) {
+			
+			reservArr += "{"+
+					"\"date\":\""+list.get(i).getDate()+
+					"\", \"course\":\""+list.get(i).getCourse()+
+					"\", \"courseNm\":\""+list.get(i).getCourseNm()+
+					"\", \"time\":\""+list.get(i).getTime()+
+					"\", \"hole\":\""+list.get(i).getHole()+
+					"\", \"caddy\":\""+list.get(i).getCaddy()+
+					"\", \"person\":\""+list.get(i).getPerson()+
+					"\", \"greenFee\":\""+list.get(i).getGreenFee()+
+					"\", \"part\":\""+list.get(i).getPart()+
+					"\", \"holiDayYn\":\""+list.get(i).getHoliDayYn()+
+					"\", \"cnt\":\""+list.get(i).getCnt()+
+					"\", \"srtDate\":\""+list.get(i).getSrtDate()+
+					"\", \"endDate\":\""+list.get(i).getEndDate()+
+					"\", \"memberType\":\""+list.get(i).getMemberType()+
+					"\"}";
+			
+			if(i<(list.size()-1)) {
+				reservArr += ",";
+			}
+			
+		}
+		reservArr += "]";
+		
+		//System.out.println("reservArr:"+reservArr);
+		
+		response.getWriter().print(reservArr);
+		
 	}
 	
 	@RequestMapping(value="/selectCreateGolfReservList.do", method=RequestMethod.GET)
@@ -378,7 +375,7 @@ public class GolfReservController {
 		
 		response.getWriter().print(arr);
 		
-		System.out.println("==>"+arr);
+		//System.out.println("==>"+arr);
 				
 	}
 	
@@ -520,5 +517,62 @@ public class GolfReservController {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping(value="/updateGolfReserv.do", method = RequestMethod.POST)
+	public void updateGolfReserv(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
+		//System.out.println("date time:"+golfReservVO.getDate()+", "+golfReservVO.getCourse()+", "+golfReservVO.getTime()+"->"+golfReservVO.getUpdateTime());
+		
+		String txt = "";
+		
+		/* 예약시간 변경 유무 */
+		if(golfReservVO.getTime().equals(golfReservVO.getUpdateTime())) {	// 예약시간 미변경
+			
+			int result = golfReservService.updateGolfReserv(golfReservVO);
+		//	System.out.println("result:"+result);
+			txt = "예약정보를 수정하였습니다.";
+		
+		}else { // 예약시간 변경
+			
+			/* 중복된 예약시간이 존재하는지 확인 */
+			int cnt = golfReservService.selectGolfReservTime(golfReservVO);
+			//System.out.println("cnt:"+cnt);
+			if(cnt > 0) {
+				txt = "중복된 예약시간이 존재합니다.";
+			}else {
+				int result = golfReservService.updateGolfReserv(golfReservVO);
+			//	System.out.println("result:"+result);
+				if(result == 1) {
+					txt = "예약정보를 수정하였습니다.";	
+				}else {
+					txt = "예약정보 수정중 에러가 발생하였습니다.";
+				}
+				
+			}
+		}
+		
+		response.setCharacterEncoding("utf-8");
+		
+		response.getWriter().print(txt);
+	}
+	
+	@RequestMapping(value="/deleteGolfReserv.do", method = RequestMethod.POST)
+	public void deleteGolfReserv(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
+		//System.out.println("date time:"+golfReservVO.getDate()+", "+golfReservVO.getCourse()+", "+golfReservVO.getTime()+"->"+golfReservVO.getUpdateTime());
+		
+		String txt = "";
+		
+		int result = golfReservService.deleteGolfReserv(golfReservVO);
+		System.out.println("delete result:"+result);
+		//txt = result;//"예약정보를 수정하였습니다.";
+		if(result == 1) {
+			txt = "예약을 삭제하였습니다.";
+		}else {
+			txt = "예약삭제중 에러가 발생하였습니다.";
+		}
+		
+		response.setCharacterEncoding("utf-8");
+		
+		response.getWriter().print(txt);
 	}
 }

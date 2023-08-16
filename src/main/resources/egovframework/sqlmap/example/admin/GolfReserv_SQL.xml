@@ -111,6 +111,30 @@
 		FROM GOLF_SETTING
 	]]>
 	</select>
-	
 
+	<select id="golfReservDAO.selectGolfReservTime" parameterClass="golfReservVO" resultClass="Integer">
+	<![CDATA[
+		SELECT COUNT(*) FROM GOLF_RESERV 
+			WHERE DATE = #date# AND COURSE = #course# AND TIME = #updateTime#
+	]]>
+	</select>	
+	
+	<update id="golfReservDAO.updateGolfReserv" parameterClass="golfReservVO">
+	<![CDATA[
+		UPDATE GOLF_RESERV SET 
+			 TIME = #updateTime#
+			,HOLE = #updateHole#
+			,CADDY = #updateCaddy#
+			,PERSON = #updatePerson#
+			,GREEN_FEE = #updateGreenFee#
+		WHERE DATE = #date# AND COURSE = #course# AND TIME = #time#
+	]]>
+	</update>
+
+	<delete id="golfReservDAO.deleteGolfReserv" parameterClass="golfReservVO">
+	<![CDATA[
+		DELETE FROM GOLF_RESERV WHERE DATE = #date# AND COURSE = #course# AND TIME = #time#
+	]]>
+	</delete>
+	
 </sqlMap>	

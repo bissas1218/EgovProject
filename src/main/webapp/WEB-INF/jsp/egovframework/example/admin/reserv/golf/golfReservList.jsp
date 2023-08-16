@@ -406,12 +406,12 @@
 														<table class="alt" id="reserv_list">
 															<thead>
 																<tr>
-																	<th style="width:14%">코스명</th>
+																	<th style="width:12%">코스명</th>
 																	<th style="width:6%">파트</th>
 																	<th style="width:9%">예약여부</th>
 																	<th style="width:9%">시간</th>
 																	<th style="width:9%">홀수</th>
-																	<th style="width:11%">캐디</th>
+																	<th style="width:13%">캐디</th>
 																	<th style="width:9%">인원</th>
 																	<th style="width:12%">그린피</th>
 																	<th style="width:7%">휴일여부</th>
@@ -502,39 +502,8 @@
 		    	$("#"+this.id).css("background","gold");
 		    	$("#selDate").text(this.id);
 		    	
-		    	/* 예약목록조회 */
-		    	$.ajax({
-					type: 'get',
-					url: '/selectGolfReservList.do',
-					contentType: 'application/json; charset=utf-8',
-					data: {
-						date:$("#reserv_date").val(),
-						part:'all',
-						course:'all'
-					},
-					dataType: 'json',
-					success: function(result){
-						$("#reserv_list tbody tr").remove();
-						//console.log(result.html);
-						//fn_schedule_list(result);
-						if(result.html == ''){
-							$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");
-							$("#cur_reserv_date_txt").text('');
-						}else{
-							$("#reserv_list tbody").append(result.html);
-						}
-						
-						
-						$("#cur_reserv_date_txt").text($("#reserv_date").val().substr(0,4)+'년'+
-								$("#reserv_date").val().substr(4,2)+'월'+
-								$("#reserv_date").val().substr(6,2)+'일');
-						
-						
-					},
-					error:function(){
-						console.log('ajax golf reserv list error!!!');
-					}
-				});
+		    	/* 예약목록 조회 */
+		    	fn_reserv_list();
 		    	
 			}
 			
@@ -645,6 +614,79 @@
 		});
 	});
 
+	/* 예약목록 조회 */
+	function fn_reserv_list(){
+		
+		/* 예약목록조회 */
+    	$.ajax({
+			type: 'get',
+			url: '/selectGolfReservList.do',
+			contentType: 'application/json; charset=utf-8',
+			data: {
+				date:$("#reserv_date").val(),
+				part:'all',
+				course:'all'
+			},
+			dataType: 'json',
+			success: function(result){
+				$("#reserv_list tbody tr").remove();
+				
+				let html = '';
+				if(result.length == 0){
+					html += '<tr>' + 
+					'<td style="background-color:#dbffe6;" colspan="10">등록된 예약이 없습니다.</td></tr>';
+				}else{
+					
+					for(let i=0; i<result.length; i++){
+					//	console.log(result[i]);
+					
+					let caddy_y = "";
+					let caddy_n = "";
+					if(result[i].caddy == 'Y') {
+						caddy_y = "selected";
+					}else {
+						caddy_n = "selected";
+					}
+					
+					let holidayTxt = "평일";
+					if(result[i].holiDayYn == 'Y') {
+						holidayTxt = "휴일";
+					}
+					
+					html += '<tr>' + 
+						'<td style="background-color:#dbffe6;">'+result[i].courseNm+'</td>' +
+						'<td style="background-color:#dbffe6;">'+result[i].part+'부</td>' +
+						'<td style="background-color:#dbffe6;">미예약</td>' +
+						'<td style="background-color:#dbffe6;"><input type="text" name="reservTime_'+(i+1)+'" id="reservTime_'+(i+1)+'" value="'+result[i].time+'"/></td>' +
+						'<td style="background-color:#dbffe6;"><input type="text" name="hole_'+(i+1)+'" id="hole_'+(i+1)+'" value="'+result[i].hole+'" /></td>'+
+					    '<td style="background-color:#dbffe6;"><select name="caddy_'+(i+1)+'" id="caddy_'+(i+1)+'">'+
+					    	'<option value="Y" '+caddy_y+'>캐디</option><option value="N" '+caddy_n+'>노캐디</option>'+
+					    	'</select></td>'+
+					    '<td style="background-color:#dbffe6;"><input type="text" name="person_'+(i+1)+'" id="person_'+(i+1)+'" value="'+result[i].person+'"/></td>'+
+					    '<td style="background-color:#dbffe6;"><input type="text" name="green_fee_'+(i+1)+'" id="green_fee_'+(i+1)+'" value="'+result[i].greenFee+'"/></td>'+
+					    '<td style="background-color:#dbffe6;">'+holidayTxt+'</td>'+
+					    '<td style="background-color:#dbffe6;">'
+					    + '<input type="button" onclick="fn_update_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" value="수정" class="button primary small"/> '
+					    + '<a href="javascript:fn_delete_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" class="button primary small">삭제</a></td>'+
+						'</tr>';
+					}
+				}
+				
+				
+				$("#reserv_list tbody").append(html);
+				
+				$("#cur_reserv_date_txt").text($("#reserv_date").val().substr(0,4)+'년'+
+						$("#reserv_date").val().substr(4,2)+'월'+
+						$("#reserv_date").val().substr(6,2)+'일 총 '+result.length+'건의 예약이 있습니다.');
+				
+				
+			},
+			error:function(){
+				console.log('ajax golf reserv list error!!!');
+			}
+		});
+	}
+	
 	// 전월 달력이동
 	function fn_before_month(){
 		fn_selectGolfReservMonth(beforeDate.substr(0,4), beforeDate.substr(4,2));
@@ -1029,6 +1071,62 @@
 		});
 	}
 	
+	function fn_delete_reserv(index, date, course, time){
+		
+		if(confirm('예약을 삭제하시겠습니까?')){
+			//console.log('->'+date+', '+time);
+			$.ajax({
+				type: 'post',
+				url: '/deleteGolfReserv.do',
+			//	contentType: 'application/json; charset=utf-8',
+				data: {
+					date:date,
+					course:course,
+					time:time
+				},
+				dataType: 'text',
+				success: function(result){
+					alert(result);
+					
+					/* 예약목록 조회 */
+			    	fn_reserv_list();
+				},
+				error:function(){
+					console.log('ajax golf reserv delete error!!!');
+				}
+			});
+		}
+	}
+	
+	function fn_update_reserv(index, date, course, time){
+		//console.log($("#reservTime_"+index).val());
+		
+		if(confirm('예약을 수정하시겠습니까?')){
+			//console.log('->'+date+', '+time);
+			$.ajax({
+				type: 'post',
+				url: '/updateGolfReserv.do',
+			//	contentType: 'application/json; charset=utf-8',
+				data: {
+					date:date,
+					course:course,
+					time:time,
+					updateTime:$("#reservTime_"+index).val(),
+					updateHole:$("#hole_"+index).val(),
+					updateCaddy:$("#caddy_"+index).val(),
+					updatePerson:$("#person_"+index).val(),
+					updateGreenFee:$("#green_fee_"+index).val()
+				},
+				dataType: 'text',
+				success: function(result){
+					alert(result);
+				},
+				error:function(){
+					console.log('ajax golf reserv update error!!!');
+				}
+			});
+		}
+	}
 	
 </script>
 

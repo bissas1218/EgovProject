@@ -13,4 +13,10 @@ public interface GolfReservService {
 	int updateGolfSetting(GolfSettingVO vo) throws Exception;
 	
 	GolfSettingVO selectGolfSetting() throws Exception;
+	
+	int updateGolfReserv(GolfReservVO golfReservVO) throws Exception;
+	
+	int selectGolfReservTime(GolfReservVO golfReservVO) throws Exception;
+	
+	int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception;
 }

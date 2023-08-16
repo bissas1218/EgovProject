@@ -35,4 +35,16 @@ public class GolfReservServiceImpl implements GolfReservService {
 	public GolfSettingVO selectGolfSetting() throws Exception{
 		return golfReservDAO.selectGolfSetting();
 	}
+	
+	public int updateGolfReserv(GolfReservVO golfReservVO) throws Exception {
+		return golfReservDAO.updateGolfReserv(golfReservVO);
+	}
+	
+	public int selectGolfReservTime(GolfReservVO golfReservVO) throws Exception {
+		return golfReservDAO.selectGolfReservTime(golfReservVO);
+	}
+	
+	public int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception {
+		return golfReservDAO.deleteGolfReserv(golfReservVO);
+	}
 }

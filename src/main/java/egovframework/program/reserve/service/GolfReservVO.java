@@ -14,17 +14,32 @@ public class GolfReservVO {
 	/** 예약시간 */
 	private String time;
 
+	/** 수정예약시간 */
+	private String updateTime;
+	
 	/** 홀 */
 	private String hole;
+	
+	/** 수정홀 */
+	private String updateHole;
 	
 	/** 캐디여부 */
 	private String caddy;
 	
+	/** 수정캐디여부 */
+	private String updateCaddy;
+	
 	/** 인원수 */
 	private String person;
 	
+	/** 수정인원수 */
+	private String updatePerson;
+	
 	/** 그린피 */
 	private String greenFee;
+	
+	/** 수정그린피 */
+	private String updateGreenFee;
 	
 	/** 부 */
 	private String part;
@@ -44,6 +59,46 @@ public class GolfReservVO {
 	/** 회원종류 */
 	private String memberType;
 	
+	public String getUpdateHole() {
+		return updateHole;
+	}
+
+	public void setUpdateHole(String updateHole) {
+		this.updateHole = updateHole;
+	}
+
+	public String getUpdateCaddy() {
+		return updateCaddy;
+	}
+
+	public void setUpdateCaddy(String updateCaddy) {
+		this.updateCaddy = updateCaddy;
+	}
+
+	public String getUpdatePerson() {
+		return updatePerson;
+	}
+
+	public void setUpdatePerson(String updatePerson) {
+		this.updatePerson = updatePerson;
+	}
+
+	public String getUpdateGreenFee() {
+		return updateGreenFee;
+	}
+
+	public void setUpdateGreenFee(String updateGreenFee) {
+		this.updateGreenFee = updateGreenFee;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public String getCourseNm() {
 		return courseNm;
 	}
