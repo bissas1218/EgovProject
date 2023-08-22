@@ -24,7 +24,8 @@
 							<span class="opener">골프예약관리</span>
 							<ul>
 								<li><a href="/golfReservList.do">예약현황</a></li>
-								<li><a href="/reservMng.do">예약설정</a></li>
+								<li><a href="/golfReservMng.do">예약설정</a></li>
+								<li><a href="/golfReservStatic.do">예약통계</a>
 							</ul>
 						</li>
 						<li><a href="/scheduleMng.do">일정관리</a></li>

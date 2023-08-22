@@ -35,7 +35,7 @@ public class GolfReservController {
 	private GolfReservService golfReservService;
 	
 	@RequestMapping(value="/golfReservList.do")
-	public String reserMng(Model model) throws Exception {
+	public String golfReservList(Model model) throws Exception {
 		
 		YearMonth today = YearMonth.now();
 		
@@ -54,6 +54,28 @@ public class GolfReservController {
 		model.addAttribute("golfSetting", golfSettingVO);
 		
 		return "admin/reserv/golf/golfReservList";
+	}
+	
+	@RequestMapping(value="/golfReservMng.do")
+	public String golfReservMng(Model model) throws Exception {
+		
+		YearMonth today = YearMonth.now();
+		
+		//System.out.println("today:"+today);
+		model.addAttribute("year", today.getYear());
+		model.addAttribute("month", today.getMonthValue());
+		
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance( );
+        //System.out.println(df.format(cal.getTime()));
+        
+		model.addAttribute("today", df.format(cal.getTime()));
+		
+		/* 골프설정값 조회 */
+		GolfSettingVO golfSettingVO = golfReservService.selectGolfSetting();
+		model.addAttribute("golfSetting", golfSettingVO);
+		
+		return "admin/reserv/golf/golfReservMng";
 	}
 	
 	@SuppressWarnings("static-access")
@@ -223,22 +245,32 @@ public class GolfReservController {
 	
 	@RequestMapping(value="/insertGolfReserv.do", method=RequestMethod.POST)
 	public void insertGolfReserv(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//System.out.println("reserv_array:"+request.getParameter("reserv_array"));
+		String[] arr = request.getParameter("reserv_array").split(",");
+		//System.out.println("reserv_array:"+arr);
 		
-		int totalReservCnt = Integer.parseInt( request.getParameter("total_reserv_cnt"));
+		
+	//	int totalReservCnt = Integer.parseInt( request.getParameter("total_reserv_cnt"));
 		
 		GolfReservVO vo = new GolfReservVO();
 		vo.setDate(request.getParameter("reserv_date"));
+		
+		// 코스저장
 		if(!request.getParameter("golf_course").equals("Non")) {
 			vo.setCourse(request.getParameter("golf_course"));
 		};
+		
+		// 부저장
 		if(!request.getParameter("part").equals("Non")) {
 			vo.setPart(request.getParameter("part"));
 		}
+		
+		// 공휴일여부 저장
 		vo.setHoliDayYn(request.getParameter("holiday_yn"));
 		if(!request.getParameter("member_type").equals("Non")) {
 			vo.setMemberType(request.getParameter("member_type"));
 		}
-		
+		/*
 		for(int i=1; i<totalReservCnt; i++) {
 			
 		//	System.out.println(request.getParameter("reserv_date")+" "+request.getParameter("golf_course")+" "+request.getParameter("reservTime_"+i));
@@ -261,7 +293,27 @@ public class GolfReservController {
 			System.out.println("=====>"+vo);
 			golfReservService.insertGolfReserv(vo);
 		}
-		
+		*/
+		for(int i=0; i<arr.length; i++) {
+			System.out.println(arr[i]);
+			vo.setTime(request.getParameter("reservTime_"+arr[i]));
+			vo.setHole(request.getParameter("hole_"+arr[i]));
+			vo.setCaddy(request.getParameter("caddy_"+arr[i]));
+			vo.setPerson(request.getParameter("person_"+arr[i]));
+			vo.setGreenFee(request.getParameter("green_fee_"+arr[i]).replace(",",""));
+			
+			if(request.getParameter("golf_course").equals("Non")) {
+				vo.setCourse(request.getParameter("golf_course_"+arr[i]));
+			};
+			if(request.getParameter("part").equals("Non")) {
+				vo.setPart(request.getParameter("part_"+arr[i]));
+			};
+			if(request.getParameter("member_type").equals("Non")) {
+				vo.setMemberType(request.getParameter("member_type_"+arr[i]));
+			};
+		//	System.out.println("=====>"+vo);
+			golfReservService.insertGolfReserv(vo);
+		}
 		response.getWriter().print("[{status:success}]");
 	}
 	
