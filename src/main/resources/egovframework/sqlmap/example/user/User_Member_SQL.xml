@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="UserMember">
+
+	<typeAlias alias="memberVO" type="egovframework.user.service.MemberVO"/>
+
+	<select id="userMemberDAO.userIdDupChk" resultClass="Integer" parameterClass="String">
+    	<![CDATA[
+    		SELECT count(*) FROM MEMBER WHERE user_id = #userId#
+    	]]>
+    </select>
+	
+	<select id="userMemberDAO.mobileNumDupChk" resultClass="Integer" parameterClass="String">
+    	<![CDATA[
+    		SELECT count(*) FROM MEMBER WHERE mobile_num = #mobileNum#
+    	]]>
+    </select>
+    
+	<insert id="userMemberDAO.memberInsert" parameterClass="memberVO">
+	<![CDATA[
+		INSERT INTO MEMBER (
+				 user_id
+				,user_name
+				,passwd
+				,mobile_num
+				,user_email
+				,gender
+			) VALUES (
+				 #userId#
+				,#userName#
+				,#passwd#
+				,#mobileNum#
+				,#userEmail#
+				,#gender#
+			)
+	]]>
+	</insert>
+	
+	<select id="userMemberDAO.userLogin" resultClass="Integer" parameterClass="memberVO">
+    	<![CDATA[
+    		SELECT count(*) FROM MEMBER WHERE user_id = #userId# AND passwd = #passwd#
+    	]]>
+    </select>
+    
+</sqlMap>
