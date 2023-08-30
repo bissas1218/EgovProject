@@ -36,20 +36,7 @@
 
 			<!-- Header -->
 				<div id="header-wrapper">
-					<header id="header" class="container">
-
-						<!-- Logo -->
-							<div id="logo">
-								<h1><a href="index.html">Verti</a></h1>
-								<span>by HTML5 UP</span>
-							</div>
-
-						<!-- Nav -->
-							<nav id="nav">
-								<jsp:include page="/userNavi.do"></jsp:include>
-							</nav>
-
-					</header>
+					<jsp:include page="/userNavi.do"></jsp:include>
 				</div>
 
 			<!-- Main -->
@@ -65,17 +52,19 @@
 								<section>
 
 									<!-- Content -->
-										<h2 id="content">예약하기</h2>
-										<p>Praesent ac adipiscing ullamcorper semper ut amet ac risus. Lorem sapien ut odio odio nunc. Ac adipiscing nibh porttitor erat risus justo adipiscing adipiscing amet placerat accumsan. Vis. Faucibus odio magna tempus adipiscing a non. In mi primis arcu ut non accumsan vivamus ac blandit adipiscing adipiscing arcu metus praesent turpis eu ac lacinia nunc ac commodo gravida adipiscing eget accumsan ac nunc adipiscing adipiscing lorem ipsum dolor sit amet nullam veroeros adipiscing.</p>
+									<h2 id="content">예약하기</h2>
+									<p>Praesent ac adipiscing ullamcorper semper ut amet ac risus. Lorem sapien ut odio odio nunc. Ac adipiscing nibh porttitor erat risus justo adipiscing adipiscing amet placerat accumsan. Vis. Faucibus odio magna tempus adipiscing a non. In mi primis arcu ut non accumsan vivamus ac blandit adipiscing adipiscing arcu metus praesent turpis eu ac lacinia nunc ac commodo gravida adipiscing eget accumsan ac nunc adipiscing adipiscing lorem ipsum dolor sit amet nullam veroeros adipiscing.</p>
 
 									<hr class="major" />
 
+									<br/>
+									
 									<!-- Elements -->
-										<div class="row gtr-200">
-											<div class="col-6 col-12-medium">
+										<div class="row">
+											<div class="col-12" style="padding:0;">
 
 												<!-- Table -->
-													<h3>Table</h3>
+													<h3>날짜선택</h3>
 
 													<h4>오늘날짜 : <a href="javascript:fn_selectGolfReservMonth('${year}', '${month}');"><c:out value="${today}"/></a> 선택한날짜 : <font id="selDate"></font></h4>
 													<div class="table-wrapper" id="carendarDiv">
@@ -109,94 +98,94 @@
 													</div>
 
 													<!-- Form -->
-													<h3>Form</h3>
+													<h3>목록조회</h3>
 
 													<form method="post" action="#">
 														<div class="row gtr-uniform" id="part_choice">
 															
 															<!-- Break -->
 															<c:if test="${golfSetting.holeNum eq '9'}">
-															<div class="col-6 col-12-small">
+															<div class="col-6">
 																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
 																<label for="golf_course-all">전체</label>
 															</div>
-															<div class="col-6 col-12-small">
+															<div class="col-6">
 																<input type="radio" id="golf_course-A" name="golf_course" value="A">
 																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
 															</div>
 															</c:if>
 															
 															<c:if test="${golfSetting.holeNum eq '18'}">
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
 																<label for="golf_course-all">전체</label>
 															</div>
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-A" name="golf_course" value="A">
 																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
 															</div>
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-B" name="golf_course" value="B">
 																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
 															</div>
 															</c:if>
 															
 															<c:if test="${golfSetting.holeNum eq '27'}">
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
 																<label for="golf_course-all">전체</label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_course-A" name="golf_course" value="A">
 																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_course-B" name="golf_course" value="B">
 																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_course-C" name="golf_course" value="C">
 																<label for="golf_course-C"><c:out value="${golfSetting.cCourseNm}"/></label>
 															</div>
 															</c:if>
 															
 															<c:if test="${golfSetting.holeNum eq '36'}">
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-all" name="golf_course" value="all" checked>
 																<label for="golf_course-all">전체</label>
 															</div>
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-A" name="golf_course" value="A">
 																<label for="golf_course-A"><c:out value="${golfSetting.aCourseNm}"/></label>
 															</div>
-															<div class="col-4 col-12-small">
+															<div class="col-4">
 																<input type="radio" id="golf_course-B" name="golf_course" value="B">
 																<label for="golf_course-B"><c:out value="${golfSetting.bCourseNm}"/></label>
 															</div>
-															<div class="col-6 col-12-small">
+															<div class="col-6">
 																<input type="radio" id="golf_course-C" name="golf_course" value="C">
 																<label for="golf_course-C"><c:out value="${golfSetting.cCourseNm}"/></label>
 															</div>
-															<div class="col-6 col-12-small">
+															<div class="col-6">
 																<input type="radio" id="golf_course-D" name="golf_course" value="D">
 																<label for="golf_course-D"><c:out value="${golfSetting.dCourseNm}"/></label>
 															</div>
 															</c:if>
 															
 															<!-- Break -->
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_part-all" name="golf_part" value="all" checked>
 																<label for="golf_part-all">전체</label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_part-1" name="golf_part" value="1">
 																<label for="golf_part-1">1부</label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_part-2" name="golf_part" value="2">
 																<label for="golf_part-2">2부</label>
 															</div>
-															<div class="col-3 col-12-small">
+															<div class="col-3">
 																<input type="radio" id="golf_part-3" name="golf_part" value="3">
 																<label for="golf_part-3">3부</label>
 															</div>
@@ -208,10 +197,11 @@
 													</form>
 
 											</div>
-											<div class="col-6 col-12-medium">
+											
+											<div class="col-12" style="padding:0;">
 
 												<!-- Table -->
-													<h3>Table</h3>
+													<h3>예약목록</h3>
 
 													<h4><font id="cur_reserv_date_txt"></font></h4>
 													<div class="table-wrapper">
@@ -282,8 +272,17 @@
 		// 날짜선택 이밴트
 		$('#carendarTable tbody').on('click', 'td', function () {
 			
+			const selDate = new Date(this.id.substr(0,4)+'-'+this.id.substr(4,2)+'-'+this.id.substr(6,2));
+			const curDate = new Date('${today}'.substr(0,4)+'-'+'${today}'.substr(4,2)+'-'+'${today}'.substr(6,2));
+
+			console.log(selDate >= curDate);
+			
+			console.log( this.id.substr(0,4)+'-'+this.id.substr(4,2)+'-'+this.id.substr(6,2) +', '+ 
+					'${today}'.substr(0,4)+'-'+'${today}'.substr(4,2)+'-'+'${today}'.substr(6,2) );
+			
 			// 입력된 월이 현재월이 아닐경우 입력월로 이동
 			if($("#txtYear").text()+$("#txtMonth").text() != this.id.substr(0,4)+''+Number(this.id.substr(4,2))){
+				
 				fn_selectGolfReservMonth(this.id.substr(0,4), Number(this.id.substr(4,2)));
 				$("#reserv_date").val('');
 				// 파트선택 불가능
@@ -292,44 +291,49 @@
 	    		backupColor = '';
 	    		
 				return false;
+				
 			}else{
 				
-				if(backupSdate != ''){
-		    		$("#"+backupSdate).css("background", backupColor);	
-		    	}
-		    	
-		    //	console.log(this.id+', '+$("#"+this.id).css("background-color"));
-		    	backupSdate = this.id;
-		    	backupColor = $("#"+this.id).css("background-color");
-		    	
-		    	$("#reserv_date").val(this.id);
-		    	$("#"+this.id).css("background","gold");
-		    	$("#selDate").text(this.id);
-		    	
-		    	fn_reset();
-		    	
-		    	fn_golfReservList();
-		    	
-		    	console.log($("#"+this.id).text());
-		    	
-		    	if( $("#"+this.id).text().indexOf('(') != -1 ){
-		    		/*
-		    		console.log( $("#"+this.id).text().indexOf('(') + ', ' + $("#"+this.id).text().indexOf(')') );	
-		    		console.log(
-		    				$("#"+this.id).text().substr( 
-		    						$("#"+this.id).text().indexOf('('), 
-		    						$("#"+this.id).text().indexOf(')') 
-		    						)
-		    						); */
-		    		$("input[name='golf_part']:radio").attr("disabled", false);
-		    						
-		    	}else{
-		    		// 파트선택 불가능
-		    		$("input[name='golf_part']:radio").attr("disabled", true);
-		    		$("input[name='golf_course']:radio").attr("disabled", true);
-		    	}
-		    	
+				// 오늘 이전이면 아무작업도 안함
+				if( selDate >= curDate ){
+					
+					if(backupSdate != ''){
+			    		$("#"+backupSdate).css("background", backupColor);	
+			    	}
+			    	
+			    //	console.log(this.id+', '+$("#"+this.id).css("background-color"));
+			    	backupSdate = this.id;
+			    	backupColor = $("#"+this.id).css("background-color");
+			    	
+			    	$("#reserv_date").val(this.id);
+			    	$("#"+this.id).css("background","gold");
+			    	$("#selDate").text(this.id);
+			    	
+			    	fn_reset();
+			    	
+			    	fn_golfReservList();
+			    	
+			    //	console.log($("#"+this.id).text());
+			    	
+			    	if( $("#"+this.id).text().indexOf('(') != -1 ){
+			    		/*
+			    		console.log( $("#"+this.id).text().indexOf('(') + ', ' + $("#"+this.id).text().indexOf(')') );	
+			    		console.log(
+			    				$("#"+this.id).text().substr( 
+			    						$("#"+this.id).text().indexOf('('), 
+			    						$("#"+this.id).text().indexOf(')') 
+			    						)
+			    						); */
+			    		$("input[name='golf_part']:radio").attr("disabled", false);
+			    						
+			    	}else{
+			    		// 파트선택 불가능
+			    		$("input[name='golf_part']:radio").attr("disabled", true);
+			    		$("input[name='golf_course']:radio").attr("disabled", true);
+			    	}
+				}
 			}
+			
 		});
 		
 		// 파트 변경
@@ -431,7 +435,7 @@
 			type: 'get',
 			url: '/selectGolfReservMonth.do',
 			contentType: 'application/json; charset=utf-8',
-			data: {month:month, year:year},
+			data: {month:month, year:year, type:'user'},
 			dataType: 'json',
 			success: function(result){
 				

@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -80,13 +81,15 @@ public class GolfReservController {
 	
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/selectGolfReservMonth.do", method=RequestMethod.GET)
-	public void ajaxJsonListTest(@RequestParam("year") int year, @RequestParam("month") int month, HttpServletResponse response) throws Exception {
+	public void ajaxJsonListTest(@RequestParam("year") int year, @RequestParam("month") int month, @RequestParam("type") String type, HttpServletResponse response) throws Exception {
 		//System.out.println("ajaxJsonTest month:"+month+", year:"+year);
+		//System.out.println("type:"+type);
 		
-		YearMonth curDay = YearMonth.of(year, month);// .now();
-		//System.out.println("curDay:"+curDay);
-		LocalDate start = curDay.atDay(1);
-		LocalDate end = curDay.atEndOfMonth();
+		YearMonth curMonth = YearMonth.of(year, month);// .now();
+		
+		//System.out.println("curMonth:"+curMonth);
+		//LocalDate start = curMonth.atDay(1);
+		LocalDate end = curMonth.atEndOfMonth();
 		//System.out.println("start:"+start+", end:"+end);
 		
 		 // 1. LocalDate 생성
@@ -104,9 +107,12 @@ public class GolfReservController {
         //System.out.println(dayOfWeekNumber);  // 6
         
         DateFormat df = new SimpleDateFormat("yyyyMM");
+     //   DateFormat df2 = new SimpleDateFormat("dd");
         Calendar cal = Calendar.getInstance( );
-        cal.set(year, month, 0);
+      //  String curDay = df2.format(cal.getTime());
+        //System.out.println("curDay:"+curDay);
         
+        cal.set(year, month, 0);
         cal.add ( cal.MONTH, + 1 ); //다음달
         
         String nextDate = df.format(cal.getTime());
@@ -115,7 +121,8 @@ public class GolfReservController {
         
         cal.add ( cal.MONTH, -1 ); //이전달
         String beforeDate = df.format(cal.getTime());
-        curDay = YearMonth.of(Integer.parseInt(beforeDate.substring(0,4)), Integer.parseInt(beforeDate.substring(4,6)));// .now();
+        curMonth = YearMonth.of(Integer.parseInt(beforeDate.substring(0,4)), Integer.parseInt(beforeDate.substring(4,6)));// .now();
+		//System.out.println("curMonth:"+curMonth);
 		
         YearMonth.now();
 		
@@ -134,14 +141,10 @@ public class GolfReservController {
 		
 		int trNum = 1;
 		
-		int beforeMonthDay = Integer.parseInt( curDay.atEndOfMonth().toString().replace("-", "").substring(6,8) ) - dayOfWeekNumber2; //Number(result.beforeDate.substr(6,2)) - dayOfWeekNumber; 
+		int beforeMonthDay = Integer.parseInt( curMonth.atEndOfMonth().toString().replace("-", "").substring(6,8) ) - dayOfWeekNumber2; //Number(result.beforeDate.substr(6,2)) - dayOfWeekNumber; 
 		int chk = 0;
 		
-		// 일정 카운트 조회
-		//ScheduleVO scheduleVO = new ScheduleVO();
-		//scheduleVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
-		//scheduleVO.setEndDate(end.toString().replaceAll("-", ""));
-		
+		// 골프예약목록조회
 		GolfReservVO golfReservVO = new GolfReservVO();
 		golfReservVO.setSrtDate(end.toString().replaceAll("-", "").substring(0,6)+"01");
 		golfReservVO.setEndDate(end.toString().replaceAll("-", ""));
@@ -150,12 +153,15 @@ public class GolfReservController {
 		// 전월, 현재월, 다음월 날짜 그리기
 		for(int i = 1; i <= dayEnd; i++){
 				
+		//	System.out.println("i:"+i+", curDay:"+curDay+", dayEnd:"+dayEnd);
+			
 			chk++;
 			
+			// 이전월 날짜 채우기
 			if(i <= dayOfWeekNumber2){
-				html += "<td id='" + curDay.atEndOfMonth().toString().replace("-", "").substring(0,6) + (beforeMonthDay+i)+ "'>" + (beforeMonthDay+i) + "</td>";	// 이전월 날짜 채우기
+				html += "<td id='" + curMonth.atEndOfMonth().toString().replace("-", "").substring(0,6) + (beforeMonthDay+i)+ "'>" + (beforeMonthDay+i) + "</td>";	
 				
-			}else{
+			}else{ // 현재월 날짜 출력
 				
 				// css 날짜 id값 구하기
 				int disDay = i-dayOfWeekNumber2;
@@ -177,22 +183,53 @@ public class GolfReservController {
 				String cnt = "";
 				String holidayChk = "N";
 				
+				// 현재날짜 비교
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");  
+				Calendar cal2 = Calendar.getInstance( );
+		        Date curDate = formatter.parse(formatter.format(cal2.getTime()));        
+		        Date selDate = formatter.parse(dayCssId); 
+				
+		     //   System.out.println("curDate:"+formatter.format(cal2.getTime())+", day:"+dayCssId);
+		     //   System.out.println( curDate.after(selDate) );
+		        
+				// 날짜별 예약가능 건수입력
 				for(int k=0; k < cntList.size(); k++) {
 					
-					if(cntList.get(k).getDate().equals(dayCssId)) {
-					//	System.out.println(cntList.get(k).getHoliDayYn());
-						dayStyle = "style='background:#e6e7ff;'";
-						cnt = cntList.get(k).getCnt();
-						if(cntList.get(k).getHoliDayYn().equals("Y")) {
-							holidayChk = "Y";
+					if(cntList.get(k).getDate().equals(dayCssId)) {// && i >= curDay) {
+						
+						// 사용자일경우 오늘 이후예약만 표시
+						if(type.equals("user") && !curDate.after(selDate)) {
+//							System.out.println(cntList.get(k).getHoliDayYn());
+							dayStyle = "style='background:#e6e7ff;'";
+							cnt = cntList.get(k).getCnt();
+							if(cntList.get(k).getHoliDayYn().equals("Y")) {
+								holidayChk = "Y";
+							}
+							
+						// 관리자일 경우 전체표시
+						}else if(type.equals("admin")) {
+							dayStyle = "style='background:#e6e7ff;'";
+							cnt = cntList.get(k).getCnt();
+							if(cntList.get(k).getHoliDayYn().equals("Y")) {
+								holidayChk = "Y";
+							}
 						}
+					
 					}
 				}
 				
-				// 현대월 날짜 그리기
+				// 현재월 날짜 그리기
 				String cntTxt = "";
 				if(!cnt.equals("")) {
-					cntTxt = " ("+cnt+")";
+					
+					// 사용자일경우 오늘 이후예약만 표시
+					if(type.equals("user") && !curDate.after(selDate)) {
+						cntTxt = " ("+cnt+")";
+					// 관리자일 경우 전체표시
+					}else if(type.equals("admin")) {
+						cntTxt = " ("+cnt+")";
+					}
+					
 				}
 				
 				if(i % 7 == 0){
@@ -237,7 +274,7 @@ public class GolfReservController {
 				  + "\"curYear\":\""+year+
 				"\", \"curMonth\":\""+month+
 				"\", \"nextDate\":\""+nextDate+
-				"\", \"beforeDate\":\""+curDay.atEndOfMonth().toString().replace("-", "")+
+				"\", \"beforeDate\":\""+curMonth.atEndOfMonth().toString().replace("-", "")+
 				"\", \"html\":\""+html+
 				"\"}");
         
@@ -516,10 +553,10 @@ public class GolfReservController {
 	public void selectMonth(@RequestParam("year") int year, @RequestParam("month") int month, HttpServletResponse response) {
 		//System.out.println("ajaxJsonTest month:"+month+", year:"+year);
 		
-		YearMonth curDay = YearMonth.of(year, month);// .now();
-		//System.out.println("curDay:"+curDay);
-		LocalDate start = curDay.atDay(1);
-		LocalDate end = curDay.atEndOfMonth();
+		YearMonth curMonth = YearMonth.of(year, month);// .now();
+		//System.out.println("curMonth:"+curMonth);
+		LocalDate start = curMonth.atDay(1);
+		LocalDate end = curMonth.atEndOfMonth();
 		//System.out.println("start:"+start+", end:"+end);
 		
 		 // 1. LocalDate 생성
@@ -550,10 +587,10 @@ public class GolfReservController {
         String beforeDate = df.format(cal.getTime());
         //System.out.println("before date:"+Integer.parseInt(beforeDate.substring(0,4)));
         //System.out.println("before date:"+Integer.parseInt(beforeDate.substring(4,6)));
-        curDay = YearMonth.of(Integer.parseInt(beforeDate.substring(0,4)), Integer.parseInt(beforeDate.substring(4,6)));// .now();
-		//System.out.println("curDay:"+curDay);
-		//LocalDate start = curDay.atDay(1);
-		//curDay.atEndOfMonth();
+        curMonth = YearMonth.of(Integer.parseInt(beforeDate.substring(0,4)), Integer.parseInt(beforeDate.substring(4,6)));// .now();
+		//System.out.println("curMonth:"+curMonth);
+		//LocalDate start = curMonth.atDay(1);
+		//curMonth.atEndOfMonth();
 		
         YearMonth.now();
 		
@@ -564,7 +601,7 @@ public class GolfReservController {
 					"\", \"curYear\":\""+year+
 					"\", \"curMonth\":\""+month+
 					"\", \"nextDate\":\""+nextDate+
-					"\", \"beforeDate\":\""+curDay.atEndOfMonth().toString().replace("-", "")+
+					"\", \"beforeDate\":\""+curMonth.atEndOfMonth().toString().replace("-", "")+
 					"\"}");
 		}catch(IOException e) {
 			e.printStackTrace();

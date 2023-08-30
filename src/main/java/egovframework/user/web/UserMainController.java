@@ -40,4 +40,5 @@ public class UserMainController {
 		
 		return "user/userNavi";
 	}
+	
 }

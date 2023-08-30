@@ -137,6 +137,22 @@ INSERT INTO example.golf_setting
 (hole_num, a_course_nm, b_course_nm, c_course_nm, d_course_nm, part1_srt_time, part1_end_time, part2_srt_time, part2_end_time, part3_srt_time, part3_end_time)
 VALUES(18, '동코스', '서코스', '', '', '06:00', '11:59', '12:00', '17:59', '18:00', '21:00');
 
+--------------------------------------------------------------------------------------------------------------
+DROP TABLE example.member;
+
+CREATE TABLE `member` (
+  `user_id` varchar(30) DEFAULT NULL,
+  `mobile_num` varchar(11) DEFAULT NULL,
+  `user_email` varchar(30) DEFAULT NULL,
+  `gender` varchar(5) DEFAULT NULL,
+  `passwd` varchar(50) DEFAULT NULL,
+  `user_name` varchar(10) DEFAULT NULL,
+  UNIQUE KEY `member_user_id_IDX` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='회원정보';
+
+INSERT INTO example.`member`
+(user_id, mobile_num, user_email, gender, passwd, user_name)
+VALUES('bissas', '01022567172', 'bissas@naver.com', 'man', '1', '김범식');
 
 ------- event ---------------------------------------------------------------------------------------------
 CREATE TABLE `test_table` (

@@ -713,7 +713,7 @@
 			type: 'get',
 			url: '/selectGolfReservMonth.do',
 			contentType: 'application/json; charset=utf-8',
-			data: {month:month, year:year},
+			data: {month:month, year:year, type:'admin'},
 			dataType: 'json',
 			success: function(result){
 				
