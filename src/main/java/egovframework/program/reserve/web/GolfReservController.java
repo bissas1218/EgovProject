@@ -485,12 +485,13 @@ public class GolfReservController {
 			}
 			html += "<tr>";
 			html += "<td>"+list.get(i).getCourseNm()+"</td>"+
+					//"<td style='display:none;'>"+list.get(i).getCourse()+"</td>"+
 					"<td>"+list.get(i).getTime()+"</td>"+
 				    "<td>"+list.get(i).getHole()+"</td>"+
 				    "<td>"+caddy_yn+"</td>"+
 				    "<td>"+list.get(i).getPerson()+"</td>"+
 				    "<td>"+list.get(i).getGreenFee()+"</td>"+
-				    "<td><a href=\'javascript:fn_user_reserv(\""+list.get(i).getTime()+"\");\'>예약</a></td>"
+				    "<td><a href=\'javascript:fn_user_reserv(\""+list.get(i).getTime()+"\", \""+list.get(i).getCourse()+"\");\'>예약</a></td>"
 				    ;
 				    
 			html += "</tr>";

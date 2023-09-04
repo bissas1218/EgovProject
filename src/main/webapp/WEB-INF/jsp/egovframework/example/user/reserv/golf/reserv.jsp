@@ -275,10 +275,10 @@
 			const selDate = new Date(this.id.substr(0,4)+'-'+this.id.substr(4,2)+'-'+this.id.substr(6,2));
 			const curDate = new Date('${today}'.substr(0,4)+'-'+'${today}'.substr(4,2)+'-'+'${today}'.substr(6,2));
 
-			console.log(selDate >= curDate);
+		//	console.log(selDate >= curDate);
 			
-			console.log( this.id.substr(0,4)+'-'+this.id.substr(4,2)+'-'+this.id.substr(6,2) +', '+ 
-					'${today}'.substr(0,4)+'-'+'${today}'.substr(4,2)+'-'+'${today}'.substr(6,2) );
+		//	console.log( this.id.substr(0,4)+'-'+this.id.substr(4,2)+'-'+this.id.substr(6,2) +', '+ 
+		//			'${today}'.substr(0,4)+'-'+'${today}'.substr(4,2)+'-'+'${today}'.substr(6,2) );
 			
 			// 입력된 월이 현재월이 아닐경우 입력월로 이동
 			if($("#txtYear").text()+$("#txtMonth").text() != this.id.substr(0,4)+''+Number(this.id.substr(4,2))){
@@ -315,15 +315,9 @@
 			    	
 			    //	console.log($("#"+this.id).text());
 			    	
+			    	// 가능한 예약이 없을경우 선택 비활성화
 			    	if( $("#"+this.id).text().indexOf('(') != -1 ){
-			    		/*
-			    		console.log( $("#"+this.id).text().indexOf('(') + ', ' + $("#"+this.id).text().indexOf(')') );	
-			    		console.log(
-			    				$("#"+this.id).text().substr( 
-			    						$("#"+this.id).text().indexOf('('), 
-			    						$("#"+this.id).text().indexOf(')') 
-			    						)
-			    						); */
+			    		
 			    		$("input[name='golf_part']:radio").attr("disabled", false);
 			    						
 			    	}else{
@@ -459,8 +453,8 @@
 		});
 	}
 	
-	function fn_user_reserv(time){
-		alert(time);
+	function fn_user_reserv(time, course){
+		alert($("#reserv_date").val() + ", " + course + ", " + time);
 	}
 	
 	function fn_reset(){
