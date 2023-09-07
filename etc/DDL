@@ -149,12 +149,16 @@ CREATE TABLE `member` (
   `gender` varchar(5) DEFAULT NULL,
   `passwd` varchar(50) DEFAULT NULL,
   `user_name` varchar(10) DEFAULT NULL,
+  `right_level` varchar(1) DEFAULT NULL COMMENT '권한',
   UNIQUE KEY `member_user_id_IDX` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='회원정보';
 
 INSERT INTO example.`member`
-(user_id, mobile_num, user_email, gender, passwd, user_name)
-VALUES('bissas', '01022567172', 'bissas@naver.com', 'man', '1', '김범식');
+(user_id, mobile_num, user_email, gender, passwd, user_name, right_level)
+VALUES('bissas', '01022567172', 'bissas@naver.com', 'man', '1', '김범식', '9');
+INSERT INTO example.`member`
+(user_id, mobile_num, user_email, gender, passwd, user_name, right_level)
+VALUES('bissas2', '01022567173', 'bissas@naver.com', 'man', '1', '강진철', '1');
 
 ------- event ---------------------------------------------------------------------------------------------
 CREATE TABLE `test_table` (
