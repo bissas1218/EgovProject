@@ -59,6 +59,39 @@ public class GolfReservVO {
 	/** 회원종류 */
 	private String memberType;
 	
+	/** 예약자 id */
+	private String reservId;
+	
+	/** 예약일자 */
+	private String reservDate;
+	
+	/** 관리자, 사용자 유무 */
+	private String userType;
+	
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getReservId() {
+		return reservId;
+	}
+
+	public void setReservId(String reservId) {
+		this.reservId = reservId;
+	}
+
+	public String getReservDate() {
+		return reservDate;
+	}
+
+	public void setReservDate(String reservDate) {
+		this.reservDate = reservDate;
+	}
+
 	public String getUpdateHole() {
 		return updateHole;
 	}

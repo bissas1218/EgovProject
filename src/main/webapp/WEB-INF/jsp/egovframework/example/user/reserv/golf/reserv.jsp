@@ -453,8 +453,48 @@
 		});
 	}
 	
-	function fn_user_reserv(time, course){
-		alert($("#reserv_date").val() + ", " + course + ", " + time);
+	function fn_user_reserv(time, course, courseNm){
+		//alert($("#reserv_date").val() + ", " + course + ", " + time + ', ' + '${userId}' );
+		if('${userId}' == ''){
+			alert('로그인 페이지로 이동합니다.');
+			window.location.href = '/userLogin.do';
+		}else{
+			
+			let dateTxt = $("#reserv_date").val();
+			
+			if(confirm(dateTxt.substr(0,4)+'년 '+dateTxt.substr(4,2)+'월 '+dateTxt.substr(6,2)+
+					'일 '+courseNm+' '+time.substr(0,2)+'시'+time.substr(3,2)+'분 예약하시겠습니까?')){
+				
+				$.ajax({
+					type: 'post',
+					url: '/userReservSave.do',
+				//	contentType: 'application/json; charset=utf-8',
+					data: {date: $("#reserv_date").val(),
+						   course:course, 
+						   time:time
+						   },
+					dataType: 'text',
+					success: function(result){
+					//	alert(result);
+						if(result == 'success'){
+							alert('예약되었습니다.');
+							window.location.href = '/golfReserv.do';
+						}else if(result == 'error-1'){
+							alert('다시 로그인 해주시기 바랍니다.');
+							window.location.href = '/userLogin.do';
+						}else{
+							alert('예약중 에러가 발생하였습니다.');
+						}
+					},
+					error:function(){
+						console.log('ajax user reserv save error!');
+					}
+				});
+			}else{
+				
+			}
+			
+		}
 	}
 	
 	function fn_reset(){

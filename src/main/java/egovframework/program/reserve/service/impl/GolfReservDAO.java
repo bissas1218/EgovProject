@@ -44,4 +44,8 @@ public class GolfReservDAO extends EgovAbstractDAO {
 	public int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception{
 		return (int) delete("golfReservDAO.deleteGolfReserv", golfReservVO);
 	}
+	
+	public void userReservUpdate(GolfReservVO golfReservVO) throws Exception {
+		insert("golfReservDAO.userReservUpdate", golfReservVO);
+	}
 }

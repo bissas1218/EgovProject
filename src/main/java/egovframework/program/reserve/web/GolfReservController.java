@@ -380,6 +380,8 @@ public class GolfReservController {
 					"\", \"srtDate\":\""+list.get(i).getSrtDate()+
 					"\", \"endDate\":\""+list.get(i).getEndDate()+
 					"\", \"memberType\":\""+list.get(i).getMemberType()+
+					"\", \"reservId\":\""+list.get(i).getReservId()+
+					"\", \"reservDate\":\""+list.get(i).getReservDate()+
 					"\"}";
 			
 			if(i<(list.size()-1)) {
@@ -472,7 +474,7 @@ public class GolfReservController {
 	public void selectUserGolfReservList(GolfReservVO golfReservVO, HttpServletResponse response) throws Exception {
 		
 		//System.out.println("date:"+golfReservVO.getDate());
-		
+		golfReservVO.setUserType("user");
 		List<GolfReservVO> list = golfReservService.selectGolfReservList(golfReservVO);
 		String html = "";
 		for(int i=0; i<list.size(); i++) {
@@ -491,7 +493,7 @@ public class GolfReservController {
 				    "<td>"+caddy_yn+"</td>"+
 				    "<td>"+list.get(i).getPerson()+"</td>"+
 				    "<td>"+list.get(i).getGreenFee()+"</td>"+
-				    "<td><a href=\'javascript:fn_user_reserv(\""+list.get(i).getTime()+"\", \""+list.get(i).getCourse()+"\");\'>예약</a></td>"
+				    "<td><a href=\'javascript:fn_user_reserv(\""+list.get(i).getTime()+"\", \""+list.get(i).getCourse()+"\", \""+list.get(i).getCourseNm()+"\");\'>예약</a></td>"
 				    ;
 				    
 			html += "</tr>";
@@ -664,5 +666,22 @@ public class GolfReservController {
 		response.setCharacterEncoding("utf-8");
 		
 		response.getWriter().print(txt);
+	}
+	
+	@RequestMapping(value="/userReservSave.do", method=RequestMethod.POST)
+	public void userReservUpdate(GolfReservVO golfReservVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		System.out.println(golfReservVO.getDate()+", "+request.getSession().getAttribute("userId"));
+		String result = "";
+		
+		if(request.getSession().getAttribute("userId") != null && !request.getSession().getAttribute("userId").equals("")) {
+			golfReservVO.setReservId(request.getSession().getAttribute("userId").toString());
+			golfReservService.userReservUpdate(golfReservVO);
+			result = "success";
+		}else {
+			result = "error-1";
+		}
+		
+		response.getWriter().print(result);
 	}
 }

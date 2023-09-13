@@ -16,8 +16,8 @@
 		from
 			golf_reserv
 		where
-			date >= #srtDate#
-			and date <= #endDate#
+			date >= #srtDate# and date <= #endDate#
+			and reserv_id is null
 		group by
 			date
 	]]>
@@ -67,8 +67,13 @@
 				,PART part
 				,HOLIDAY_YN holidayYn
 				,MEMBER_TYPE memberType
+				,RESERV_ID reservId
+				,to_char(reserv_date, 'yyyy-mm-dd hh24:mi') reservDate
 		FROM GOLF_RESERV 
 		WHERE DATE = #date#
+		<isEqual prepend="AND" property="userType" compareValue="user">
+			RESERV_ID IS NULL
+		</isEqual>
 		<isNotEqual prepend="AND" property="part" compareValue="all">
 			PART = #part#
 		</isNotEqual>
@@ -136,5 +141,13 @@
 		DELETE FROM GOLF_RESERV WHERE DATE = #date# AND COURSE = #course# AND TIME = #time#
 	]]>
 	</delete>
+	
+	<!-- 사용자 골프예약 -->
+	<insert id="golfReservDAO.userReservUpdate" parameterClass="golfReservVO">
+	<![CDATA[
+		UPDATE GOLF_RESERV SET RESERV_ID = #reservId#, RESERV_DATE = NOW()
+			WHERE DATE = #date# AND COURSE = #course# AND TIME = #time#
+	]]>
+	</insert>
 	
 </sqlMap>	

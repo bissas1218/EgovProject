@@ -1056,7 +1056,7 @@
 			dataType: 'json',
 			success: function(result){
 				$("#reserv_list tbody tr").remove();
-				console.log(result);
+			//	console.log(result);
 				//fn_schedule_list(result);
 				if(result == ''){
 					$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");

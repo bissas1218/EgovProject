@@ -19,4 +19,6 @@ public interface GolfReservService {
 	int selectGolfReservTime(GolfReservVO golfReservVO) throws Exception;
 	
 	int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception;
+	
+	void userReservUpdate(GolfReservVO golfReservVO) throws Exception;
 }

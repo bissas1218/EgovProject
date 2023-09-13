@@ -47,4 +47,8 @@ public class GolfReservServiceImpl implements GolfReservService {
 	public int deleteGolfReserv(GolfReservVO golfReservVO) throws Exception {
 		return golfReservDAO.deleteGolfReserv(golfReservVO);
 	}
+	
+	public void userReservUpdate(GolfReservVO golfReservVO) throws Exception{
+		golfReservDAO.userReservUpdate(golfReservVO);
+	}
 }

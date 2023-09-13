@@ -339,6 +339,7 @@
 			},
 			dataType: 'json',
 			success: function(result){
+				
 				$("#reserv_list tbody tr").remove();
 				
 				let html = '';
@@ -350,36 +351,48 @@
 					for(let i=0; i<result.length; i++){
 					//	console.log(result[i]);
 					
-					let caddy_y = "";
-					let caddy_n = "";
-					if(result[i].caddy == 'Y') {
-						caddy_y = "selected";
-					}else {
-						caddy_n = "selected";
-					}
+						/* 예약여부 */
+						let reservTxt = '';
+						let colorTxt = '';
+						if(result[i].reservId != '' && result[i].reservId != 'null'){
+							reservTxt = '<a href="javascript:fn_user_info(\''+result[i].reservId+'\');">'+result[i].reservId + ' ' + result[i].reservDate + '</a>';
+							colorTxt = '#dbff00';
+						}else{
+							reservTxt = '미예약';
+							colorTxt = '#dbffe6';
+						}
+						
+						let caddy_y = "";
+						let caddy_n = "";
+						if(result[i].caddy == 'Y') {
+							caddy_y = "selected";
+						}else {
+							caddy_n = "selected";
+						}
+						
+						let holidayTxt = "평일";
+						if(result[i].holiDayYn == 'Y') {
+							holidayTxt = "휴일";
+						}
 					
-					let holidayTxt = "평일";
-					if(result[i].holiDayYn == 'Y') {
-						holidayTxt = "휴일";
-					}
-					
-					html += '<tr>' + 
-						'<td style="background-color:#dbffe6;">'+result[i].courseNm+'</td>' +
-						'<td style="background-color:#dbffe6;">'+result[i].part+'부</td>' +
-						'<td style="background-color:#dbffe6;">미예약</td>' +
-						'<td style="background-color:#dbffe6;"><input type="text" name="reservTime_'+(i+1)+'" id="reservTime_'+(i+1)+'" value="'+result[i].time+'"/></td>' +
-						'<td style="background-color:#dbffe6;"><input type="text" name="hole_'+(i+1)+'" id="hole_'+(i+1)+'" value="'+result[i].hole+'" /></td>'+
-					    '<td style="background-color:#dbffe6;"><select name="caddy_'+(i+1)+'" id="caddy_'+(i+1)+'">'+
-					    	'<option value="Y" '+caddy_y+'>캐디</option><option value="N" '+caddy_n+'>노캐디</option>'+
-					    	'</select></td>'+
-					    '<td style="background-color:#dbffe6;"><input type="text" name="person_'+(i+1)+'" id="person_'+(i+1)+'" value="'+result[i].person+'"/></td>'+
-					    '<td style="background-color:#dbffe6;"><input type="text" name="green_fee_'+(i+1)+'" id="green_fee_'+(i+1)+'" value="'+result[i].greenFee+'"/></td>'+
-					    '<td style="background-color:#dbffe6;">'+holidayTxt+'</td>'+
-					    '<td style="background-color:#dbffe6;">'
-					    + '<input type="button" onclick="fn_update_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" value="수정" class="button primary small"/> '
-					    + '<a href="javascript:fn_delete_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" class="button primary small">삭제</a></td>'+
-						'</tr>';
-					}
+						html += '<tr>' + 
+							'<td style="background-color:'+colorTxt+';">'+result[i].courseNm+'</td>' +
+							'<td style="background-color:'+colorTxt+';">'+result[i].part+'부</td>' +
+							'<td style="background-color:'+colorTxt+';">'+reservTxt+'</td>' +
+							'<td style="background-color:'+colorTxt+';"><input type="text" name="reservTime_'+(i+1)+'" id="reservTime_'+(i+1)+'" value="'+result[i].time+'"/></td>' +
+							'<td style="background-color:'+colorTxt+';"><input type="text" name="hole_'+(i+1)+'" id="hole_'+(i+1)+'" value="'+result[i].hole+'" /></td>'+
+						    '<td style="background-color:'+colorTxt+';"><select name="caddy_'+(i+1)+'" id="caddy_'+(i+1)+'">'+
+						    	'<option value="Y" '+caddy_y+'>캐디</option><option value="N" '+caddy_n+'>노캐디</option>'+
+						    	'</select></td>'+
+						    '<td style="background-color:'+colorTxt+';"><input type="text" name="person_'+(i+1)+'" id="person_'+(i+1)+'" value="'+result[i].person+'"/></td>'+
+						    '<td style="background-color:'+colorTxt+';"><input type="text" name="green_fee_'+(i+1)+'" id="green_fee_'+(i+1)+'" value="'+result[i].greenFee+'"/></td>'+
+						    '<td style="background-color:'+colorTxt+';">'+holidayTxt+'</td>'+
+						    '<td style="background-color:'+colorTxt+';">'
+						    + '<input type="button" onclick="fn_update_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" value="수정" class="button primary small"/> '
+						    + '<a href="javascript:fn_delete_reserv(\''+(i+1)+'\', \''+result[i].date+'\', \''+result[i].course+'\', \''+result[i].time+'\');" class="button primary small">삭제</a></td>'+
+							'</tr>';
+							
+					} // end for
 				}
 				
 				
@@ -720,7 +733,7 @@
 			dataType: 'json',
 			success: function(result){
 				$("#reserv_list tbody tr").remove();
-				console.log(result);
+			//	console.log(result);
 				//fn_schedule_list(result);
 				if(result == ''){
 					$("#reserv_list tbody").append("<tr><td colspan='5'>등록된 예약이 없습니다.</td></tr>");
@@ -836,6 +849,10 @@
 				}
 			});
 		}
+	}
+	
+	function fn_user_info(userId){
+		alert(userId);
 	}
 	
 </script>
